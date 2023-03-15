@@ -1,15 +1,33 @@
 
 import os
 
-dir_fd = os.open('test.xtx', os.O_RDONLY)
+# Folder of .XTX files goes here
+fpath = '/Users/visontaileo/Desktop/szakdoga/PROGRAM/MyBSCThesis/files'
 
-def opener(path, flags):
-    return os.open(path, flags, dir_fd=dir_fd)
+def getNumberOfFiles(path):
+    num_files = len(os.listdir(path))
+    return num_files
 
-os.close(dir_fd)  # don't leak a file descriptor
+n = getNumberOfFiles(fpath)
 
 
-'''with open("test.xtx", "r") as f:
+files = getNumberOfFiles(fpath)
+file_names = []
+for file_names in range(n):
+    file_names = os.listdir(fpath)
+print(file_names)
+
+
+
+
+# serves as a "ls -al" terminal command  
+#files = os.listdir(folder_path)
+# gives us just the number of files
+#num_files = len(files)
+
+
+
+with open('files/test.xtx', "r") as f:
     lines = f.read().split("\n")
     blocks = []
     current_block = []
@@ -31,4 +49,6 @@ os.close(dir_fd)  # don't leak a file descriptor
         for line in block:
             print(line)
         print() # Print a blank line between blocks
-'''
+
+# prints the first line of the block
+print(current_block[0])
