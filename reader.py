@@ -2,20 +2,33 @@
 import os
 
 # Folder of .XTX files goes here
-fpath = '/Users/visontaileo/Desktop/szakdoga/PROGRAM/MyBSCThesis/files'
+dir_path = '/Users/visontaileo/Desktop/szakdoga/PROGRAM/MyBSCThesis/files'
+# 
+extensions = ['.xtx', '.xTx', '.XTX']
+extension = extensions[1]
+extent = extensions[0]
 
-def getNumberOfFiles(path):
-    num_files = len(os.listdir(path))
+# XTX FÁJLOK SZÁMA
+def getNumOfXtxFiles(path):    
+    # get a list of all files in the directory
+    files = os.listdir(dir_path)
+    # count the number of files with the specified extension
+    num_files = sum(1 for file in files if file.endswith(extension))
     return num_files
 
-n = getNumberOfFiles(fpath)
+print(getNumOfXtxFiles(dir_path))
 
 
-files = getNumberOfFiles(fpath)
-file_names = []
-for file_names in range(n):
-    file_names = os.listdir(fpath)
-print(file_names)
+# XTX FÁJLOK NEVE
+files = os.listdir(dir_path)
+# list out the names of all the files with the specified extension
+xtx_files = [file for file in files if file.endswith(extent) or file.endswith(extension)]
+# print the names of the .txt files
+xtx_name = []
+for file in xtx_files:
+    xtx_name.append(file)
+
+print(xtx_name)
 
 
 
@@ -26,7 +39,8 @@ print(file_names)
 #num_files = len(files)
 
 
-
+'''
+# OLVASÁS RÉSZE
 with open('files/test.xtx', "r") as f:
     lines = f.read().split("\n")
     blocks = []
@@ -52,3 +66,4 @@ with open('files/test.xtx', "r") as f:
 
 # prints the first line of the block
 print(current_block[0])
+'''
