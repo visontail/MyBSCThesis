@@ -1,6 +1,6 @@
 # Importing module
 import mysql.connector
-    
+
 #Create database connection
 def conn_DB():
     # Creating connection object
