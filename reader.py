@@ -59,5 +59,4 @@ shutil.move(xtx_names[1], new_xtx_path)
 returns a boolean done it or not 
 if not error message 
 
-valami
 """
