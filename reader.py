@@ -53,10 +53,8 @@ move after read and post in db
 
 todo - create a def moveXtx( post to db was successfull )
 
-filename = xtx_names[1].split("/")[-1]
-old_xtx_path = dir_path + filename
-new_xtx_path = move_path + filename
-shutil.move(old_xtx_path, new_xtx_path)
+new_xtx_path = move_path + xtx_names[1].split("/")[-1]
+shutil.move(xtx_names[1], new_xtx_path)
 
 returns a boolean done it or not 
 if not error message 
