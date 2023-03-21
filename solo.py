@@ -15,7 +15,7 @@ EXTENSIONS = ('.xtx', '.Xtx', '.XTx', '.XtX', '.xTx', '.xTX', '.xtX', '.XTX')
 # file name
 name = 'files/s113006_2022101312.xTx'
 
-
+# Beolvassa a fájl és kiszedi a megfelelő adatokat (CSAK A DOKSI ALAPJÁN STRUKTÚRÁLT FÁJLRA MŰKÖDIK)
 with open(name, "r") as file:
     lines = [line.strip() for line in file]
     data_lines = [lines[1],lines[2],lines[3],lines[-1],lines[-2]]
@@ -34,12 +34,11 @@ print(mes_data)
 from datetime import datetime
 date_str = mes_data[0][2] + mes_data[0][3]
 date_obj = datetime.strptime(date_str, '%y%m%d%H')
-
 print(date_obj)
 
 
 
-# -------------------------------------------------------------------
+# ------------------------------------------------------------------- db query goes here
 '''
 #Create database connection
 def conn_DB():
