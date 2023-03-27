@@ -14,11 +14,6 @@ def readDirectory(path: str, ext: tuple):
     # - return the number and names of the XTX files
     return xtx_files
 
-"""
-test = readDirectory(dir_path, EXTENSIONS)
-print(test)
-"""
-
 # Class for xTx Files
 class File():
     def __init__(self, name: str):
@@ -26,17 +21,14 @@ class File():
     # - getter
     @property
     def file_name(self):
-        print("YESS")
         return self._name
     # - setter
     @file_name.setter
     def file_name(self, value):
-        print(f'"{self._name}" is now "{value}"')
         self._name = value
     # -  deleter
     @file_name.deleter
     def file_name(self):
-        print(f'"{self._name}" was deleted')
         del self._name
 
     # Function to read file's content
@@ -56,13 +48,20 @@ class File():
         ]
         # - returning a list
         return data
+    # Function
+    def sort_data(self):
+        pass
+
 
 
 """    
+ - set first name 
 file = File(test[0])
 print(file)
 print(file.file_name)
+ - add new file name
 file.file_name = test[1]
+ - del file name
 del file.file_name
 """
 

@@ -1,16 +1,16 @@
 # Importing module
 import mysql.connector
 
-
-# Class for
+# Class for Database
 class DataBase():
-    def __init__(self, host, username, password, database):
+    def __init__(self, host: str, username: str, password: str, database: str) -> None:
         self._host = host
         self._username = username
         self._password = password
         self._database = database
         self._connection = None
-
+        self._cursor = None
+    # Function to establish database connection
     def connect(self):
         try:
             self._connection = mysql.connector.connect(
@@ -19,52 +19,54 @@ class DataBase():
                 password = self._password,
                 database = self._database   
             )   
-            # check if connection is established
+            # - check if connection is established
             if self._connection.is_connected():
-                print("Database connection established successfully!")
+                # - set cursor
+                self._cursor = self._connection.cursor()
+        # - print out error if connection failed
         except mysql.connector.Error as error:
             print(f' Connection Failed! ,"{error}"')
+    # Function for disconnecting from database
+    def disconnect(self):
+        if self._cursor is not None and self._connection.is_connected():
+            self._cursor.close()
+            self._connection.close()
+    # Function to execute sql query
+    def execute_q(self, query: str, value): 
+        if self._cursor is not None:
+            self._cursor.execute(query,value)
+            results = self._cursor.fetchall()
+            return results
+        else:
+            print("Cursor not found. Check database connection!")
+    # Simple check - delete later
+    def check(self):
+        print("This is a check up function")
+        print("This is all you got! :D")
+        self._cursor.execute(" SELECT * From testFirst")
+        result = self._cursor.fetchall()
+        for r in result:
+            print(r)
+        print(cur.rowcount, "details inserted")
 
-def create_Cursor(db):
-    if db:
-        cursor = db.cursor()
-        return cursor
-    else:
-        print("Failed to establish database connection.")
-        return None
 
 # db connection    
-db = DataBase(host="localhost", username="root", password="password", database="mydb")
+db = DataBase(host="localhost", username="root", password="", database="VeloClass")
 db.connect()
 
-# db cursor
-cur = ""
 
+# db cursor
+cur = db._cursor
+"""
 # SQL Query
 sql_query = "INSERT INTO `testFirst`( `Date`, `Traffic`, `Value`) VALUES ('2023.01.01','1','1')"
-# Execute the given sql query
-cmmd = cur.execute(sql_query)
-# Commit to DB
-db.commit()
+db.execute_q(sql_query)
+db.check()
 
-# Print out how many was inserted
-print(cur.rowcount, "details inserted")
 
-'''
+# Insert with value 
 sql = "INSERT INTO Student (Name, Roll_no) VALUES (%s, %s)"
 val = ("Ram", "85")
 cursor.execute(sql, val)
-db.commit()
-'''
+"""
 
-# WRITES OUT WHAT IN DB
-sql = "SELECT * FROM testFirst"
-cur.execute(sql)
-myresult = cur.fetchall()
-for x in myresult:
-    print (x)
-
-
-#Closing connection from server
-db.close()
-cur.close()
