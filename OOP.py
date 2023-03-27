@@ -76,21 +76,6 @@ class DB():
     pass
 
 
-# FILE GATHERING PART
-'''
-def getXtx(path):
-    # - scan all files in the directory
-    with os.scandir(path) as dir_entries:
-        # - use a list comprehension to filter the files by extension
-        xtx_files = [path + entry.name for entry in dir_entries if entry.name.endswith(EXTENSIONS)]
-    # - return the number and names of the XTX files
-    return len(xtx_files), xtx_files
-
-# 'n' is the sum of xtx files & 'name' is the list of xtx files' name
-n, xtx_names = getXtx(dir_path)
-'''
-
-
 """
 MAYBE CREATE A DECORATER FOR IT
 
