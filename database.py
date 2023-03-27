@@ -3,29 +3,27 @@ import mysql.connector
 
 
 # Class for
-class DB():
-    # CODE HERE
-    pass
+class DataBase():
+    def __init__(self, host, username, password, database):
+        self._host = host
+        self._username = username
+        self._password = password
+        self._database = database
+        self._connection = None
 
-
-
-
-#Create database connection
-def conn_DB():
-    # Creating connection object
-    db = mysql.connector.connect(
-        host = "localhost",
-        user = "root",
-        password = "",
-        database = 'VeloClass'
-    )
-    # check if connection is established
-    if db.is_connected():
-        print("Database connection established successfully!")
-        return db
-    else:
-        print("Database connection failed!")
-        return None
+    def connect(self):
+        try:
+            self._connection = mysql.connector.connect(
+                host = self._host,
+                username = self._username,
+                password = self._password,
+                database = self._database   
+            )   
+            # check if connection is established
+            if self._connection.is_connected():
+                print("Database connection established successfully!")
+        except mysql.connector.Error as error:
+            print(f' Connection Failed! ,"{error}"')
 
 def create_Cursor(db):
     if db:
@@ -34,10 +32,13 @@ def create_Cursor(db):
     else:
         print("Failed to establish database connection.")
         return None
-    
-db = conn_DB()
-cur = create_Cursor(db)
 
+# db connection    
+db = DataBase(host="localhost", username="root", password="password", database="mydb")
+db.connect()
+
+# db cursor
+cur = ""
 
 # SQL Query
 sql_query = "INSERT INTO `testFirst`( `Date`, `Traffic`, `Value`) VALUES ('2023.01.01','1','1')"

@@ -13,6 +13,7 @@ EXTENSIONS = ('.xtx', '.Xtx', '.XTx', '.XtX', '.xTx', '.xTX', '.xtX', '.XTX')
 
 def main():
     xtx_name = fc.readDirectory(dir_path, EXTENSIONS)
+    
 
 
 
