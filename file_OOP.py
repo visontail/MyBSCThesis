@@ -1,14 +1,9 @@
 
+# !!!!!! Delete it when finish !!!!!!
 import os
-
-print(" ")
-print(" ")
-
-
-
-
 EXTENSIONS = ('.xtx', '.Xtx', '.XTx', '.XtX', '.xTx', '.xTX', '.xtX', '.XTX')
 dir_path = '/Users/visontaileo/Desktop/szakdoga/PROGRAM/MyBSCThesis/files/'
+# !!!!!! !!!!!!
 
 # Function for listing out .xtx file names
 def readDirectory(path: str, ext: tuple):
@@ -19,33 +14,32 @@ def readDirectory(path: str, ext: tuple):
     # - return the number and names of the XTX files
     return xtx_files
 
+"""
 test = readDirectory(dir_path, EXTENSIONS)
 print(test)
+"""
 
-print(" ")
-print(" ")
-
-# Class for
+# Class for xTx Files
 class File():
     def __init__(self, name: str):
         self._name = name
-    
+    # - getter
     @property
     def file_name(self):
         print("YESS")
         return self._name
-    
+    # - setter
     @file_name.setter
     def file_name(self, value):
         print(f'"{self._name}" is now "{value}"')
         self._name = value
-
+    # -  deleter
     @file_name.deleter
     def file_name(self):
         print(f'"{self._name}" was deleted')
         del self._name
 
-    # read file's content
+    # Function to read file's content
     def read_file(self):
         lines = []
         # - reading file
@@ -62,34 +56,15 @@ class File():
         ]
         # - returning a list
         return data
-    
+
+
+"""    
 file = File(test[0])
 print(file)
 print(file.file_name)
 file.file_name = test[1]
 del file.file_name
-
-
-# Class for
-class DB():
-    # CODE HERE
-    pass
-
-
 """
-MAYBE CREATE A DECORATER FOR IT
 
-move after read and post in db
 
-todo - create a def moveXtx( post to db was successfull )
-
-new_xtx_path = move_path + xtx_names[1].split("/")[-1]
-shutil.move(xtx_names[1], new_xtx_path)
-
-returns a boolean done it or not 
-if not error message 
-
-"""
-print(" ")
-print(" ")
 
