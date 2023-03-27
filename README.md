@@ -9,6 +9,7 @@ This full-stack development project will consist of 3 part: a python program, a 
 
 
 ## Code Process
+<br( 1 ) - reads the given directory & lists out .xtx file's names in a list />
 ( 1 ) - reads the given directory & lists out .xtx file's names in a list
 ( 2 ) - main -> for loop
     ( 2.1 ) - 
