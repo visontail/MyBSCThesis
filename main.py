@@ -17,6 +17,9 @@ EXTENSIONS = ('.xtx', '.Xtx', '.XTx', '.XtX', '.xTx', '.xTX', '.xtX', '.XTX')
 # - database connection parameters
 database = db.DataBase(host="localhost", username="root", password="", database="VeloClass")
 
+
+
+
 # MAIN Function
 def main():
     # - read given directory and collects xtx file names
@@ -30,11 +33,17 @@ def main():
        else:
            data.file_name = xtx
        database.connect()
-       query = "SELECT * From Station"
-       db.DataBase.execute_q("SELECT * From Station")
+       query = f" INSERT INTO Measurement () VALUES"
+       #query = f"Select * from {data[0]}"
+       #print(database.execute_q(query))
+       """
+       sql = "INSERT INTO Student (Name, Roll_no) VALUES (%s, %s)"
+       val = ("Ram", "85")
+       cursor.execute(sql, val)
+       """
        print(data.read_file())
        print(i)
-
+       
     
     
     
@@ -74,6 +83,18 @@ print(cur.rowcount, "details inserted")
 sql = "INSERT INTO Student (Name, Roll_no) VALUES (%s, %s)"
 val = ("Ram", "85")
 cursor.execute(sql, val)
+
+
+# Simple check - delete later
+    def check(self):
+        print("This is all you got: ")
+        # STATION TABLE
+        self._cursor.execute("SELECT * From Station")
+        result = self._cursor.fetchall()
+        for r in result:
+            print(r)
+        print(self._cursor.rowcount, "details inserted")
+
 """
 
 

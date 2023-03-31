@@ -3,7 +3,7 @@ import mysql.connector
 
 # Class for Database
 class DataBase():
-    def __init__(self, host: str, username: str, password: str, database: str) -> None:
+    def __init__(self, host: str, username: str, password: str, database: str):
         self._host = host
         self._username = username
         self._password = password
@@ -39,42 +39,4 @@ class DataBase():
             return results
         else:
             print("Cursor not found. Check database connection!")
-    # Simple check - delete later
-    def check(self):
-        print("This is a check up function")
-        print("This is all you got! :D")
-        # STATION TABLE
-        self._cursor.execute("SELECT * From Station")
-        result = self._cursor.fetchall()
-        for r in result:
-            print(r)
-        print(cur.rowcount, "details inserted")
-        # MEASUREMENT TABLE
-        print("This is all you got! :D")
-        self._cursor.execute("SELECT * From Measurement")
-        result = self._cursor.fetchall()
-        for r in result:
-            print(r)
-        print(cur.rowcount, "details inserted")
-
-
-# db connection    
-db = DataBase(host="localhost", username="root", password="", database="VeloClass")
-db.connect()
-
-
-# db cursor
-cur = db._cursor
-"""
-# SQL Query
-sql_query = "INSERT INTO `testFirst`( `Date`, `Traffic`, `Value`) VALUES ('2023.01.01','1','1')"
-db.execute_q(sql_query)
-db.check()
-
-
-# Insert with value 
-sql = "INSERT INTO Student (Name, Roll_no) VALUES (%s, %s)"
-val = ("Ram", "85")
-cursor.execute(sql, val)
-"""
 
