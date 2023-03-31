@@ -1,6 +1,7 @@
 
 # !!!!!! Delete it when finish !!!!!!
 import os
+from datetime import datetime
 EXTENSIONS = ('.xtx', '.Xtx', '.XTx', '.XtX', '.xTx', '.xTX', '.xtX', '.XTX')
 dir_path = '/Users/visontaileo/Desktop/szakdoga/PROGRAM/MyBSCThesis/files/'
 # !!!!!! !!!!!!
@@ -30,6 +31,11 @@ class File():
     @file_name.deleter
     def file_name(self):
         del self._name
+    
+    # Function to get file's generated name
+    def file_id(self):
+        file_gen_name = self._name.split("/")[-1].split(".")[0]
+        return file_gen_name
 
     # Function to read file's content
     def read_file(self):
@@ -40,18 +46,13 @@ class File():
                 info = line.strip().split()
                 lines.append(info)
         # - sorting information
-        data = [
-            lines[1][1], lines[2][4],
-            lines[3][1], lines[3][2], lines[3][3], lines[3][4],
-            lines[-2][0], lines[-2][4], lines[-2][5], lines[-2][6], lines[-2][7], lines[-2][8],
-            lines[-1][0], lines[-1][4], lines[-1][5], lines[-1][6], lines[-1][7], lines[-1][8],
-        ]
+        data = [ lines[1][1], lines[2][4], 
+                   datetime.strptime(lines[3][1] + lines[3][2], '%Y%m%d%H%M%S').strftime('%Y-%m-%d %H:%M:%S'), datetime.strptime(lines[3][3] + lines[3][4], '%Y%m%d%H%M%S').strftime('%Y-%m-%d %H:%M:%S'),
+                   lines[-2][0], lines[-2][4], lines[-2][5], lines[-2][6], lines[-2][7], lines[-2][8],
+                   lines[-1][0], lines[-1][4], lines[-1][5], lines[-1][6], lines[-1][7], lines[-1][8]
+                ]
         # - returning a list
         return data
-    # Function
-    def sort_data(self):
-        pass
-
 
 
 """    

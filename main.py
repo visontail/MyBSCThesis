@@ -4,24 +4,50 @@ import file_OOP as fc
 # importing 'database' py file as 'db'
 import database as db
 
+
+
 # - newly added .XTX files path:
+    # sample_path = '/users/user/desktop/fodler/'
 dir_path = '/Users/visontaileo/Desktop/szakdoga/PROGRAM/MyBSCThesis/files/'
 # - already read .XTX files path:
 move_path = '/Users/visontaileo/Desktop/szakdoga/PROGRAM/MyBSCThesis/done/'
 # - allowed extesions:
 EXTENSIONS = ('.xtx', '.Xtx', '.XTx', '.XtX', '.xTx', '.xTX', '.xtX', '.XTX')
 
+# - database connection parameters
+database = db.DataBase(host="localhost", username="root", password="", database="VeloClass")
 
-
+# MAIN Function
 def main():
+    # - read given directory and collects xtx file names
     xtx_names = fc.readDirectory(dir_path, EXTENSIONS)
-    #for xtx in xtx_names:
-    #data = fc.File(xtx).read_file()
-    data = fc.File(xtx_names[0]).read_file()
-    print(data) 
-
+    i = 0
+    # - start of the 
+    for xtx in xtx_names:
+       i +=  1
+       if (i == 1):
+          data = fc.File(xtx)
+       else:
+           data.file_name = xtx
+       database.connect()
+       query = "SELECT * From Station"
+       db.DataBase.execute_q("SELECT * From Station")
+       print(data.read_file())
+       print(i)
 
     
+    
+    
+    
+    
+    #data = fc.File(xtx_names[0]).read_file()
+    #print(data)
+
+
+
+ 
+if __name__ == "__main__":
+    main()   
     
 """    
  - set first name 
@@ -34,10 +60,6 @@ file.file_name = test[1]
 del file.file_name
 """    
     
-    
-# db connection    
-database = db.DataBase(host="localhost", username="root", password="", database="VeloClass")
-database.connect()
     
 """
 # SQL Query
@@ -54,9 +76,6 @@ val = ("Ram", "85")
 cursor.execute(sql, val)
 """
 
-
-if __name__ == "__main__":
-    main()
 
 
 """

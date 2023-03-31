@@ -32,9 +32,9 @@ class DataBase():
             self._cursor.close()
             self._connection.close()
     # Function to execute sql query
-    def execute_q(self, query: str, value): 
+    def execute_q(self, query): 
         if self._cursor is not None:
-            self._cursor.execute(query,value)
+            self._cursor.execute(query)
             results = self._cursor.fetchall()
             return results
         else:
@@ -43,7 +43,15 @@ class DataBase():
     def check(self):
         print("This is a check up function")
         print("This is all you got! :D")
-        self._cursor.execute(" SELECT * From testFirst")
+        # STATION TABLE
+        self._cursor.execute("SELECT * From Station")
+        result = self._cursor.fetchall()
+        for r in result:
+            print(r)
+        print(cur.rowcount, "details inserted")
+        # MEASUREMENT TABLE
+        print("This is all you got! :D")
+        self._cursor.execute("SELECT * From Measurement")
         result = self._cursor.fetchall()
         for r in result:
             print(r)
