@@ -24,25 +24,32 @@ database = db.DataBase(host="localhost", username="root", password="", database=
 def main():
     # - read given directory and collects xtx file names
     xtx_names = fc.readDirectory(dir_path, EXTENSIONS)
+    # - connects to the database
+    database.connect()
     i = 0
     # - start of the 
     for xtx in xtx_names:
-       i +=  1
-       if (i == 1):
-          data = fc.File(xtx)
-       else:
-           data.file_name = xtx
-       database.connect()
-       query = f" INSERT INTO Measurement () VALUES"
-       #query = f"Select * from {data[0]}"
-       #print(database.execute_q(query))
-       """
-       sql = "INSERT INTO Student (Name, Roll_no) VALUES (%s, %s)"
-       val = ("Ram", "85")
+        i +=  1
+        if (i == 1):
+            data = fc.File(xtx)
+        else:
+            data.file_name = xtx
+        value = data.read_file()
+        # query = f" INSERT INTO Measurement () VALUES"
+        # 2 queries - one for each side
+        query = f"INSERT INTO `Measurement`(`ID_measure`, `ID_station_num`, `start_time`, `end_time`, `direction`, `meas_intervall`) VALUES ('', '', '', '', '')"
+        
+        database.execute_q(query,value)
+        
+        """
+        sql = "INSERT INTO Student (Name, Roll_no) VALUES (%s, %s)"
+        val = ("Ram", "85")
        cursor.execute(sql, val)
-       """
-       print(data.read_file())
-       print(i)
+        """
+        #print(data.read_file())
+        print(i)
+
+        # FINAL (not in the for loop) - close db conn & delete file name object
        
     
     
@@ -55,8 +62,7 @@ def main():
 
 
  
-if __name__ == "__main__":
-    main()   
+#if __name__ == "__main__":   main()   
     
 """    
  - set first name 

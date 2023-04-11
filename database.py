@@ -32,9 +32,9 @@ class DataBase():
             self._cursor.close()
             self._connection.close()
     # Function to execute sql query
-    def execute_q(self, query): 
+    def execute_q(self, query, value): 
         if self._cursor is not None:
-            self._cursor.execute(query)
+            self._cursor.execute(query, value)
             results = self._cursor.fetchall()
             return results
         else:
