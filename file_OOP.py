@@ -32,11 +32,6 @@ class File():
     def file_name(self):
         print('file name is deleted')
         del self._name
-    
-    # Function to get file's generated name
-    def file_id(self):
-        file_gen_name = self._name.split("/")[-1].split(".")[0]
-        return file_gen_name
 
     # Function to read file's content
     def read_file(self):
