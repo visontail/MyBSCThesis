@@ -19,10 +19,31 @@ database = db.DataBase(host="localhost", username="root", password="", database=
 
 
 
+    # - read given directory and collects xtx file names
+xtx_names = fc.readDirectory(dir_path, EXTENSIONS)
+    # - connects to the database
+database.connect()
 
+data = fc.File(xtx_names[0]).read_file()
+
+value = [data[0], data[2], data[3], data[4], data[5]]
+
+query = "INSERT INTO `Measurement`(`ID_station_num`, `start_time`, `end_time`, `direction`, `meas_intervall`) VALUES (%s, %s, %s, %s, %s)"
+
+
+print(database.execute_q(query,value))
+
+database.disconnect()
+
+
+
+
+
+
+"""
 # MAIN Function
 def main():
-    # - read given directory and collects xtx file names
+    # - read given directory and collects xtx file names
     xtx_names = fc.readDirectory(dir_path, EXTENSIONS)
     # - connects to the database
     database.connect()
@@ -41,16 +62,11 @@ def main():
         
         database.execute_q(query,value)
         
-        """
-        sql = "INSERT INTO Student (Name, Roll_no) VALUES (%s, %s)"
-        val = ("Ram", "85")
-       cursor.execute(sql, val)
-        """
         #print(data.read_file())
         print(i)
 
         # FINAL (not in the for loop) - close db conn & delete file name object
-       
+"""       
     
     
     
