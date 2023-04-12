@@ -30,6 +30,7 @@ class File():
     # -  deleter
     @file_name.deleter
     def file_name(self):
+        print('file name is deleted')
         del self._name
     
     # Function to get file's generated name
@@ -46,25 +47,12 @@ class File():
                 info = line.strip().split()
                 lines.append(info)
         # - sorting information
-        data = [ lines[1][1], lines[2][4], 
-                   datetime.strptime(lines[3][1] + lines[3][2], '%Y%m%d%H%M%S').strftime('%Y-%m-%d %H:%M:%S'), datetime.strptime(lines[3][3] + lines[3][4], '%Y%m%d%H%M%S').strftime('%Y-%m-%d %H:%M:%S'),
-                   lines[-2][0], lines[-2][4], lines[-2][5], lines[-2][6], lines[-2][7], lines[-2][8],
-                   lines[-1][0], lines[-1][4], lines[-1][5], lines[-1][6], lines[-1][7], lines[-1][8]
+        meas_name = lines[1][1]
+        meas_time = [
+                datetime.strptime(lines[3][1] + lines[3][2], '%Y%m%d%H%M%S').strftime('%Y-%m-%d %H:%M:%S'),
+                datetime.strptime(lines[3][3] + lines[3][4], '%Y%m%d%H%M%S').strftime('%Y-%m-%d %H:%M:%S') 
                 ]
+        data_01 = [ lines[-2][5], lines[-2][4], lines[-2][6], lines[-2][7], lines[-2][8] ]
+        data_02 = [ lines[-1][5], lines[-1][4], lines[-1][6], lines[-1][7], lines[-1][8] ]
         # - returning a list
-        return data
-        
-
-"""    
- - set first name 
-file = File(test[0])
-print(file)
-print(file.file_name)
- - add new file name
-file.file_name = test[1]
- - del file name
-del file.file_name
-"""
-
-
-
+        return meas_name, meas_time, data_01, data_02
