@@ -1,10 +1,6 @@
-
-# !!!!!! Delete it when finish !!!!!!
 import os
 from datetime import datetime
-EXTENSIONS = ('.xtx', '.Xtx', '.XTx', '.XtX', '.xTx', '.xTX', '.xtX', '.XTX')
-dir_path = '/Users/visontaileo/Desktop/szakdoga/PROGRAM/MyBSCThesis/files/'
-# !!!!!! !!!!!!
+import shutil
 
 # Function for listing out .xtx file names
 def readDirectory(path: str, ext: tuple):
@@ -14,6 +10,12 @@ def readDirectory(path: str, ext: tuple):
         xtx_files = [path + entry.name for entry in dir_entries if entry.name.endswith(ext)]
     # - return the number and names of the XTX files
     return xtx_files
+# Function for
+def moveFile(name, path):
+    # - create new path
+    new_xtx_path = path + name.split("/")[-1]
+    # - move file
+    shutil.move(name, new_xtx_path)
 
 # Class for xTx Files
 class File():
