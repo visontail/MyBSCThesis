@@ -19,6 +19,7 @@ The python code is consist of 3 python files:
 
 
 In both **'file_OOP.py', 'database.py'** files are *a class and functions*, which are used in the **'main.py'**.
+
 In **'file_OOP.py'** file there's *a class* called **'File'** and *two functions* called **'readDirectory()', moveFile()'**. In it is *a getter, setter and deleter*, also a *'read_file'* function, which reads the given 
 
 ## *How does the database look like?*
