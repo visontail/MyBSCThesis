@@ -12,9 +12,13 @@ This full-stack project will consist of 3 part:
 
 
 ## *What does the python code do?*
-The python code is consist of 3 python files: main.py, file_OOP.py, database.py. 
+The python code is consist of 3 python files:
+- [x] **main.py** —> where the program runs
+- [x] **file.py** -> where the file reading happens
+- [x] **database.py** -> where the database communication happens
 
-'file_OOP.py', 'database.py' files are 
+
+**'file_OOP.py', 'database.py'** files are both stores 
 
 
 ## *How does the database look like?*
