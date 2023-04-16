@@ -9,10 +9,13 @@ This full-stack project will consist of 3 part:
     <li> python code, </li>
     <li> database, </li>
     <li> webpage. </li>
-
 </ul>
-
 
 
 ## *What does the python code do?*
 The python code is consist of 3 python files: main.py, file_OOP.py, database.py. 'file_OOP.py', 'database.py' files are 
+
+
+## *How does the database look like?*
+
+
