@@ -1,5 +1,5 @@
-# importing 'file_OOP' py file as 'fc' refering to File Class
-import file_OOP as fc
+# importing 'file' py file as 'fc' refering to File Class
+import file as fc
 # importing 'database' py file as 'db'
 import database as db
 
