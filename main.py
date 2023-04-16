@@ -36,11 +36,19 @@ if __name__ == "__main__":
             # - read & sort file
             name, time, data_01, data_02  = fc.File(xtx).read_file()
             # - upload data to database
-            success = database.add_new_data(name, time, data_01, data_02)
+            success = database.add_new_data(name, time, data_01)
+
             # - check if data was inserted or not
             if success:
-                # - if inserted then move read file
-                fc.moveFile(xtx, move_path)
+                success = database.add_new_data(name, time, data_02)
+                # - check if data was inserted or not
+                if success:
+                    # - if each direction inserted then move read file
+                    fc.moveFile(xtx, move_path)
+                else:
+                    # - if not then break out of loop
+                    print("Something went wrong. Check database!")
+                    break
             else:
                 # - if not then break out of loop
                 print("Something went wrong. Check database!")

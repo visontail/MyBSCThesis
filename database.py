@@ -62,3 +62,20 @@ class DataBase():
         except mysql.connector.Error as mysql_error:
             print(f"Error executing query: {mysql_error}")
             return False
+        
+    # Function for adding new data to database        
+    def add_new_data(self, name, time, data):
+        try:
+            query = "INSERT INTO `Measurement`(`ID_station_num`, `start_time`, `end_time`, `direction`, `meas_intervall`, `traff_other`, `traff_pedestrian`, `traff_cyclist`) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
+            values = (name, time[0], time[1], data[0], data[1], data[2], data[3], data[4])
+            if self._cursor is not None:
+                    self._cursor.execute(query, values)
+                    self._connection.commit()
+                    return True
+            else:
+                print("Cursor not found. Check database connection!")
+                return False
+            
+        except mysql.connector.Error as mysql_error:
+            print(f"Error executing query: {mysql_error}")
+            return False
