@@ -18,4 +18,6 @@ The python code is consist of 3 python files: main.py, file_OOP.py, database.py.
 
 ## *How does the database look like?*
 <sub>this is what sub looks like</sub>
-
+1. First list item
+   - First nested list item
+     - Second nested list item
