@@ -26,7 +26,7 @@ In **'file_OOP.py'** file there's *a class* called **'File'** and *two functions
 
 Function **'readDirectory()'** has two input parameter: *a str 'path'* and *a tuple 'ext'*.
 - **The 'path' string** should be the folder's path, where we store the given files. **The 'ext' tuple** on the other hand is cointaing all the possible file extensions ( like '.txt', '.png', '.xls', etc. ).
-- Given these input parameters, the function reads through the given folder using an *'os.scandir()'*[^1] and lists out all the files' names, which are matching with the given *a tuple 'ext'* extensions.
+- Given these input parameters, the function reads through the given folder using an *'os.scandir()'*[^1] and lists out all the files' names, which are matching with the given *tuple 'ext'* extensions.
 - They will be stored in *a 'files' variable* and that's what the function is returning as well. 
 
 
