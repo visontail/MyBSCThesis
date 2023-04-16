@@ -18,7 +18,7 @@ The python code is consist of 3 python files:
 - [x] **database.py** -> where the database communication happens
 
 
-**'file_OOP.py', 'database.py'** files are both stores 
+**'file_OOP.py', 'database.py'** files are both stores *a class and functions*, which are used in the **'main.py'**.
 
 
 ## *How does the database look like?*
