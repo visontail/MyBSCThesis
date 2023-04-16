@@ -7,15 +7,15 @@ def readDirectory(path: str, ext: tuple):
     # - scan all files in the directory
     with os.scandir(path) as dir_entries:
         # - use a list comprehension to filter the files by extension
-        xtx_files = [path + entry.name for entry in dir_entries if entry.name.endswith(ext)]
+        file_names = [path + entry.name for entry in dir_entries if entry.name.endswith(ext)]
     # - return the number and names of the XTX files
-    return xtx_files
+    return file_names
 # Function for
 def moveFile(name, path):
     # - create new path
-    new_xtx_path = path + name.split("/")[-1]
+    new_file_path = path + name.split("/")[-1]
     # - move file
-    shutil.move(name, new_xtx_path)
+    shutil.move(name, new_file_path)
 
 # Class for xTx Files
 class File():

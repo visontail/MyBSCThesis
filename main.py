@@ -14,9 +14,9 @@ EXTENSIONS = ('.xtx', '.Xtx', '.XTx', '.XtX', '.xTx', '.xTX', '.xtX', '.XTX')
 
 if __name__ == "__main__":  
     # - read given directory and collects xtx file names
-    xtx_names = fc.readDirectory(dir_path, EXTENSIONS)
+    file_names = fc.readDirectory(dir_path, EXTENSIONS)
     # - check if there is any xtx file in directory
-    if (len(xtx_names) == 0 ):
+    if (len(file_names) == 0 ):
         print("There's no xTx file in the given directory. Please try again later!")
     else:
         # - create database connection object
@@ -25,26 +25,27 @@ if __name__ == "__main__":
         database.connect()
         i = 0
         # - gets through every file in the directory
-        for xtx in xtx_names:
+        for f_name in file_names:
             i +=  2
             # - if it is the first one creates file_name object
             if (i == 2):
-                data = fc.File(xtx)
+                data = fc.File(f_name)
             # - using setter to set file_name object
             else:
-                data.file_name = xtx
+                data.file_name = f_name
             # - read & sort file
-            name, time, data_01, data_02  = fc.File(xtx).read_file()
-            # - upload data to database
+            name, time, data_01, data_02  = data.read_file()
+            # - upload data to database ( direction one )
             success = database.add_new_data(name, time, data_01)
-
             # - check if data was inserted or not
             if success:
+                # - upload data to database ( direction two )
                 success = database.add_new_data(name, time, data_02)
                 # - check if data was inserted or not
                 if success:
                     # - if each direction inserted then move read file
-                    fc.moveFile(xtx, move_path)
+                    #fc.moveFile(file_name, move_path)
+                    pass
                 else:
                     # - if not then break out of loop
                     print("Something went wrong. Check database!")
