@@ -32,10 +32,10 @@ Function **'readDirectory()'** has two input parameter: *a str 'path'* and *a tu
 
 In the class **'File'** it is *a getter, setter and deleter*, also a *'read_file()'* function.
 
-**PART TWO - DATABASE**
+### **PART TWO - DATABASE**
 
 
-**PART THREE - MAIN.PY**
+### **PART THREE - MAIN.PY**
 
 ## *How does the database look like?*
 
