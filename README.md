@@ -30,9 +30,10 @@ In **'file_OOP.py'** file there's *a class* called **'File'** and *two functions
   - **the 'path' string** should be the folder's path, where we store the given files. **The 'ext' tuple** on the other hand is cointaing all the possible file extensions ( like '.txt', '.png', '.xls', etc. )
   - given these input parameters, the function reads through the given folder using an *'os.scandir()'*[^1] and lists out all the files' names, which are matching with the given *tuple 'ext'* extensions
   - they will be stored in *a 'files' variable* and that's what the function is returning as well
-
+ 
 - Function **'moveFile()'** has also two input parameter: *a str 'name'* and *a str 'path'*.
-  - 
+  - **the 'name' string** should be the file's name, and **the 'path' string** should be the folder's path, where the file will be stored after it's read.
+  - using these parameters the function creates
 
 
 In the class **'File'** it is *a getter, setter and deleter*, also a *'read_file()'* function.
