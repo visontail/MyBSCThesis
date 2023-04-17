@@ -58,11 +58,17 @@ In **'database.py'** python file:
 - Class **'DataBase'**:
   - the *'__init__()'* function has *a string 'host'*, *a string 'username'*, *a string 'password'*, *a string 'database'* input attributes besides *'self'* and the database object also has *'a connection and cursor attribute*' which are None by default.
   - the *'connect()' function*:
-    - 
+    - is for to establish database connection with the give databse object it uses a try method where it connects to the database with *'mysql.connector.connect()'*[^5]
+    - if it is connected successfully it will create a cursor for later use
+    - the except method will print a message with the error if the database connection wasn't established
   - the *'disconnect()' function*:
-    - 
+    - is closing down the database connection if a cursor was created and the connection was established earlier
   - the *'add_new_data()' function*:
-    - 
+    - has three input parameters besides self, *name, time, data* these refer to the variables returned by the File.read_file() function
+    - it's also using a try method, where is *a 'query' string*, which holds an sql INSERT query and *a 'values' tuple*, which holds the values for the sql query above from the given input parameters
+    - after these are created it will execute the query if the cursor was created earlier with *the 'execute()'  function*, commits all with *the 'commit()' function* then *returns true*
+    - if the cursor wasn't created then it will print a message with the error and *returns false*
+    - the except method will print a message with the error
     
 
 ### **PART THREE - RUNNING THE CODE**
@@ -75,3 +81,4 @@ In **'database.py'** python file:
 [^2]: This is an imported function from the 'shutil' library.
 [^3]: This is a built-in function.
 [^4]: This is an imported function from the 'datetime' library.
+[^5]: This is an imported function from the 'mysql.connector' library.
