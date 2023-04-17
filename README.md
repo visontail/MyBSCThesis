@@ -100,15 +100,15 @@ The database consist of two tables - ***'Station'*** and ***'Measurement'***. Th
   - *'measuring_inst'* -> for measuring instrument number
 
 **'Measurement' Table** - stores information about each measurement, which were read from data files
-  - *'ID_measure'* -> for
-  - *'ID_station_num'* -> for
-  - *'start_time'* -> for
-  - *'end_time'* —> for
-  - *'direction'* —> for
-  - *'meas_intervall'* —> for
-  - *'traff_other'* —> for
-  - *'traff_pedestrian'* —> for
-  - *'traff_cyclsit'* —> for
+  - *'ID_measure'* -> for identifying each measurement
+  - *'ID_station_num'* -> for connection to 'Station' table
+  - *'start_time'* -> for measurement's start time
+  - *'end_time'* —> for measurement's end time
+  - *'direction'* —> for measurement's direction 
+  - *'meas_intervall'* —> for measurement's intervall
+  - *'traff_other'* —> for count how many other type of traffic went there
+  - *'traff_pedestrian'* —> for count how many pedestrian went there
+  - *'traff_cyclsit'* —> for count how many cyclist went there
 
 
 [^1]: This is an imported function from the 'os' library.
