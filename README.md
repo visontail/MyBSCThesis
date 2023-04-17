@@ -51,7 +51,7 @@ In **'file_OOP.py'** file there's *a class* called **'File'** and *two functions
     - *the 'meas_time'* also converts a part of the given information stored in *a 'lines' list* to datetime format to fit in to the database, it uses *the 'datetime.strptime()' function*[^4]
     - *IMPORTANT NOTE:* the sorting method is only applies to this specific project and only to these specific data files created by the counter device
 
-### **PART TWO - STORING DATABASE**
+### **PART TWO - STORING DATABASE** 
 
 
 ### **PART THREE - RUNNING THE CODE**
