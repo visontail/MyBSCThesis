@@ -58,11 +58,11 @@ In **'database.py'** python file:
 - Class **'DataBase'**:
   - the *'__init__()'* function has *a string 'host'*, *a string 'username'*, *a string 'password'*, *a string 'database'* input attributes besides *'self'* and the database object also has *'a connection and cursor attribute*' which are None by default.
   - the *'connect()' function*:
-    -
+    - 
   - the *'disconnect()' function*:
-    -
+    - 
   - the *'add_new_data()' function*:
-    -
+    - 
     
 
 ### **PART THREE - RUNNING THE CODE**
