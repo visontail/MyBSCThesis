@@ -36,16 +36,19 @@ if __name__ == "__main__":
             # - read & sort file
             name, time, data_01, data_02  = data.read_file()
             # - upload data to database ( direction one )
-            success = database.add_new_data(name, time, data_01)
+            upload_success = database.add_new_data(name, time, data_01)
             # - check if data was inserted or not
-            if success:
+            if upload_success:
                 # - upload data to database ( direction two )
-                success = database.add_new_data(name, time, data_02)
+                upload_success = database.add_new_data(name, time, data_02)
                 # - check if data was inserted or not
-                if success:
+                if upload_success:
                     # - if each direction inserted then move read file
-                    fc.moveFile(f_name, move_path)
-                    pass
+                    move_success = fc.moveFile(f_name, move_path)
+                    if not move_success:
+                        # - if not then break out of loop
+                        print("Something went wrong. Check folder!")
+                        break
                 else:
                     # - if not then break out of loop
                     print("Something went wrong. Check database!")

@@ -15,7 +15,12 @@ def moveFile(name, path):
     # - create new path
     new_file_path = path + name.split("/")[-1]
     # - move file
-    shutil.move(name, new_file_path)
+    move_dest = shutil.move(name, new_file_path)
+    # - check if file is moved or not
+    if (new_file_path != move_dest):
+        return False
+    else:
+        return True
 
 # Class for xTx Files
 class File():
