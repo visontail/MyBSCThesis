@@ -20,11 +20,11 @@ The code is consist of 3 python files:
 - [x] **database.py** -> where the database communication happens
 
 
-In both **'file_OOP.py', 'database.py'** files are *a class and functions*, which are used in the **'main.py'**.
+In both **'file.py', 'database.py'** files are *a class and functions*, which are used in the **'main.py'**.
 
 ### **PART ONE - GATHERING DATA**
 
-In **'file_OOP.py'** file there's *a class* called **'File'** and *two functions* called **'readDirectory()', 'moveFile()'**.
+In **'file.py'** python file:
 
 - Function **'readDirectory()'** has two input parameter: *a str 'path'* and *a tuple 'ext'*.
   - **the 'path' string** should be the folder's path, where we store the given files. **The 'ext' tuple** on the other hand is cointaing all the possible file extensions ( like '.txt', '.png', '.xls', etc. )
@@ -37,7 +37,7 @@ In **'file_OOP.py'** file there's *a class* called **'File'** and *two functions
   - after that the function moves the file to the new folder using *'shutil.move()'*[^2]
   - at the end it compares the new destination with the 'shutil.move()' returned destination to check if the file movement was correct or not and *returns boolean* according to it
 
-- The Class **'File'**:
+- Class **'File'**:
   - has an *'__init__()'* function which has *a string 'name'* input parameter besides *'self'*
   - has *a 'getter', a 'setter' and a 'deleter'* which the code's using to get, set and delete file_name object -> *file's name*
     - *'getter'* -> * @property 'file_name()'*
@@ -51,8 +51,19 @@ In **'file_OOP.py'** file there's *a class* called **'File'** and *two functions
     - *the 'meas_time'* also converts a part of the given information stored in *a 'lines' list* to datetime format to fit in to the database, it uses *the 'datetime.strptime()' function*[^4]
     - *IMPORTANT NOTE:* the sorting method is only applies to this specific project and only to these specific data files created by the counter device
 
-### **PART TWO - STORING DATABASE** 
+### **PART TWO - STORING INFORMATION** 
 
+In **'database.py'** python file:
+
+- Class **'DataBase'**:
+  - the *'__init__()'* function has *a string 'host'*, *a string 'username'*, *a string 'password'*, *a string 'database'* input attributes besides *'self'* and the database object also has *'a connection and cursor attribute*' which are None by default.
+  - the *'connect()' function*:
+    -
+  - the *'disconnect()' function*:
+    -
+  - the *'add_new_data()' function*:
+    -
+    
 
 ### **PART THREE - RUNNING THE CODE**
 
