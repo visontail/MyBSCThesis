@@ -91,7 +91,7 @@ In **'main.py'** python file:
     - after that it will upload the first part of the sorted information into the database using *the 'add_new_data()' function* and stores the boolean value in *a 'upload_success' variable*, then it check if the upload went well or not, if it uploaded it will upload the second part of the data as well and repeat the same process by overwriting *the 'upload_success' variable* and checking if it is true
     - if true then moves the file from the current folder to another folder where read files are stored using * the 'fc.moveFile()' function* and checks this as well if it happend or not
     - if any process of the uploading part or file moving part went wrong the code will break out from the for loop and print an error message
-  - Finally, it will close the database connection using *the 'disconnect()' function* and delete *the file object* using *the deleter*
+  - finally, it will close the database connection using *the 'disconnect()' function* and delete *the file object* using *the deleter*
 - If it is other then *'__main__'* then it will print an error message
 
 ## *How does the database look like?*
