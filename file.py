@@ -37,7 +37,6 @@ class File():
     # -  deleter
     @file_name.deleter
     def file_name(self):
-        print('file name is deleted')
         del self._name
 
     # Function to read file's content

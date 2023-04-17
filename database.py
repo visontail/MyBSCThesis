@@ -33,36 +33,7 @@ class DataBase():
         if self._cursor is not None and self._connection.is_connected():
             self._cursor.close()
             self._connection.close()
-
-    # Function for adding new data to database        
-    def add_new_data(self, name, time, data_01, data_02):
-        # Function for execute query
-        def execute_q(query, values):
-                if self._cursor is not None:
-                    self._cursor.execute(query, values)
-                    self._connection.commit()
-                    return True
-                else:
-                    print("Cursor not found. Check database connection!")
-                    return False
-        try:
-            # - adding direction one measurement data
-            query = "INSERT INTO `Measurement`(`ID_station_num`, `start_time`, `end_time`, `direction`, `meas_intervall`, `traff_other`, `traff_pedestrian`, `traff_cyclist`) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
-            values = (name, time[0], time[1], data_01[0], data_01[1], data_01[2], data_01[3], data_01[4])
-            first = execute_q(query, values)
-            # - adding direction two measurement data
-            query = "INSERT INTO `Measurement`(`ID_station_num`, `start_time`, `end_time`, `direction`, `meas_intervall`, `traff_other`, `traff_pedestrian`, `traff_cyclist`) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
-            values = (name, time[0], time[1], data_02[0], data_02[1], data_02[2], data_02[3], data_02[4])
-            second = execute_q(query, values)
-            if first and second:
-                return True
-            else:
-                return False
             
-        except mysql.connector.Error as mysql_error:
-            print(f"Error executing query: {mysql_error}")
-            return False
-        
     # Function for adding new data to database        
     def add_new_data(self, name, time, data):
         try:
