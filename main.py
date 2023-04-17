@@ -44,7 +44,7 @@ if __name__ == "__main__":
                 # - check if data was inserted or not
                 if success:
                     # - if each direction inserted then move read file
-                    #fc.moveFile(file_name, move_path)
+                    fc.moveFile(f_name, move_path)
                     pass
                 else:
                     # - if not then break out of loop
