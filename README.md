@@ -19,9 +19,6 @@ The code is consist of 3 python files:
 - [x] **file.py** -> where the file reading happens
 - [x] **database.py** -> where the database communication happens
 
-
-In both **'file.py', 'database.py'** files are *a class and functions*, which are used in the **'main.py'**.
-
 ### **PART ONE - GATHERING DATA**
 
 In **'file.py'** python file:
@@ -70,7 +67,6 @@ In **'database.py'** python file:
     - if the cursor wasn't created then it will print a message with the error and *returns false*
     - the except method will print a message with the error
     
-
 ### **PART THREE - RUNNING THE CODE**
 
 In **'main.py'** python file:
@@ -94,7 +90,25 @@ In **'main.py'** python file:
   - finally, it will close the database connection using *the 'disconnect()' function* and delete *the file object* using *the deleter*
 - If it is other then *'__main__'* then it will print an error message
 
+
 ## *How does the database look like?*
+The database consist of two tables - ***'Station'*** and ***'Measurement'***. These tables are connected via a foreign key constraint ( in *'Measurement.ID_station_num'* from *'Station.ID_station_num'* ).
+
+**'Station' Table** - stores information about different measuring stations
+  - *'ID_station_num'* -> for measuring stations' number
+  - *'city'* -> for where each measuring station is
+  - *'measuring_inst'* -> for measuring instrument number
+
+**'Measurement' Table** - stores information about each measurement, which were read from data files
+  - *'ID_measure'* -> for
+  - *'ID_station_num'* -> for
+  - *'start_time'* -> for
+  - *'end_time'* —> for
+  - *'direction'* —> for
+  - *'meas_intervall'* —> for
+  - *'traff_other'* —> for
+  - *'traff_pedestrian'* —> for
+  - *'traff_cyclsit'* —> for
 
 
 [^1]: This is an imported function from the 'os' library.
