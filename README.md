@@ -34,17 +34,33 @@ In **'file_OOP.py'** file there's *a class* called **'File'** and *two functions
 - Function **'moveFile()'** has also two input parameter: *a str 'name'* and *a str 'path'*.
   - **the 'name' string** should be the file's name, and **the 'path' string** should be the folder's path, where the file will be stored after it's read.
   - using these parameters the function creates the file's new path
-  - after that the function moves the file to the new folder using *'shutil.move()'*
+  - after that the function moves the file to the new folder using *'shutil.move()'*[^2]
+  - at the end it compares the new destination with the 'shutil.move()' returned destination to check if the file movement was correct or not and *returns boolean* according to it
+
+- The Class **'File'**:
+  - has an *'__init__()'* function which has *a string 'name'* input parameter besides *'self'*
+  - has *a 'getter', a 'setter' and a 'deleter'* which the code's using to get, set and delete file_name object -> *file's name*
+    - *'getter'* -> * @property 'file_name()'*
+    - *'setter'* -> * @file_name.setter 'file_name()'*
+    - *'deleter'* -> * @file_name.deleter 'file_name()'*
+  - besides these the class also has **a 'read_file()' function** as well
+    - this function performs the actual *'file reading and information sorting'* part of the code
+    - it creates *a 'lines' list* to stores file's information
+    - it opens the file using the *'with open()'*[^3] then a for loop reads through the file line by line and stores each line into *an 'info' variable* first and then put it in the *a 'lines' list* created earlier.
+    - after doing that it's sorting the information to: * a 'meas_name', a 'meas_time', a 'data_01' and a 'data_02' variables * also these are what the function returns
+    - *the 'meas_time'* also converts a part of the given information stored in *a 'lines' list* to datetime format to fit in to the database, it uses *the 'datetime.strptime()' function*[^4]
+    - *IMPORTANT NOTE:* the sorting method is only applies to this specific project and only to these specific data files created by the counter device
+
+### **PART TWO - STORING DATABASE** 
 
 
-In the class **'File'** it is *a getter, setter and deleter*, also a *'read_file()'* function.
+### **PART THREE - RUNNING THE CODE**
 
-### **PART TWO - DATABASE**
-
-
-### **PART THREE - MAIN.PY**
 
 ## *How does the database look like?*
 
 
-[^1]: This is an imported function from the 'os' library ( wasn't written by me ).
+[^1]: This is an imported function from the 'os' library.
+[^2]: This is an imported function from the 'shutil' library.
+[^3]: This is a built-in function.
+[^4]: This is an imported function from the 'datetime' library.
