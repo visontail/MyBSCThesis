@@ -33,7 +33,8 @@ In **'file_OOP.py'** file there's *a class* called **'File'** and *two functions
  
 - Function **'moveFile()'** has also two input parameter: *a str 'name'* and *a str 'path'*.
   - **the 'name' string** should be the file's name, and **the 'path' string** should be the folder's path, where the file will be stored after it's read.
-  - using these parameters the function creates
+  - using these parameters the function creates the file's new path
+  - after that the function moves the file to the new folder using *'shutil.move()'*
 
 
 In the class **'File'** it is *a getter, setter and deleter*, also a *'read_file()'* function.
