@@ -39,7 +39,7 @@ In **'file_OOP.py'** file there's *a class* called **'File'** and *two functions
 
 - The Class **'File'**:
   - has an *'__init__()'* function which has *a string 'name'* input parameter besides *'self'*
-  - has *a 'getter', a 'setter' and a 'deleter'* which I'm using to get, set and delete file_name object -> *file's name*
+  - has *a 'getter', a 'setter' and a 'deleter'* which the code's using to get, set and delete file_name object -> *file's name*
     - *'getter'* -> * @property 'file_name()'*
     - *'setter'* -> * @file_name.setter 'file_name()'*
     - *'deleter'* -> * @file_name.deleter 'file_name()'*
@@ -51,10 +51,11 @@ In **'file_OOP.py'** file there's *a class* called **'File'** and *two functions
     - *the 'meas_time'* also converts a part of the given information stored in *a 'lines' list* to datetime format to fit in to the database, it uses *the 'datetime.strptime()' function*[^4]
     - *IMPORTANT NOTE:* the sorting method is only applies to this specific project and only to these specific data files created by the counter device
 
-### **PART TWO - DATABASE**
+### **PART TWO - STORING DATABASE**
 
 
-### **PART THREE - MAIN.PY**
+### **PART THREE - RUNNING THE CODE**
+
 
 ## *How does the database look like?*
 
