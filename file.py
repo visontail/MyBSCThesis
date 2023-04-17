@@ -10,7 +10,7 @@ def readDirectory(path: str, ext: tuple):
         file_names = [path + entry.name for entry in dir_entries if entry.name.endswith(ext)]
     # - return the number and names of the XTX files
     return file_names
-# Function for
+# Function for moving the file after done reading and uploading
 def moveFile(name, path):
     # - create new path
     new_file_path = path + name.split("/")[-1]
