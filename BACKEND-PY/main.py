@@ -20,7 +20,7 @@ if __name__ == "__main__":
         print("There's no xTx file in the given directory. Please try again later!")
     else:
         # - create database connection object
-        database = db.DataBase(host="localhost", username="root", password="", database="BSCthesis")
+        database = db.DataBase(host="localhost", username="root", password="", database="VeloClass")
         # - connects to the database
         database.connect()
         i = 0
