@@ -1,5 +1,3 @@
-// Every database logic and query is stored in this file
-
 import mysql from 'mysql2'
 import dotenv from 'dotenv'
 dotenv.config()
@@ -25,11 +23,8 @@ export async function getStation(id) {
     const [rows] = await pool.query(`
     SELECT *
     FROM Stations
-    WHERE Station_ID = ?
+    WHERE StationID = ?
     `, [id])
     // not using ${id} -> to avoid injection attacks, this will run the query and pass in the untrusted id as a second parameter
     return rows[0]
 }
-
-const result = await getStation(120001)
-console.log(result)

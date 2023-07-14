@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Loader } from '@googlemaps/js-api-loader';
+import { DatabaseService } from '../services/database.service';
 
 @Component({
   selector: 'app-content',
@@ -8,7 +9,14 @@ import { Loader } from '@googlemaps/js-api-loader';
 })
 export class ContentComponent implements OnInit {
 
+  stationList!: [];
+  constructor(private databaseService: DatabaseService) {}
+
+
   ngOnInit(): void {
+
+    this.getTestDone();
+
     const loader = new Loader({
       apiKey: "AIzaSyCrqeOVzVOTRdPZh_VoEN1epBl04KoxJlc",
       version: "weekly",
@@ -127,9 +135,22 @@ export class ContentComponent implements OnInit {
       new google.maps.Marker({
         map: new_map,
         position: position,
-        title: 'Uluru'
+        title: 'Test'
       }
       )
     });
   }
+
+  getTestDone(): void {
+    this.databaseService.getTestDone().subscribe(
+      (response) => {
+      this.stationList = response;
+      console.log(this.stationList); // Process the data as needed
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
+  }
+
 }
