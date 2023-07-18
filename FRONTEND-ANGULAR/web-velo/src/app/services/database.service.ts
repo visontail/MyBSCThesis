@@ -12,7 +12,7 @@ export class DatabaseService {
   constructor(private http: HttpClient) {}
 
   getTestDone(): Observable<any> {
-    const url = `${this.apiUrl}/stations`; // Replace with your Node.js API endpoint
+    const url = `${this.apiUrl}/station/120001`;
     return this.http.get<any>(url);
   }
 }
