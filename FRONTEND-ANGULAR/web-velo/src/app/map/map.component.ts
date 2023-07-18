@@ -109,6 +109,8 @@ export class MapComponent implements OnInit {
     }
   ]
 
+  map!: google.maps.Map;
+
   icon = {
     path : "M480.059-486.667q30.274 0 51.774-21.559t21.5-51.833q0-30.274-21.559-51.774t-51.833-21.5q-30.274 0-51.774 21.559t-21.5 51.833q0 30.274 21.559 51.774t51.833 21.5ZM480-80Q319-217 239.5-334.5T160-552q0-150 96.5-239T480-880q127 0 223.5 89T800-552q0 100-79.5 217.5T480-80Z",
     fillColor: "#E1EF79",
@@ -118,11 +120,12 @@ export class MapComponent implements OnInit {
     scale: 0.03,
   }
 
+  popup = `Station name: TEST`
+
+
   stationList!: [];
 
   constructor(private databaseService: DatabaseService) {}
-
-  map!: google.maps.Map;
 
   ngOnInit(): void {
 
@@ -159,13 +162,29 @@ export class MapComponent implements OnInit {
       { lat: 46.1113, lng: 18.1848, average: 200 }
     ];
     
+    function attachSecretMessage(
+      marker: google.maps.Marker,
+      secretMessage: string
+    ) {
+      const infowindow = new google.maps.InfoWindow({
+        content: secretMessage,
+      });
+    
+      marker.addListener("click", () => {
+        infowindow.open(marker.get("map"), marker);
+      });
+    }
+    
     data.forEach(device => {
       const marker = new google.maps.Marker({
         position: { lat: device.lat, lng: device.lng },
         map,
         icon: this.icon,
-        title: `TEST`
+        title: `TEST`,
       });
+    
+      attachSecretMessage(marker, this.popup);
+
     });
   }
 
