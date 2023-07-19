@@ -1,7 +1,5 @@
 import { Component, OnInit, SkipSelf } from '@angular/core';
 import { DatabaseService } from '../services/database.service';
-import { response } from 'express';
-import { Pos } from './pos.model';
 
 
 
@@ -164,15 +162,10 @@ export class MapComponent implements OnInit {
       positions.forEach(pos => {
         data.push(pos)
       })
-      console.log(data);
       data.forEach(station => {
         const id = station.StationID;
         const lat = parseFloat(station.posLatitude);
         const lng = parseFloat(station.posLongitude);
-        console.log(id)
-        console.log(lat)
-        console.log(lng)
-
         const marker = new google.maps.Marker({
           id: id,
           position: { lat, lng },
