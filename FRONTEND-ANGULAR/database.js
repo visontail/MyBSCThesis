@@ -12,19 +12,27 @@ const pool = mysql.createPool({
 
 // [rows] => stores the first part (Child) of the result in an array called rows
 
-// Get Stations Informations
+// Get ALL Stations Informations
 export async function getStations() {
     const [rows] = await pool.query("SELECT * FROM Stations")
     return rows
 }
 
-//
+// Get Stations Informations
+export async function getPosition() {
+    const [stationPos] = await pool.query("SELECT StationID, posLatitude, posLongitude FROM Stations")
+    return stationPos
+}
+
+// get StationName using id for map tag text
 export async function getStation(id) {
     const [rows] = await pool.query(`
-    SELECT *
+    SELECT StationName
     FROM Stations
     WHERE StationID = ?
     `, [id])
     // not using ${id} -> to avoid injection attacks, this will run the query and pass in the untrusted id as a second parameter
     return rows[0]
 }
+
+
