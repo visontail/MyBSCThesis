@@ -154,6 +154,20 @@ export class MapComponent implements OnInit {
     // Add markers for measurement device points
     // Replace `data` with your actual data containing device points and average traffic number 
     
+    function attachSecretMessage(
+      marker: google.maps.Marker,
+      secretMessage: string
+    ) {
+      const infowindow = new google.maps.InfoWindow({
+        content: secretMessage,
+      });
+    
+      marker.addListener("click", () => {
+        map.setZoom(15);
+        map.setCenter(marker.getPosition() as google.maps.LatLng);
+        infowindow.open(marker.get("map"), marker);
+      });
+    }
     
 
     const data : any[] = [];
@@ -171,29 +185,11 @@ export class MapComponent implements OnInit {
           position: { lat, lng },
           map,
           icon: this.icon,
-          title: `TEST`,
+          title: "VeloClass Station",
         })
         attachSecretMessage(marker, `${station.StationID}`);
       });
     });
-    
-
-    /* this.databaseService.getPos().subscribe(
-      (response) => {
-        console.log('Fetched data:', response);
-        response.forEach(device => {
-          console.log('Device:', device);
-          const marker = new google.maps.Marker({
-            id : { id: device.id },
-            position: { lat: device.lat, lng: device.lng },
-            map,
-            icon: this.icon,
-            title: `TEST`,
-          });
-          attachSecretMessage(marker, "HelloWorld");
-      }
-    );
-    }); */
   }
 
   private loadGoogleMaps(): Promise<void> {
@@ -210,17 +206,3 @@ export class MapComponent implements OnInit {
   }
 
 }
-
-function attachSecretMessage(
-  marker: google.maps.Marker,
-  secretMessage: string
-) {
-  const infowindow = new google.maps.InfoWindow({
-    content: secretMessage,
-  });
-
-  marker.addListener("click", () => {
-    infowindow.open(marker.get("map"), marker);
-  });
-}
-
