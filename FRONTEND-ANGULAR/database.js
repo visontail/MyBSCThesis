@@ -38,7 +38,7 @@ export async function getStation(id) {
 // get StationName using id for map tag text
 export async function getMesStat(id) {
     const [rows] = await pool.query(`
-    SELECT MeasureID, StationID, startTime, endTime, 
+    SELECT StationID, startTime, endTime, Direction, CyclistTraff, PedestrianTraff, OtherTraff
     FROM Measurements
     WHERE StationID = ?
     `, [id])
