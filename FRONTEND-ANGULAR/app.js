@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 
-import { getPosition, getStation,getStations } from './database.js'
+import { getMesStat, getPosition, getStation,getStations } from './database.js'
 
 const app = express()
 
@@ -25,6 +25,13 @@ app.get("/pos", async (req, res) => {
 app.get("/station/:id", async (req, res) => {
     const id = req.params.id
     const station = await getStation(id)
+    res.send(station)
+})
+
+// get .....
+app.get("/mestat/:id", async (req, res) => {
+    const id = req.params.id
+    const station = await getMesStat(id)
     res.send(station)
 })
 
