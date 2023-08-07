@@ -40,4 +40,9 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+
+#Sensitive Files
+#api-key
 /Users/visontaileo/Desktop/szakdoga/PROGRAM/MyBSCThesis/FRONTEND-ANGULAR/resources/api-key.txt
+#db-name-pass
+/Users/visontaileo/Desktop/szakdoga/PROGRAM/MyBSCThesis/FRONTEND-ANGULAR/.env
