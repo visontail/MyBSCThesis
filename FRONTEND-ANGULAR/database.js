@@ -35,4 +35,13 @@ export async function getStation(id) {
     return rows[0]
 }
 
-
+// get StationName using id for map tag text
+export async function getMesStat(id) {
+    const [rows] = await pool.query(`
+    SELECT MeasureID, StationID, startTime, endTime, 
+    FROM Measurements
+    WHERE StationID = ?
+    `, [id])
+    // not using ${id} -> to avoid injection attacks, this will run the query and pass in the untrusted id as a second parameter
+    return rows
+}
