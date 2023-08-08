@@ -7,7 +7,7 @@ import { Component } from '@angular/core';
 })
 export class MenubarComponent {
   
-  title = 'Web VeloClass';
+  title = 'Web-Velo';
   sumDevices = 56;
 
 }
