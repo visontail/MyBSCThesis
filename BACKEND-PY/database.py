@@ -3,7 +3,7 @@ import mysql.connector
 
 # Class for Database
 class DataBase():
-    def __init__(self, host: str, username: str, password: str, database: str):
+    def __init__(self, host: int, username: str, password, database):
         self._host = host
         self._username = username
         self._password = password

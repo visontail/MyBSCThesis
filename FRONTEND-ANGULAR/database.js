@@ -51,8 +51,8 @@ export async function demoQuery() {
     const [rows] = await pool.query(
     `SELECT *
     FROM Measurements
-    ORDER BY timestamp DESC
-    LIMIT 5;
+    ORDER BY MeasureID DESC
+    LIMIT 4;
     `)
     // not using ${id} -> to avoid injection attacks, this will run the query and pass in the untrusted id as a second parameter
     return rows

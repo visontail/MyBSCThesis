@@ -6,9 +6,9 @@ import database as db
 
 
 # - newly added .XTX files path:
-dir_path = '/Users/visontaileo/Desktop/szakdoga/PROGRAM/MyBSCThesis/files/'
+dir_path = '/Users/visontaileo/Desktop/szakdoga/PROGRAM/MyBSCThesis/BACKEND-PY/files/'
 # - already read .XTX files path:
-move_path = '/Users/visontaileo/Desktop/szakdoga/PROGRAM/MyBSCThesis/done/'
+move_path = '/Users/visontaileo/Desktop/szakdoga/PROGRAM/MyBSCThesis/BACKEND-PY/done/'
 # - allowed extesions:
 EXTENSIONS = ('.xtx', '.Xtx', '.XTx', '.XtX', '.xTx', '.xTX', '.xtX', '.XTX')
 
@@ -46,6 +46,7 @@ if __name__ == "__main__":
                 if upload_success:
                     # - if each direction inserted then move read file
                     move_success = fc.moveFile(f_name, move_path)
+                    print("Database has been updated!")
                     if not move_success:
                         # - if not then break out of loop
                         print("Something went wrong. Check folder!")
