@@ -35,7 +35,7 @@ export async function getStation(id) {
     return rows[0]
 }
 
-// get StationName using id for map tag text
+// get 
 export async function getMesStat(id) {
     const [rows] = await pool.query(`
     SELECT StationID, startTime, endTime, Direction, CyclistTraff, PedestrianTraff, OtherTraff
@@ -45,3 +45,16 @@ export async function getMesStat(id) {
     // not using ${id} -> to avoid injection attacks, this will run the query and pass in the untrusted id as a second parameter
     return rows
 }
+
+// get 
+export async function demoQuery() {
+    const [rows] = await pool.query(
+    `SELECT *
+    FROM Measurements
+    ORDER BY timestamp DESC
+    LIMIT 5;
+    `)
+    // not using ${id} -> to avoid injection attacks, this will run the query and pass in the untrusted id as a second parameter
+    return rows
+}
+

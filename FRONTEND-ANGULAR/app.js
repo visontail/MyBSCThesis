@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 
-import { getMesStat, getPosition, getStation,getStations } from './database.js'
+import { demoQuery, getMesStat, getPosition, getStation,getStations } from './database.js'
 
 const app = express()
 
@@ -34,6 +34,14 @@ app.get("/mestat/:id", async (req, res) => {
     const station = await getMesStat(id)
     res.send(station)
 })
+
+// ---------DELETE THIS LATER------------------
+// get .....
+app.get("/demoapi", async (req, res) => {
+    const demo = await demoQuery()
+    res.send(demo)
+})
+// --------------------------------------------
 
 app.use((res, err, req, next) => {
     console.log(err.stack)
