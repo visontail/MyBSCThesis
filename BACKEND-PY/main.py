@@ -4,6 +4,7 @@ import file as fc
 import database as db
 
 
+
 # - newly added .XTX files path:
 dir_path = '/Users/visontaileo/Desktop/szakdoga/PROGRAM/MyBSCThesis/files/'
 # - already read .XTX files path:
@@ -20,7 +21,7 @@ if __name__ == "__main__":
         print("There's no xTx file in the given directory. Please try again later!")
     else:
         # - create database connection object
-        database = db.DataBase(host="localhost", username="root", password="", database="VeloClass")
+        database = db.DataBase(host="127.0.0.1", username="root", password="greaTneSS7623", database="web_velo")
         # - connects to the database
         database.connect()
         i = 0
