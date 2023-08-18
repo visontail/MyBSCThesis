@@ -152,14 +152,15 @@ export class MapComponent implements OnInit {
     };
     const map = new google.maps.Map(document.getElementById('map') as HTMLElement, mapOptions);
     // Add markers for measurement device points
-    // Replace `data` with your actual data containing device points and average traffic number 
-    
+    // Replace `data` with your actual data containing device points and average traffic number
+
     function attachSecretMessage(
       marker: google.maps.Marker,
       secretMessage: string
     ) {
       const infowindow = new google.maps.InfoWindow({
-        content: secretMessage,
+        content: document.getElementById('info-win') as HTMLElement,
+        maxWidth: 200,
       });
     
       marker.addListener("click", () => {

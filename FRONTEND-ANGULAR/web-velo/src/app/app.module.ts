@@ -11,7 +11,7 @@ import { MenubarComponent } from './menubar/menubar.component';
   declarations: [
     AppComponent,
     MapComponent,
-    MenubarComponent
+    MenubarComponent,
   ],
   imports: [
     BrowserModule,
