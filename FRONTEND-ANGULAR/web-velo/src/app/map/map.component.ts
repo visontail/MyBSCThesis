@@ -1,7 +1,5 @@
-import { Component, OnInit, SkipSelf } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { DatabaseService } from '../services/database.service';
-
-
 
 declare var google: any;
 
@@ -126,14 +124,14 @@ export class MapComponent implements OnInit {
 
   ngOnInit(): void {
 
-    //this.getTestDone();
-
     this.loadGoogleMaps().then(() => {
       this.initMap();
     });
     
   }
-  getTestDone() {
+
+// function to get markers location (lat,lng) data from API endpoint
+  getMarkerPostions() {
     this.databaseService.getPos().subscribe(
       (response) => {
       this.stationPos = response;
@@ -151,34 +149,27 @@ export class MapComponent implements OnInit {
       styles: this.style_sheet
     };
     const map = new google.maps.Map(document.getElementById('map') as HTMLElement, mapOptions);
-    // Add markers for measurement device points
-    // Replace `data` with your actual data containing device points and average traffic number
-
-    function attachSecretMessage(
-      marker: google.maps.Marker,
-      secretMessage: string
-    ) {
-      const infowindow = new google.maps.InfoWindow({
-        content: document.getElementById('info-win') as HTMLElement,
-        maxWidth: 200,
-      });
     
+// function for creating popup & zoom in to marker when its clicked
+    function clickMarker(
+      marker: google.maps.Marker
+      ) {
+      // when marker clicked zooms into it
       marker.addListener("click", () => {
         map.setZoom(15);
         map.setCenter(marker.getPosition() as google.maps.LatLng);
-        infowindow.open(marker.get("map"), marker);
       });
     }
     
-
     const data : any[] = [];
-    
+
     this.databaseService.getPos().subscribe((positions) => {
       positions.forEach(pos => {
         data.push(pos)
       })
       data.forEach(station => {
         const id = station.StationID;
+        const name = station.StationName;
         const lat = parseFloat(station.posLatitude);
         const lng = parseFloat(station.posLongitude);
         const marker = new google.maps.Marker({
@@ -186,9 +177,9 @@ export class MapComponent implements OnInit {
           position: { lat, lng },
           map,
           icon: this.icon,
-          title: "VeloClass Station",
+          title: name,
         })
-        attachSecretMessage(marker, `${station.StationID}`);
+        clickMarker(marker);
       });
     });
   }
@@ -205,5 +196,5 @@ export class MapComponent implements OnInit {
       return Promise.resolve();
     }
   }
-
+  
 }

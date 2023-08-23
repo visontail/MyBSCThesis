@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Loader } from '@googlemaps/js-api-loader';
 
 @Component({
   selector: 'app-root',

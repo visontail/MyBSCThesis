@@ -20,7 +20,7 @@ export async function getStations() {
 
 // Get Stations Informations
 export async function getPosition() {
-    const [stationPos] = await pool.query("SELECT StationID, posLatitude, posLongitude FROM Stations")
+    const [stationPos] = await pool.query("SELECT StationID, StationName, posLatitude, posLongitude FROM Stations")
     return stationPos
 }
 
@@ -42,18 +42,6 @@ export async function getMesStat(id) {
     FROM Measurements
     WHERE StationID = ?
     `, [id])
-    // not using ${id} -> to avoid injection attacks, this will run the query and pass in the untrusted id as a second parameter
-    return rows
-}
-
-// get 
-export async function demoQuery() {
-    const [rows] = await pool.query(
-    `SELECT *
-    FROM Measurements
-    ORDER BY MeasureID DESC
-    LIMIT 4;
-    `)
     // not using ${id} -> to avoid injection attacks, this will run the query and pass in the untrusted id as a second parameter
     return rows
 }
