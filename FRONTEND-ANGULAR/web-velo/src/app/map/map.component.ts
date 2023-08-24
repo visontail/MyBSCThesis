@@ -119,7 +119,6 @@ export class MapComponent implements OnInit {
   map!: google.maps.Map;
  
   stationPos : any[] = [];
-
   constructor(private databaseService: DatabaseService) {}
 
   ngOnInit(): void {
@@ -149,7 +148,7 @@ export class MapComponent implements OnInit {
       styles: this.style_sheet
     };
     const map = new google.maps.Map(document.getElementById('map') as HTMLElement, mapOptions);
-    
+
 // function for creating popup & zoom in to marker when its clicked
     function clickMarker(
       marker: google.maps.Marker
