@@ -27,7 +27,7 @@ export async function getPosition() {
 // get StationName using id for map tag text
 export async function getStation(id) {
     const [rows] = await pool.query(`
-    SELECT StationName
+    SELECT StationName, posLatitude, posLongitude
     FROM Stations
     WHERE StationID = ?
     `, [id])

@@ -13,10 +13,11 @@ export class DatabaseService {
   constructor(private http: HttpClient) {}
 
   stationPos : MapComponent[] = [];
+  measData : MapComponent[] = [];
 
-  getPositions(): Observable<any> {
-    const url = `${this.apiUrl}/pos`;
-    const result = this.http.get<any>(url);
+  getData( id : number ): Observable<any[]> {
+    const url = `${this.apiUrl}/meas/${id}`;
+    const result = this.http.get<any[]>(url);
     return result
   }
 

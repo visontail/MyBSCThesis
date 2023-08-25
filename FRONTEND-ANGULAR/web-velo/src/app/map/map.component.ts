@@ -118,7 +118,6 @@ export class MapComponent implements OnInit {
 
   map!: google.maps.Map;
  
-  stationPos : any[] = [];
   constructor(private databaseService: DatabaseService) {}
 
   ngOnInit(): void {
@@ -129,18 +128,6 @@ export class MapComponent implements OnInit {
     
   }
 
-// function to get markers location (lat,lng) data from API endpoint
-  getMarkerPostions() {
-    this.databaseService.getPos().subscribe(
-      (response) => {
-      this.stationPos = response;
-      },
-      (error) => {
-        console.error(error);
-      }
-    );
-  }
-
   private initMap(): void {
     const mapOptions: google.maps.MapOptions = {
       center: { lat: 47.16249, lng: 19.503304},
@@ -149,18 +136,41 @@ export class MapComponent implements OnInit {
     };
     const map = new google.maps.Map(document.getElementById('map') as HTMLElement, mapOptions);
 
+    const content =
+    '<div id="content">' +
+      '<p> data </p>' +
+      '<p>Valami content van itt</p>' +
+    '</div>';
+
+
 // function for creating popup & zoom in to marker when its clicked
-    function clickMarker(
-      marker: google.maps.Marker
-      ) {
+    function clickMarker( marker: google.maps.Marker, infowin : google.maps.InfoWindow)
+    {
       // when marker clicked zooms into it
       marker.addListener("click", () => {
         map.setZoom(15);
         map.setCenter(marker.getPosition() as google.maps.LatLng);
+        infowin.open({
+          anchor: marker,
+          map,
+        });
       });
     }
     
     const data : any[] = [];
+    const mesdata : any[] = [];
+
+    const getMeasData = (id: any) => {
+      this.databaseService.getData(id).subscribe((datasets) => {
+        datasets.forEach(result => {
+          mesdata.push(result)
+        })
+        mesdata.forEach(result => {
+          const start_date = result.StationID;
+          return start_date
+        })
+      });
+    }
 
     this.databaseService.getPos().subscribe((positions) => {
       positions.forEach(pos => {
@@ -171,6 +181,7 @@ export class MapComponent implements OnInit {
         const name = station.StationName;
         const lat = parseFloat(station.posLatitude);
         const lng = parseFloat(station.posLongitude);
+        const data = getMeasData(id);
         const marker = new google.maps.Marker({
           id: id,
           position: { lat, lng },
@@ -178,7 +189,16 @@ export class MapComponent implements OnInit {
           icon: this.icon,
           title: name,
         })
-        clickMarker(marker);
+        const content =
+        '<div>' +
+          `<p> ID: ${id} </p>`+
+          `<p> Name: ${name} </p>` +
+          `<p> data: ${data} </p>` +
+        '</div>';
+        const infowin = new google.maps.InfoWindow({
+          content: content,
+        })
+        clickMarker(marker, infowin);
       });
     });
   }
