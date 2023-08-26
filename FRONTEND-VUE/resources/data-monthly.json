@@ -1,0 +1,38 @@
+{
+    "labels": [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June"
+    ],
+    "data": [
+        {
+            "label": "irány 1",
+            "data": [
+                1974,
+                1714,
+                3502,
+                6638,
+                8549,
+                2641
+            ]
+        },
+        {
+            "label": "irány 2",
+            "data": [
+                2484,
+                2301,
+                5217,
+                8289,
+                8819,
+                1148
+            ]
+        }
+    ],
+    "intervalAvgMeasuring": 339,
+    "sumMeasuring": 22504,
+    "intervalMeasuring": 7660,
+    "sumBicycleCount": 53276
+}
