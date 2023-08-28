@@ -1,5 +1,6 @@
 <template>
-  
+  <h2>WebVelo</h2>
+  <div id="menubar"></div>
   <div id="map">
     <GoogleMapComponent />
   </div>
