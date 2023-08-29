@@ -6,7 +6,7 @@ import { getMesStat, getPosition, getStation,getStations } from './database.js'
 const app = express()
 
 app.use(cors({
-    origin: 'http://localhost:4200'
+    origin: 'http://localhost:5173'
 }));
 
 // get all stations info
