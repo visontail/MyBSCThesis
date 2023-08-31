@@ -1,19 +1,18 @@
 <template>
-  <h2>WebVelo</h2>
-  <div id="menubar"></div>
-  <div id="map">
-    <GoogleMapComponent />
-  </div>
+  <MenubarComponent />
+  <GoogleMapComponent />
 
 </template>
   
   <script>
-  import GoogleMapComponent from '@/components/GoogleMapComponent.vue'
+  import GoogleMapComponent from '@/components/GoogleMapComponent.vue';
+  import MenubarComponent from '@/components/MenubarComponent.vue';
   
   export default {
     name: 'MapApp',
     components: {
-      GoogleMapComponent
+      GoogleMapComponent,
+      MenubarComponent
     }
   }
   </script>
