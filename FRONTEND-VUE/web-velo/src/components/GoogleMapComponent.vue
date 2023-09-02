@@ -1,44 +1,139 @@
 <template>
-  <GoogleMap
-    api-key="AIzaSyCrqeOVzVOTRdPZh_VoEN1epBl04KoxJlc"
-    style="width: 100%; height: 500px"
-    :center="center"
-    :zoom="4"
-  >
-    <MarkerCluster>
-      <Marker v-for="(location, i) in locations" :options="{ position: location }" :key="i" />
-    </MarkerCluster>
-  </GoogleMap>
+  <div ref="mapDiv" style="width:100%; height: 80vh;">
+  </div>
 </template>
 
 <script>
-import { defineComponent } from 'vue'
-import { GoogleMap, Marker, MarkerCluster } from 'vue3-google-map'
+/* eslint-disable no-undef */
+import { onMounted, ref } from 'vue';
+import { Loader } from '@googlemaps/js-api-loader';
 
-export default defineComponent({
-  // eslint-disable-next-line vue/no-reserved-component-names
-  components: { GoogleMap, Marker, MarkerCluster },
+const GOOGLE_MAPS_API_KEY = 'AIzaSyCrqeOVzVOTRdPZh_VoEN1epBl04KoxJlc';
+
+/* let style_sheet = [
+    {
+      "featureType": "administrative.land_parcel",
+      "stylers": [
+        {
+          "visibility": "off"
+        }
+      ]
+    },
+    {
+      "featureType": "administrative.neighborhood",
+      "stylers": [
+        {
+          "visibility": "off"
+        }
+      ]
+    },
+    {
+      "featureType": "poi",
+      "elementType": "labels.text",
+      "stylers": [
+        {
+          "visibility": "off"
+        }
+      ]
+    },
+    {
+      "featureType": "poi.business",
+      "stylers": [
+        {
+          "visibility": "off"
+        }
+      ]
+    },
+    {
+      "featureType": "road",
+      "elementType": "labels",
+      "stylers": [
+        {
+          "visibility": "off"
+        }
+      ]
+    },
+    {
+      "featureType": "road",
+      "elementType": "labels.icon",
+      "stylers": [
+        {
+          "visibility": "off"
+        }
+      ]
+    },
+    {
+      "featureType": "road.arterial",
+      "elementType": "labels",
+      "stylers": [
+        {
+          "visibility": "off"
+        }
+      ]
+    },
+    {
+      "featureType": "road.highway",
+      "elementType": "labels",
+      "stylers": [
+        {
+          "visibility": "off"
+        }
+      ]
+    },
+    {
+      "featureType": "road.local",
+      "stylers": [
+        {
+          "visibility": "off"
+        }
+      ]
+    },
+    {
+      "featureType": "transit",
+      "stylers": [
+        {
+          "visibility": "off"
+        }
+      ]
+    },
+    {
+      "featureType": "water",
+      "elementType": "labels.text",
+      "stylers": [
+        {
+          "visibility": "off"
+        }
+      ]
+    }
+  ] */
+
+export default {
+  name: 'GMap',
   setup() {
-    const center = { lat: 47.16249, lng: 19.503304 }
-    const locations = [
-      {
-        lat: 47.2385,
-        lng: 18.6349
-      },
-      {
-        lat: 47.2392,
-        lng: 16.9739
-      },
-      {
-        lat: 46.1113,
-        lng: 18.1848
-      },
-      { lat: 45.9522, lng: 18.6671 },
-    ]
+    const loader = new Loader({ apiKey: GOOGLE_MAPS_API_KEY })
+    const mapDiv = ref(null)
 
-    return { center, locations }
+    onMounted(async () => {
+      await loader.load();
+
+      try {
+        if (mapDiv.value) {
+          new google.maps.Map(mapDiv.value, {
+            center: { lat: 47.16249, lng: 19.503304 },
+            zoom: 7,
+          });
+        } else {
+          throw new Error('mapDiv is null');
+        }
+      } catch (error) {
+        console.error(error.message);
+      }
+    });
+
+    return { mapDiv };
   }
-})
+}
+
 </script>
 
 <!-- 
