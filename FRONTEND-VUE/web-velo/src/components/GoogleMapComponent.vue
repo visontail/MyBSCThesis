@@ -1,10 +1,28 @@
 <template>
-    <div ref="map" class="map"></div>
+  <GoogleMap api-key="YOUR_GOOGLE_MAPS_API_KEY" style="width: 100%; height: 500px" :center="center" :zoom="15">
+    <Marker :options="{ position: center }" />
+  </GoogleMap>
 </template>
 
-
 <script>
+import { defineComponent } from "vue";
+import { GoogleMap, Marker } from "vue3-google-map";
 
+export default defineComponent({
+  components: { GoogleMap, Marker },
+  setup() {
+    const center = { lat: 40.689247, lng: -74.044502 };
+
+    return { center };
+  },
+});
+</script>
+
+
+<!-- 
+
+import { ref, onMounted } from 'vue';
+import { Loader } from '@googlemaps/js-api-loader';
 
 // variables for GoogleMaps API - maps's style sheet, marker's icon
 let style_sheet = [
@@ -103,10 +121,12 @@ let style_sheet = [
       ]
     }
   ]
-  import axios from 'axios'
-const apiUrl = 'http://localhost:8080';
 
-let icon = {
+import axios from 'axios'
+const apiUrl = 'http://localhost:8080';
+const apiKey = 'AIzaSyCrqeOVzVOTRdPZh_VoEN1epBl04KoxJlc'
+
+/* let icon = {
     path : "M480.059-486.667q30.274 0 51.774-21.559t21.5-51.833q0-30.274-21.559-51.774t-51.833-21.5q-30.274 0-51.774 21.559t-21.5 51.833q0 30.274 21.559 51.774t51.833 21.5ZM480-80Q319-217 239.5-334.5T160-552q0-150 96.5-239T480-880q127 0 223.5 89T800-552q0 100-79.5 217.5T480-80Z",
     fillColor: "#E1EF79",
     fillOpacity: 1,
@@ -115,42 +135,42 @@ let icon = {
     scale: 0.03,
 }
 
-
-/* global google */ // <- solving google is not defined error
 export default {
     name: 'GoogleMap',
-    data() {
-        return {
-            map: null,
-            marker: null,
-            apiKey: 'AIzaSyCrqeOVzVOTRdPZh_VoEN1epBl04KoxJlc'
+    setup() {
+      const map = ref(null);
+
+      onMounted(async () => {
+        const loader = new Loader({
+          apiKey: `${apiKey}`,
+          version: 'weekly',
+        })
+        const google = await loader.load();
+        const mapOptions = {
+            center: { lat: 47.16249, lng: 19.503304 },
+            zoom: 7,
+            styles: style_sheet
         };
+        map.value = new google.maps.Map(document.getElementById('map'), mapOptions);
+
+        const marker = new google.maps.Marker({
+          position:  { lat: 47.16249, lng: 19.503304 },
+          map: map.value,
+          icon: icon,
+          title: 'Marker'
+        });
+      });
+      return { map };
     },
+
     // this runs when the web app is loaded
     mounted() {
-        this.initMap();
         this.getPos().then(() => {
           this.fetchPosData();
         });
+        
     },
     methods: {
-        // Function for initializing Google Map
-        initMap() {
-            // load Google Maps API via a script element
-            const script = document.createElement('script');
-            script.src = `https://maps.googleapis.com/maps/api/js?key=${this.apiKey}`;
-            // using create map function to pass map's and marker's variables
-            script.onload = this.createMap;
-            document.head.appendChild(script);
-        },
-        createMap() {
-            // Create a map centered at a specific location (Hungary)
-            this.map = new google.maps.Map(this.$refs.map, {
-                center: { lat: 47.16249, lng: 19.503304 },
-                zoom: 7,
-                styles: style_sheet
-            });
-        },
         // Fumction for getting Stations' positions (lat, lng), ID, and name
         async getPos() {
           try {
@@ -169,7 +189,6 @@ export default {
                     const name = pos.StationName;
                     const lat = parseFloat(pos.posLatitude);
                     const lng = parseFloat(pos.posLongitude);
-
                     const marker = new google.maps.Marker({
                         id: id,
                         position: { lat, lng },
@@ -188,17 +207,38 @@ export default {
             marker.addListener('click', () => {
                 this.map.setZoom(15);
                 this.map.setCenter(marker.getPosition());
+                console.log("Teszt");
             });
         }
     }
-};
-</script>
 
-<style>
+};
+
 
 .map {
   width: 99vw;
   height: 100vh;
 }
 
-</style>
+.gm-style-iw {
+  position: absolute;
+  min-width: 100vw;
+  width: 100vw !important;
+  max-width: 100vw !important;
+  height: 98vh;
+  max-height: 100vh !important;
+  background: none !important;
+  transform: translate(-50%, -50%);
+  box-shadow: none !important;
+}
+
+.gm-style-iw-d {
+position: absolute;
+  top: 0;
+  right: 0;
+  min-width: 400px !important;
+  max-width: 400px !important;
+  background: red;
+  min-height: 100vh;
+}
+ -->
