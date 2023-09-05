@@ -4,6 +4,7 @@ import cors from 'cors';
 import { getMesStat, getPosition, getStation,getStations } from './database.js'
 
 const app = express()
+const port = 8080
 
 app.use(cors({
     origin: 'http://localhost:5173'
@@ -36,16 +37,15 @@ app.get("/meas/:id", async (req, res) => {
 })
 
 
-
-app.use((res, err, req, next) => {
-    console.log(err.stack)
-    res.status(500).send('Something broke!')
+app.listen(port, () => {
+    console.log(`Server is running on port: ${port}`);
 })
 
-app.listen(8080, () => {
-    console.log('Server is running on port 8080');
+app.get('/', (req, res) => {
+    res.status(200).json({title: "Welcome to WebVelo's API"});
 })
 
-app.get('/', (res, req) => {
-    res.status(200).json({title: 'Hello World'});
-})
+app.use((req, res, next) => {
+    console.log(err.stack);
+    res.status(500).send('Something broke!');
+});
