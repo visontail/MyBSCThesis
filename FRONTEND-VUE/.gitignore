@@ -29,5 +29,5 @@ coverage
 *.sw?
 
 
-
+.DS_Store
 .env
