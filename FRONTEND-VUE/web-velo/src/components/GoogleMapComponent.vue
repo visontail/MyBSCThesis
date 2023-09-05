@@ -1,5 +1,6 @@
 <template>
-  <div ref="mapDiv" id="mapDiv" style="width:100vw; height: 100vh;"></div>
+  <div id="stat" style="border: 3px solid red;"></div>
+  <div ref="mapDiv" id="mapDiv" style="width:100vw; height: 100vh;z-index: 1;"></div>
 </template>
 
 
@@ -141,15 +142,26 @@ export default {
           const name = pos.StationName;
           const lat = parseFloat(pos.posLatitude);
           const lng = parseFloat(pos.posLongitude);
+          const content =
+          '<div stlye="hidden"; border: 3px solid red;z-index: 2;>' +
+            '<ul>' +
+              `<li> Marker ID: ${id} </li>` +
+              `<li> Marker Name: ${name} </li>` +
+              `<li> Marker Latitude Position: ${lat} </li>` +
+              `<li> Marker Longitude Position: ${lng} </li>` +
+            '</ul>' +
+          '</div>'
           const marker = new google.maps.Marker({
             id: id,
             title: name,
             position: { lat, lng },
             map: map,
-            icon: icon
+            icon: icon,
+            content: content
           });
+          const stat = marker.content;
           //console.log(marker);
-          clickMarker(map, marker);
+          clickMarker(map, marker, stat);
         };
       }
       catch(err){
@@ -183,7 +195,7 @@ export default {
       mapDiv,
       positions
     };
-  }
+  },
 }
 
 </script>
