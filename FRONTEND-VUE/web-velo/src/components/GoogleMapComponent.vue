@@ -1,11 +1,12 @@
 <template>
-  <div id="stat" style="border: 3px solid red;"></div>
+  <div id="stat"></div>
   <div ref="mapDiv" id="mapDiv" style="width:100vw; height: 100vh;z-index: 1;"></div>
 </template>
 
 
 <script>
 /* eslint-disable no-undef */
+
 import { onMounted, ref } from 'vue';
 import { Loader } from '@googlemaps/js-api-loader';
 
@@ -13,7 +14,6 @@ import StationAPI from '../services/StationAPI.js';
 import { clickMarker } from './MarkerComponent.vue';
 
 const GOOGLE_MAPS_API_KEY = 'AIzaSyCrqeOVzVOTRdPZh_VoEN1epBl04KoxJlc';
-
 const style_sheet = [
     {
       "featureType": "administrative.land_parcel",
@@ -110,7 +110,6 @@ const style_sheet = [
       ]
     }
   ]
-
 const icon = {
     path : "M480.059-486.667q30.274 0 51.774-21.559t21.5-51.833q0-30.274-21.559-51.774t-51.833-21.5q-30.274 0-51.774 21.559t-21.5 51.833q0 30.274 21.559 51.774t51.833 21.5ZM480-80Q319-217 239.5-334.5T160-552q0-150 96.5-239T480-880q127 0 223.5 89T800-552q0 100-79.5 217.5T480-80Z",
     fillColor: "#E1EF79",
@@ -120,13 +119,12 @@ const icon = {
     scale: 0.03,
 }
 
-
 export default {
   name: 'GMap',
   setup() {
     let positions = []
     const loadPositions = async () => {
-      try{
+      try{ 
         const response = await StationAPI.getPositions()
         positions = response.data
       }
@@ -143,7 +141,7 @@ export default {
           const lat = parseFloat(pos.posLatitude);
           const lng = parseFloat(pos.posLongitude);
           const content =
-          '<div stlye="hidden"; border: 3px solid red;z-index: 2;>' +
+          '<div :stlye="border: 3px solid red;z-index: 2; position: absolute;"class="content" id="content">' +
             '<ul>' +
               `<li> Marker ID: ${id} </li>` +
               `<li> Marker Name: ${name} </li>` +
@@ -174,7 +172,6 @@ export default {
 
     onMounted(async () => {
       await loader.load();
-
       try {
         if (mapDiv.value) {
           let map = new google.maps.Map(mapDiv.value, {
@@ -190,7 +187,6 @@ export default {
         console.error(error.message);
       }
     });
-
     return { 
       mapDiv
     };
@@ -199,162 +195,19 @@ export default {
 
 </script>
 
-<!-- 
+<style scoped>
 
-<script>
+div#content{
+  border: 3px solid red;
+  z-index: 2;
+  position: absolute;
+  position: absolute;
+}
+.content{
+  border: 3px solid red;
+  z-index: 2;
+  position: absolute;
+}
 
+</style>
 
-// variables for GoogleMaps API - maps's style sheet, marker's icon
-let style_sheet = [
-    {
-      "featureType": "administrative.land_parcel",
-      "stylers": [
-        {
-          "visibility": "off"
-        }
-      ]
-    },
-    {
-      "featureType": "administrative.neighborhood",
-      "stylers": [
-        {
-          "visibility": "off"
-        }
-      ]
-    },
-    {
-      "featureType": "poi",
-      "elementType": "labels.text",
-      "stylers": [
-        {
-          "visibility": "off"
-        }
-      ]
-    },
-    {
-      "featureType": "poi.business",
-      "stylers": [
-        {
-          "visibility": "off"
-        }
-      ]
-    },
-    {
-      "featureType": "road",
-      "elementType": "labels",
-      "stylers": [
-        {
-          "visibility": "off"
-        }
-      ]
-    },
-    {
-      "featureType": "road",
-      "elementType": "labels.icon",
-      "stylers": [
-        {
-          "visibility": "off"
-        }
-      ]
-    },
-    {
-      "featureType": "road.arterial",
-      "elementType": "labels",
-      "stylers": [
-        {
-          "visibility": "off"
-        }
-      ]
-    },
-    {
-      "featureType": "road.highway",
-      "elementType": "labels",
-      "stylers": [
-        {
-          "visibility": "off"
-        }
-      ]
-    },
-    {
-      "featureType": "road.local",
-      "stylers": [
-        {
-          "visibility": "off"
-        }
-      ]
-    },
-    {
-      "featureType": "transit",
-      "stylers": [
-        {
-          "visibility": "off"
-        }
-      ]
-    },
-    {
-      "featureType": "water",
-      "elementType": "labels.text",
-      "stylers": [
-        {
-          "visibility": "off"
-        }
-      ]
-    }
-  ]
-  import axios from 'axios'
-const apiUrl = 'http://localhost:8080';
-
-/* global google */ // <- solving google is not defined error
-export default {
-    // this runs when the DOM elements are mounted
-    mounted() {
-        this.getPos().then(() => {
-          this.fetchPosData();
-        });  
-    },
-    methods: {
-        // Function for initializing Google Map
-        // Fumction for getting Stations' positions (lat, lng), ID, and name
-        async getPos() {
-          try {
-              const response = await axios.get(`${apiUrl}/pos`);
-              this.marker = response.data;
-          } catch (error) {
-              console.error('Error fetching data:', error);
-              throw error;
-          }
-        },
-        async  fetchPosData() {
-            try {
-                const positions = this.marker;
-                for (const pos of positions) {
-                    const id = pos.StationID;
-                    const name = pos.StationName;
-                    const lat = parseFloat(pos.posLatitude);
-                    const lng = parseFloat(pos.posLongitude);
-        });
-                    const marker = new google.maps.Marker({
-                        id: id,
-                        position: { lat, lng },
-                        map: this.map,
-                        icon: icon,
-                        title: name,
-                    });
-                    this.clickMarker(marker)
-                    };
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            }
-        },
-        clickMarker(marker) {
-            // Attach click event listener to the marker
-            marker.addListener('click', () => {
-                this.map.setZoom(15);
-                this.map.setCenter(marker.getPosition());
-                console.log("Teszt");
-            });
-        }
-    }
-};
-</script>
- -->

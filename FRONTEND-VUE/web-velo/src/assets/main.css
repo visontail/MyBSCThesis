@@ -1,0 +1,6 @@
+
+#content{
+    border: 3px solid red;
+    z-index: 2;
+    position: absolute;
+  }

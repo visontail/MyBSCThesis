@@ -23,5 +23,5 @@ export function toggleContent(content) {
 
 }
 
-
 </script> 
+
