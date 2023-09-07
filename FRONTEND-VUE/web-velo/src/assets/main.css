@@ -1,6 +1,19 @@
 
-#content{
+#content {
     border: 3px solid red;
-    z-index: 2;
+    background-color: rgba(240, 248, 255, 0.7);
     position: absolute;
-  }
+    width: 50vw;
+    height: 100vh;
+    top:0;
+    right: 0;
+}
+
+#content p {
+  margin: 10px;
+}
+
+#close-btn {
+  width: 10px;
+  height: 10px;
+}

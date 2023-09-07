@@ -140,15 +140,11 @@ export default {
           const name = pos.StationName;
           const lat = parseFloat(pos.posLatitude);
           const lng = parseFloat(pos.posLongitude);
-          const content =
-          '<div :stlye="border: 3px solid red;z-index: 2; position: absolute;"class="content" id="content">' +
-            '<ul>' +
-              `<li> Marker ID: ${id} </li>` +
-              `<li> Marker Name: ${name} </li>` +
-              `<li> Marker Latitude Position: ${lat} </li>` +
-              `<li> Marker Longitude Position: ${lng} </li>` +
-            '</ul>' +
-          '</div>'
+          const content =` 
+            <div id="content">
+                <p> Marker ID: ${id} </p>
+                <p> Marker Name: ${name} </p>
+            </div>`
           const marker = new google.maps.Marker({
             id: id,
             title: name,
@@ -192,22 +188,4 @@ export default {
     };
   },
 }
-
 </script>
-
-<style scoped>
-
-div#content{
-  border: 3px solid red;
-  z-index: 2;
-  position: absolute;
-  position: absolute;
-}
-.content{
-  border: 3px solid red;
-  z-index: 2;
-  position: absolute;
-}
-
-</style>
-
