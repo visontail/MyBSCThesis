@@ -1,5 +1,6 @@
 import mysql from 'mysql2'
 import dotenv from 'dotenv'
+// for storing connection data elsewhere only available locally
 dotenv.config()
 
 // Collection of connections (= pool) for Database
@@ -8,41 +9,72 @@ const pool = mysql.createPool({
     user: process.env.MYSQL_USER,
     password: process.env.MYSQL_PASSWORD,
     database: process.env.MYSQL_DATABASE
-}).promise()    //promise() => this will allow to use the promise api version, asnyc not callbacks
+}).promise()    // allow to handle asynchronous operations
 
-// [rows] => stores the first part (Child) of the result in an array called rows
-
-// Get ALL Stations Informations
-export async function getStations() {
-    const [rows] = await pool.query("SELECT * FROM Stations")
-    return rows
+//SELECT 'Stations' DB table content
+export async function getStationsTable() {
+    try{
+        const [rows] = await pool.query("SELECT * FROM Stations")
+        return rows 
+    }
+    catch(error) {
+        console.error("Error fetching Stations' data:", error);
+        throw error;
+    }
 }
 
-// Get Stations Informations
-export async function getPosition() {
-    const [stationPos] = await pool.query("SELECT StationID, StationName, posLatitude, posLongitude FROM Stations")
+//SELECT 'Measurements' DB table content
+export async function getMeasurementsTable() {
+    try{
+        const [rows] = await pool.query("SELECT * FROM Measurements")
+        return rows
+    }
+    catch(error) {
+        console.error("Error fetching Measurements' data:", error);
+        throw error;
+    }
+}
+
+//SELECT stations' data
+export async function getMarkerData() {
+    try{
+        const [stationPos] = await pool.query("SELECT StationID, StationName, posLatitude, posLongitude FROM Stations")
     return stationPos
+    }
+    catch(error) {
+        console.error("Error fetching data for Markers:", error);
+        throw error;
+    }
 }
 
-// get StationName using id for map tag text
-export async function getStation(id) {
-    const [rows] = await pool.query(`
-    SELECT StationName, posLatitude, posLongitude
-    FROM Stations
-    WHERE StationID = ?
-    `, [id])
-    // not using ${id} -> to avoid injection attacks, this will run the query and pass in the untrusted id as a second parameter
-    return rows[0]
+// SELECT measurement data from provided station
+export async function getStats(id) {
+    try{
+        const [rows] = await pool.query(`
+            SELECT startTime, endTime, Direction, CyclistTraff, PedestrianTraff, OtherTraff
+            FROM Measurements
+            WHERE StationID = ?`,
+            [id]
+        )
+        return rows
+    }
+    catch(error) {
+        console.error("Error fetching statistics:", error);
+        throw error;
+    }
 }
 
-// get 
-export async function getMesStat(id) {
-    const [rows] = await pool.query(`
-    SELECT StationID, startTime, endTime, Direction, CyclistTraff, PedestrianTraff, OtherTraff
-    FROM Measurements
-    WHERE StationID = ?
-    `, [id])
-    // not using ${id} -> to avoid injection attacks, this will run the query and pass in the untrusted id as a second parameter
-    return rows
+// COUNT Stations
+export async function getSumStations() {
+    try{
+        const [sumStation] = await pool.query(`
+            SELECT COUNT(*) AS row_count
+            FROM Stations`)
+        return sumStation
+    }
+    catch(error) {
+        console.error("Error fetching statistics:", error);
+        throw error;
+    }
 }
 

@@ -1,51 +1,59 @@
 import express from 'express';
 import cors from 'cors';
+//  import queries
+import { getMarkerData, getMeasurementsTable, getStats, getStationsTable, getSumStations } from './database.js'
 
-import { getMesStat, getPosition, getStation,getStations } from './database.js'
-
+//  using express.js framework
 const app = express()
 const port = 8080
 
+// CORS
 app.use(cors({
     origin: 'http://localhost:5173'
 }));
 
-// get all stations info
+// GET 'Stations' DB table content
 app.get("/stations", async (req, res) => {
-    const stations = await getStations()
+    const stations = await getStationsTable()
     res.send(stations)
 })
 
-// get all station's positions
+// GET 'Measurements' DB table content
+app.get("/measurements", async (req, res) => {
+    const measurements = await getMeasurementsTable()
+    res.send(measurements)
+})
+
+// GET stations' data - used in google.maps.marker
 app.get("/pos", async (req, res) => {
-    const positions = await getPosition()
-    res.send(positions)
-})
-
-// get a station info with putting id
-app.get("/station/:id", async (req, res) => {
-    const id = req.params.id
-    const station = await getStation(id)
-    res.send(station)
-})
-
-
-app.get("/meas/:id", async (req, res) => {
-    const id = req.params.id
-    const data = await getMesStat(id)
+    const data = await getMarkerData()
     res.send(data)
 })
 
+// GET measurement data from provided station - used in content window
+app.get("/stats/:id", async (req, res) => {
+    const id = req.params.id
+    const measurementdata = await getStats(id)
+    res.send(measurementdata)
+})
 
+// GET all station number - used in menubar
+app.get("/sum", async (req, res) => {
+    const sum = await getSumStations()
+    res.send(sum)
+})
+
+//  Listening Port
 app.listen(port, () => {
     console.log(`Server is running on port: ${port}`);
 })
-
+//  Welcome Page 
 app.get('/', (req, res) => {
     res.status(200).json({title: "Welcome to WebVelo's API"});
 })
-
-app.use((req, res, next) => {
-    console.log(err.stack);
+//  Error Handling
+app.use((err, req, res, next) => {
+    console.error(err.stack);
     res.status(500).send('Something broke!');
 });
+
