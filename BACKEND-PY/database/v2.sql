@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Apr 12, 2023 at 07:48 PM
+-- Generation Time: Jul 14, 2023 at 10:20 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `BSCthesis`
+-- Database: `VeloClass`
 --
 
 -- --------------------------------------------------------
@@ -27,9 +27,9 @@ SET time_zone = "+00:00";
 -- Table structure for table `Measurement`
 --
 
-CREATE TABLE `Measurement` (
+CREATE TABLE `Measurements` (
   `ID_measure` int(11) NOT NULL,
-  `ID_station_num` int(11) DEFAULT NULL,
+  `Station_ID` int(11) DEFAULT NULL,
   `start_time` datetime DEFAULT NULL,
   `end_time` datetime DEFAULT NULL,
   `direction` int(11) DEFAULT NULL,
@@ -39,75 +39,24 @@ CREATE TABLE `Measurement` (
   `traff_cyclist` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `Measurement`
---
-
-
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Station`
+-- Table structure for table `Stations`
 --
 
-CREATE TABLE `Station` (
-  `ID_station_num` int(11) NOT NULL,
-  `city` varchar(50) DEFAULT NULL,
-  `measuring_inst` varchar(50) DEFAULT NULL
+CREATE TABLE `Stations` (
+  `station_Uid` varchar(100) NOT NULL,
+  `Station_ID` int(11) NOT NULL,
+  `station_Name` varchar(100) NOT NULL,
+  `pos_Latitude` float NOT NULL,
+  `pos_Longitude` float NOT NULL,
+  `is_Approved` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `Station`
+-- Dumping data for table `Stations`
 --
-
-INSERT INTO `Station` (`ID_station_num`, `city`, `measuring_inst`) VALUES
-(113006, 'Törökbálint', 'MXV2018011'),
-(120003, 'Kaposvár', 'MXV2018047');
-
---
--- Indexes for dumped tables
---
-
---
--- Indexes for table `Measurement`
---
-ALTER TABLE `Measurement`
-  ADD PRIMARY KEY (`ID_measure`),
-  ADD KEY `Station_Num` (`ID_station_num`);
-
---
--- Indexes for table `Station`
---
-ALTER TABLE `Station`
-  ADD PRIMARY KEY (`ID_station_num`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `Measurement`
---
-ALTER TABLE `Measurement`
-  MODIFY `ID_measure` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- Constraints for dumped tables
---
-
---
--- Constraints for table `Measurement`
---
-ALTER TABLE `Measurement`
-  ADD CONSTRAINT `Station_Num` FOREIGN KEY (`ID_station_num`) REFERENCES `Station` (`ID_station_num`);
-COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-
-/* 
-DEVICES 
 
 INSERT INTO `Stations` (`station_Uid`, `Station_ID`, `station_Name`, `pos_Latitude`, `pos_Longitude`, `is_Approved`) VALUES
 ('992e80a8-3e23-4d2a-a5c9-b5a5580c580e', 24811, 'Velence, Északi strand', 47.2385, 18.6349, 1),
@@ -176,5 +125,44 @@ INSERT INTO `Stations` (`station_Uid`, `Station_ID`, `station_Name`, `pos_Latitu
 ('ec69185b-426c-454f-bcfb-b15993114202', 120002, 'Zalaszentgyörgy, Vasútállomás', 46.8719, 16.7106, 1),
 ('834689f8-92eb-4c6c-826d-a6983272e415', 120003, 'Fenékpuszta', 46.7108, 17.2474, 1);
 
+--
+-- Indexes for dumped tables
+--
 
- */
+--
+-- Indexes for table `Measurement`
+--
+ALTER TABLE `Measurements`
+  ADD PRIMARY KEY (`ID_measure`),
+  ADD KEY `Station_Num` (`Station_ID`);
+
+--
+-- Indexes for table `Stations`
+--
+ALTER TABLE `Stations`
+  ADD PRIMARY KEY (`Station_ID`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `Measurement`
+--
+ALTER TABLE `Measurements`
+  MODIFY `ID_measure` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `Measurement`
+--
+ALTER TABLE `Measurement`
+  ADD CONSTRAINT `Station_Num` FOREIGN KEY (`Station_ID`) REFERENCES `Stations` (`Station_ID`);
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
