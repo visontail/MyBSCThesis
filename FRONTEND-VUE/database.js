@@ -73,7 +73,7 @@ export async function getSumStations() {
         return sumStation
     }
     catch(error) {
-        console.error("Error fetching statistics:", error);
+        console.error("Error fetching number of station:", error);
         throw error;
     }
 }
