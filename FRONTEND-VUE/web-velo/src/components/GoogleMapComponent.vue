@@ -125,7 +125,7 @@ export default {
     let positions = []
     const loadPositions = async () => {
       try{ 
-        const response = await StationAPI.getPositions()
+        const response = await StationAPI.getMarkerData()
         positions = response.data
       }
       catch(err){

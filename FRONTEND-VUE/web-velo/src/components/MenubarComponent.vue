@@ -19,6 +19,9 @@
             <a class="nav-link active" aria-current="page" href="#">Home</a>
           </li>
           <li class="nav-item">
+            <a class="nav-link" href="#">Number of Stations: {{ sum }}</a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link" href="#">Weather API</a>
           </li>
           <li class="nav-item">
@@ -31,5 +34,29 @@
 </template>
 
 <script>
+import { ref } from 'vue';
+import StationAPI from '../services/StationAPI.js';
+
+export default{
+  name: 'MenuBar',
+  setup() {
+    const sum = ref('')
+    const sumStationsNum = async () => {
+      try{ 
+        const response = await StationAPI.getSumStations()
+        sum.value = response.data[0].row_count;
+      }
+      catch(err){
+        console.log(err)
+      }
+    }
+    sumStationsNum()
+    return {
+      sum
+    }
+  }
+}
+
+
 
 </script>
