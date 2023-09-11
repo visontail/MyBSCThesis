@@ -1,7 +1,10 @@
 import mysql from 'mysql2'
 import dotenv from 'dotenv'
-// for storing connection data elsewhere only available locally
+
+dotenv.config({ path: '../.env' });
+
 dotenv.config()
+
 
 // Collection of connections (= pool) for Database
 const pool = mysql.createPool({
@@ -51,7 +54,7 @@ export async function getMarkerData() {
 export async function getStats(id) {
     try{
         const [rows] = await pool.query(`
-            SELECT startTime, endTime, Direction, CyclistTraff, PedestrianTraff, OtherTraff
+            SELECT startTime, endTime, CycTraff1, PedTraff1, OtherTraff1, CycTraff2, PedTraff2, OtherTraff2
             FROM Measurements
             WHERE StationID = ?`,
             [id]
