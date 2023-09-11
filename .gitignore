@@ -1,2 +1,4 @@
 .DS_Store
 ./BACKEND-PY/.DS_Store
+
+.env

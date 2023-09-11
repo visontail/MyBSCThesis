@@ -2,14 +2,27 @@
 import file as fc
 # importing 'database' py file as 'db'
 import database as db
+# - importing / using dotenv for storing login data locally
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # - newly added .XTX files path:
-dir_path = '/Users/visontaileo/Developer/MyBSCThesis/BACKEND-PY/files/'
+dir_path = os.getenv('NEW_FILE_PATH')
 # - already read .XTX files path:
-move_path = '/Users/visontaileo/Developer/MyBSCThesis/BACKEND-PY/done/'
+move_path = os.getenv('OLD_FILE_PATH')
+
+# - database config
+host = os.getenv('MYSQL_HOST')
+username = os.getenv('MYSQL_USER')
+password = os.getenv('MYSQL_PASSWORD')
+database = os.getenv('MYSQL_DATABASE')
+
 # - allowed extesions:
 EXTENSIONS = ('.xtx', '.Xtx', '.XTx', '.XtX', '.xTx', '.xTX', '.xtX', '.XTX')
 
+print(dir_path)
 
 if __name__ == "__main__":  
     # - read given directory and collects xtx file names
@@ -19,7 +32,7 @@ if __name__ == "__main__":
         print("There's no xTx file in the given directory. Please try again later!")
     else:
         # - create database connection object
-        database = db.DataBase(host="127.0.0.1", username="root", password="greaTneSS7623", database="web_velo")
+        database = db.DataBase(host, username, password, database)
         # - connects to the database
         database.connect()
         i = 0
