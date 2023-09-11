@@ -12,6 +12,7 @@ import { Loader } from '@googlemaps/js-api-loader';
 
 import StationAPI from '../services/StationAPI.js';
 import { clickMarker } from './MarkerComponent.vue';
+import MeasureAPI from '../services/MeasureAPI';
 
 const GOOGLE_MAPS_API_KEY = 'AIzaSyCrqeOVzVOTRdPZh_VoEN1epBl04KoxJlc';
 const style_sheet = [
@@ -140,10 +141,26 @@ export default {
           const name = pos.StationName;
           const lat = parseFloat(pos.posLatitude);
           const lng = parseFloat(pos.posLongitude);
+          let  statsArray = [];
+          const loadStats = async () => {
+            try {
+              const response = await MeasureAPI.getStats(id)
+              statsArray = response.data
+              if (statsArray.length === 0){
+                statsArray = 'No recorded data'
+              }
+            }
+            catch(err){
+              console.log(err);
+            }
+          }
+          await loadStats();
+          console.log(statsArray);
           const content =` 
             <div id="content">
                 <p> Marker ID: ${id} </p>
                 <p> Marker Name: ${name} </p>
+                <p> Stats: ${statsArray} </p>
             </div>`
           const marker = new google.maps.Marker({
             id: id,
