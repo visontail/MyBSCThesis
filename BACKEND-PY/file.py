@@ -53,7 +53,7 @@ class File():
                 datetime.strptime(lines[3][1] + lines[3][2], '%Y%m%d%H%M%S').strftime('%Y-%m-%d %H:%M:%S'),
                 datetime.strptime(lines[3][3] + lines[3][4], '%Y%m%d%H%M%S').strftime('%Y-%m-%d %H:%M:%S') 
                 ]
-        data_01 = [ lines[-2][5], lines[-2][4], lines[-2][6], lines[-2][7], lines[-2][8] ]
-        data_02 = [ lines[-1][5], lines[-1][4], lines[-1][6], lines[-1][7], lines[-1][8] ]
+        meas = [ lines[-2][4], lines[-2][6], lines[-2][7], lines[-2][8], lines[-1][6], lines[-1][7], lines[-1][8] ]
+
         # - returning a list
-        return meas_name, meas_time, data_01, data_02
+        return meas_name, meas_time, meas

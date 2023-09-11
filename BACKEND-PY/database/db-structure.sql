@@ -1,58 +1,48 @@
--- phpMyAdmin SQL Dump
--- version 5.2.0
--- https://www.phpmyadmin.net/
---
--- Host: localhost
--- Generation Time: Jul 14, 2023 at 10:20 AM
--- Server version: 10.4.27-MariaDB
--- PHP Version: 8.2.0
-
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-START TRANSACTION;
-SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `VeloClass`
+-- Database: `webvelo`
 --
-
--- --------------------------------------------------------
 
 --
 -- Table structure for table `Measurement`
 --
 
-CREATE TABLE `Measurements` (
-  `ID_measure` int(11) NOT NULL,
-  `Station_ID` int(11) DEFAULT NULL,
-  `start_time` datetime DEFAULT NULL,
-  `end_time` datetime DEFAULT NULL,
-  `direction` int(11) DEFAULT NULL,
-  `meas_intervall` int(11) NOT NULL,
-  `traff_other` int(11) DEFAULT NULL,
-  `traff_pedestrian` int(11) DEFAULT NULL,
-  `traff_cyclist` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
+CREATE TABLE `web_velo`.`Measurements` (
+  `MeasureID` INT NOT NULL AUTO_INCREMENT,
+  `StationID` INT NOT NULL,
+  `xtxName` VARCHAR(100) NOT NULL,
+  `startTime` DATETIME NULL,
+  `endTime` DATETIME NULL,
+  `MeasIntervall` INT NULL,
+  `OtherTraff1` INT NULL,
+  `PedTraff1` INT NULL,
+  `CycTraff1` INT NULL,
+  `OtherTraff2` INT NULL,
+  `PedTraff2` INT NULL,
+  `CycTraff2` INT NULL,
+  PRIMARY KEY (`MeasureID`));
 
 --
 -- Table structure for table `Stations`
 --
 
 CREATE TABLE `Stations` (
-  `station_Uid` varchar(100) NOT NULL,
-  `Station_ID` int(11) NOT NULL,
-  `station_Name` varchar(100) NOT NULL,
-  `pos_Latitude` float NOT NULL,
-  `pos_Longitude` float NOT NULL,
-  `is_Approved` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `StationUid` varchar(100) NOT NULL,
+  `StationID` int(11) NOT NULL,
+  `StationName` varchar(100) NOT NULL,
+  `posLatitude` float NOT NULL,
+  `posLongitude` float NOT NULL,
+  `isApproved` tinyint(1) NOT NULL,
+  PRIMARY KEY (`StationID`)
+);
+
+--
+-- ADD FOREIGN KEY 'StationID'
+--
+
+ALTER TABLE `Measurements`
+  ADD CONSTRAINT `StationID` FOREIGN KEY (`StationID`) REFERENCES `Stations` (`StationID`);
+COMMIT;
 
 --
 -- Dumping data for table `Stations`
@@ -126,43 +116,5 @@ INSERT INTO `Stations` (`station_Uid`, `Station_ID`, `station_Name`, `pos_Latitu
 ('834689f8-92eb-4c6c-826d-a6983272e415', 120003, 'Fenékpuszta', 46.7108, 17.2474, 1);
 
 --
--- Indexes for dumped tables
+-- Dumping data for table `Stations`
 --
-
---
--- Indexes for table `Measurement`
---
-ALTER TABLE `Measurements`
-  ADD PRIMARY KEY (`ID_measure`),
-  ADD KEY `Station_Num` (`Station_ID`);
-
---
--- Indexes for table `Stations`
---
-ALTER TABLE `Stations`
-  ADD PRIMARY KEY (`Station_ID`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `Measurement`
---
-ALTER TABLE `Measurements`
-  MODIFY `ID_measure` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- Constraints for dumped tables
---
-
---
--- Constraints for table `Measurement`
---
-ALTER TABLE `Measurement`
-  ADD CONSTRAINT `Station_Num` FOREIGN KEY (`Station_ID`) REFERENCES `Stations` (`Station_ID`);
-COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

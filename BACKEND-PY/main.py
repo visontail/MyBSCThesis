@@ -3,12 +3,10 @@ import file as fc
 # importing 'database' py file as 'db'
 import database as db
 
-
-
 # - newly added .XTX files path:
-dir_path = '/Users/visontaileo/Desktop/szakdoga/PROGRAM/MyBSCThesis/BACKEND-PY/files/'
+dir_path = '/Users/visontaileo/Developer/MyBSCThesis/BACKEND-PY/files/'
 # - already read .XTX files path:
-move_path = '/Users/visontaileo/Desktop/szakdoga/PROGRAM/MyBSCThesis/BACKEND-PY/done/'
+move_path = '/Users/visontaileo/Developer/MyBSCThesis/BACKEND-PY/done/'
 # - allowed extesions:
 EXTENSIONS = ('.xtx', '.Xtx', '.XTx', '.XtX', '.xTx', '.xTX', '.xtX', '.XTX')
 
@@ -35,25 +33,17 @@ if __name__ == "__main__":
             else:
                 data.file_name = f_name
             # - read & sort file
-            name, time, data_01, data_02  = data.read_file()
+            name, time, data  = data.read_file()
             # - upload data to database ( direction one )
-            upload_success = database.add_new_data(name, time, data_01)
+            upload_success = database.add_new_data(f_name.split("/")[-1], name, time, data)
             # - check if data was inserted or not
             if upload_success:
-                # - upload data to database ( direction two )
-                upload_success = database.add_new_data(name, time, data_02)
-                # - check if data was inserted or not
-                if upload_success:
-                    # - if each direction inserted then move read file
-                    move_success = fc.moveFile(f_name, move_path)
-                    print("Database has been updated!")
-                    if not move_success:
-                        # - if not then break out of loop
-                        print("Something went wrong. Check folder!")
-                        break
-                else:
-                    # - if not then break out of loop
-                    print("Something went wrong. Check database!")
+                # - if each direction inserted then move read file
+                move_success = fc.moveFile(f_name, move_path)
+                print("Database has been updated!")
+                if not move_success:
+                # - if not then break out of loop
+                    print("Something went wrong. Check folder!")
                     break
             else:
                 # - if not then break out of loop

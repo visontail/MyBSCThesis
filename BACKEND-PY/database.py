@@ -35,10 +35,10 @@ class DataBase():
             self._connection.close()
             
     # Function for adding new data to database        
-    def add_new_data(self, name, time, data):
+    def add_new_data(self, file, name, time, data):
         try:
-            query = "INSERT INTO `Measurements`(`stationID`, `startTime`, `endTime`, `Direction`, `MeasIntervall`, `OtherTraff`, `PedestrianTraff`, `CyclistTraff`) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
-            values = (name, time[0], time[1], data[0], data[1], data[2], data[3], data[4])
+            query = "INSERT INTO `Measurements`(`stationID`, `xtxName`, `startTime`, `endTime`, `MeasIntervall`, `OtherTraff1`, `PedTraff1`, `CycTraff1`, `OtherTraff2`, `PedTraff2`, `CycTraff2`) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+            values = (name, file, time[0], time[1], data[0], data[1], data[2], data[3], data[4], data[5], data[6])
             if self._cursor is not None:
                     self._cursor.execute(query, values)
                     self._connection.commit()
