@@ -23,6 +23,7 @@ if __name__ == "__main__":
         # - connects to the database
         database.connect()
         i = 0
+        data = None
         # - gets through every file in the directory
         for f_name in file_names:
             i +=  2
@@ -33,9 +34,9 @@ if __name__ == "__main__":
             else:
                 data.file_name = f_name
             # - read & sort file
-            name, time, data  = data.read_file()
+            name, time, file_data  = data.read_file()
             # - upload data to database ( direction one )
-            upload_success = database.add_new_data(f_name.split("/")[-1], name, time, data)
+            upload_success = database.add_new_data(f_name.split("/")[-1], name, time, file_data)
             # - check if data was inserted or not
             if upload_success:
                 # - if each direction inserted then move read file
