@@ -22,6 +22,8 @@ for x in range(n):
         ]
         #   add station's ID
         demo_data_lines.append("H1 " + station_ID)
+        #
+        demo_data_lines.append("H4 01 02 VELOCLASS MXV2018047 UEH_0120.2 Merfoldko")
         #   add date
         demo_data_lines.append("H6 " + date + " "+ str(clock) +"0000 " + date + " " + str(clock+1) +"0000 " + date + " 095709 " + date + " "+ str(clock) +"0000 " + date + " " + str(clock+1) +"0000 ")
         #   add remainging
