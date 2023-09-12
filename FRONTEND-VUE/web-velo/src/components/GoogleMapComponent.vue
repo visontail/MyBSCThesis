@@ -7,6 +7,7 @@
 <script>
 /* eslint-disable no-undef */
 
+
 import { onMounted, ref } from 'vue';
 import { Loader } from '@googlemaps/js-api-loader';
 
@@ -16,7 +17,7 @@ import MeasureAPI from '../services/MeasureAPI';
 
 import Average from '../services/Average';
 
-const GOOGLE_MAPS_API_KEY = 'AIzaSyCrqeOVzVOTRdPZh_VoEN1epBl04KoxJlc';
+const API_KEY = 'AIzaSyCrqeOVzVOTRdPZh_VoEN1epBl04KoxJlc';
 const style_sheet = [
     {
       "featureType": "administrative.land_parcel",
@@ -196,7 +197,7 @@ export default {
       }
     }
 
-    const loader = new Loader({ apiKey: GOOGLE_MAPS_API_KEY })
+    const loader = new Loader({ apiKey: API_KEY })
     const mapDiv = ref(null)
 
     onMounted(async () => {
