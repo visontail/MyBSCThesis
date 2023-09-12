@@ -14,6 +14,8 @@ import StationAPI from '../services/StationAPI.js';
 import { clickMarker } from './MarkerComponent.vue';
 import MeasureAPI from '../services/MeasureAPI';
 
+import Average from '../services/Average';
+
 const GOOGLE_MAPS_API_KEY = 'AIzaSyCrqeOVzVOTRdPZh_VoEN1epBl04KoxJlc';
 const style_sheet = [
     {
@@ -146,22 +148,35 @@ export default {
             try {
               const response = await MeasureAPI.getStats(id)
               statsArray = response.data
-              if (statsArray.length === 0){
-                statsArray = 'No recorded data'
-              }
             }
             catch(err){
               console.log(err);
             }
           }
           await loadStats();
-          console.log(statsArray);
+          const dailyData= Average.groupByTimePeriod(statsArray);
+          let additionalContent
+          if (!Average.isEmpty(dailyData)) {
+            for (const key in dailyData) {
+          // eslint-disable-next-line no-prototype-builtins
+          if (dailyData.hasOwnProperty(key)) {
+              additionalContent += `
+                  <p>${key}: ${Average.formatValue(dailyData[key])}</p>
+              `;
+              console.log(additionalContent);
+            }
+          }
+          } else {
+            additionalContent = `
+                <h2>No Stat Data</h2>
+              </div>
+            `;
+          }
           const content =` 
             <div id="content">
                 <p> Marker ID: ${id} </p>
                 <p> Marker Name: ${name} </p>
-                <p> Stats: ${statsArray} </p>
-            </div>`
+            ` + additionalContent;
           const marker = new google.maps.Marker({
             id: id,
             title: name,
