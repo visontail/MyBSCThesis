@@ -154,6 +154,7 @@ export default {
             }
           }
           await loadStats();
+          // CLEAN UP TO DO HERE & AVERAGE.JS TOO
           const dailyData= Average.groupByTimePeriod(statsArray);
           let additionalContent
           if (!Average.isEmpty(dailyData)) {
