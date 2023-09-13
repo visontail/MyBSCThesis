@@ -30,6 +30,7 @@ CREATE TABLE `Stations` (
   `StationUid` varchar(100) NOT NULL,
   `StationID` int(11) NOT NULL,
   `StationName` varchar(100) NOT NULL,
+  `StationImg` varchar(100),
   `posLatitude` float NOT NULL,
   `posLongitude` float NOT NULL,
   `isApproved` tinyint(1) NOT NULL,
