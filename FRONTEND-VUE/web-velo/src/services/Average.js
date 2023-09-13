@@ -44,7 +44,7 @@ export default {
   },
 
   statContentCreator(data) {
-    let additionalContent
+    let additionalContent = ''
     if (!this.isEmpty(data)) {
       for (const key in data) {
         additionalContent += `
@@ -52,10 +52,32 @@ export default {
               <p>CycTraff: ${this.formatValue(data[key])[0]}</p>
               <p>PedTraff: ${this.formatValue(data[key])[4]}</p>
             `
-        console.log(additionalContent)
       }
+      console.log(additionalContent)
+
     }
     return additionalContent
+  },
+  isEmpty(obj) {
+    for (const key in obj) {
+      // eslint-disable-next-line no-prototype-builtins
+      if (obj.hasOwnProperty(key)) {
+        return false
+      }
+    }
+    return true
+  },
+  formatValue(dataObject) {
+    let dataList = []
+    let data = JSON.parse(JSON.stringify(dataObject))
+    dataList.push(data.CycTraff1.toFixed(2))
+    dataList.push(data.CycTraff2.toFixed(2))
+    dataList.push(data.PedTraff1.toFixed(2))
+    dataList.push(data.PedTraff2.toFixed(2))
+    dataList.push(data.OtherTraff1.toFixed(2))
+    dataList.push(data.OtherTraff2.toFixed(2))
+    //console.log(dataList)
+    return dataList
   },
 
   // Helper function to get the ISO week number
@@ -89,25 +111,5 @@ export default {
     }
     return result
   },
-  isEmpty(obj) {
-    for (const key in obj) {
-      // eslint-disable-next-line no-prototype-builtins
-      if (obj.hasOwnProperty(key)) {
-        return false
-      }
-    }
-    return true
-  },
-  formatValue(dataObject) {
-    let dataList = []
-    let data = JSON.parse(JSON.stringify(dataObject))
-    dataList.push(data.CycTraff1.toFixed(2))
-    dataList.push(data.CycTraff2.toFixed(2))
-    dataList.push(data.PedTraff1.toFixed(2))
-    dataList.push(data.PedTraff2.toFixed(2))
-    dataList.push(data.OtherTraff1.toFixed(2))
-    dataList.push(data.OtherTraff2.toFixed(2))
-    console.log(dataList)
-    return dataList
-  }
+
 }
