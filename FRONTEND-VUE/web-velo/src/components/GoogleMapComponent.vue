@@ -126,24 +126,28 @@ const icon = {
 export default {
   name: 'GMap',
   setup() {
-    let positions = []
+    //  load Google Maps Markers' positions to a 'positionsArray'
+    let positionsArray = []
     const loadPositions = async () => {
       try{ 
         const response = await StationAPI.getMarkerData()
-        positions = response.data
+        positionsArray = response.data
       }
       catch(err){
         console.log(err)
       }
     }
     loadPositions()
+    //  load Google Maps Markers in map
     const loadMarkers = async (map) => {
       try{
-        for (const pos of positions) {
+      //  selecting each Marker's data (id, name, positions(latitude, longitude))
+        for (const pos of positionsArray) {
           const id = pos.StationID;
           const name = pos.StationName;
           const lat = parseFloat(pos.posLatitude);
           const lng = parseFloat(pos.posLongitude);
+          //  load Measurement statistics data for each Station/Marker using 'StationID' into a 'statsArray'
           let  statsArray = [];
           const loadStats = async () => {
             try {
@@ -155,30 +159,19 @@ export default {
             }
           }
           await loadStats();
-          // CLEAN UP TO DO HERE & AVERAGE.JS TOO
-          const dailyData= Average.groupByTimePeriod(statsArray);
-          let additionalContent
-          if (!Average.isEmpty(dailyData)) {
-            for (const key in dailyData) {
-          // eslint-disable-next-line no-prototype-builtins
-          if (dailyData.hasOwnProperty(key)) {
-              additionalContent += `
-                  <p>${key}: ${Average.formatValue(dailyData[key])}</p>
-              `;
-              console.log(additionalContent);
-            }
-          }
-          } else {
-            additionalContent = `
-                <h2>No Stat Data</h2>
-              </div>
-            `;
+          //  calculate measurement averages
+
+          let statContent = Average.groupByDaily(statsArray) + Average.groupByWeekly(statsArray) + Average.groupByMontly(statsArray)
+          if (Average.isEmpty(statContent)) {
+            statContent = `
+            <h2>No Stat Data</h2>`;
           }
           const content =` 
             <div id="content">
                 <p> Marker ID: ${id} </p>
                 <p> Marker Name: ${name} </p>
-            ` + additionalContent;
+            ` + statContent +
+            '</div>';
           const marker = new google.maps.Marker({
             id: id,
             title: name,
@@ -188,7 +181,6 @@ export default {
             content: content
           });
           const stat = marker.content;
-          //console.log(marker);
           clickMarker(map, marker, stat);
         };
       }
