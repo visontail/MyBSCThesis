@@ -160,8 +160,11 @@ export default {
           }
           await loadStats();
           //  calculate measurement averages
+          const dailyData = Average.groupByDaily(statsArray);
+          const weeklyData = Average.groupByWeekly(statsArray);
+          const monthlyData = Average.groupByMontly(statsArray);
 
-          let statContent = Average.groupByDaily(statsArray) + Average.groupByWeekly(statsArray) + Average.groupByMontly(statsArray)
+          let statContent = dailyData + weeklyData + monthlyData
           if (Average.isEmpty(statContent)) {
             statContent = `
             <h2>No Stat Data</h2>`;
@@ -170,6 +173,7 @@ export default {
             <div id="content">
                 <p> Marker ID: ${id} </p>
                 <p> Marker Name: ${name} </p>
+                <p> (${lat},${lng}) </p>
             ` + statContent +
             '</div>';
           const marker = new google.maps.Marker({
@@ -181,6 +185,7 @@ export default {
             content: content
           });
           const stat = marker.content;
+          //console.log(marker);
           clickMarker(map, marker, stat);
         };
       }

@@ -13,7 +13,9 @@
     "@googlemaps/js-api-loader": "^1.16.2",
     "axios": "^1.5.0",
     "bootstrap": "^5.3.1",
+    "chart.js": "^4.4.0",
     "vue": "^3.3.4",
+    "vue-chartjs": "^5.2.0",
     "vue-router": "^4.2.4",
     "vue2-google-maps": "^0.10.7",
     "vue3-google-map": "^0.17.1"
