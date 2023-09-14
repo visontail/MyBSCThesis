@@ -1,6 +1,9 @@
 <template>
-  <div id="stat"></div>
-  <div ref="mapDiv" id="mapDiv" style="width:100vw; height: 100vh;z-index: 1;"></div>
+  <div id="stat">
+    <ChartComponent />
+  </div>
+  <div ref="mapDiv" id="mapDiv" style="width:100vw; height: 100vh;z-index: 1;">
+  </div>
 </template>
 
 
@@ -123,6 +126,9 @@ const icon = {
     scale: 0.03,
 }
 
+import ChartComponent from './ChartComponent.vue';
+
+
 export default {
   name: 'GMap',
   setup() {
@@ -218,5 +224,8 @@ export default {
       mapDiv
     };
   },
-}
+  components: {
+    ChartComponent
+  },
+};
 </script>

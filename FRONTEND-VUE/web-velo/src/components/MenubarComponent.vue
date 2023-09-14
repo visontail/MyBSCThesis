@@ -22,9 +22,6 @@
             <a class="nav-link" href="#">Number of Stations: {{ sum }}</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Weather API</a>
-          </li>
-          <li class="nav-item">
             <a class="nav-link" href="#">About the Project</a>
           </li>
         </ul>

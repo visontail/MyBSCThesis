@@ -12,7 +12,7 @@ export function clickMarker(map, marker, content) {
   //toggleContent(marker.content)
 }
 
-export function toggleContent(content) {
+function toggleContent(content) {
   // Create a DOMParser // Parse the HTML string into a Document object
   const doc = new DOMParser().parseFromString(content, 'text/html');
   // Extract the first element from the parsed document
