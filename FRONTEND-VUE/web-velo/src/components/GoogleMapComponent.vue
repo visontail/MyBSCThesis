@@ -2,8 +2,7 @@
   <div id="stat">
     <ChartComponent />
   </div>
-  <div ref="mapDiv" id="mapDiv" style="width:100vw; height: 100vh;z-index: 1;">
-  </div>
+  <div ref="mapDiv" id="mapDiv" style="width:100vw; height: 100vh;z-index: 1;"></div>
 </template>
 
 
