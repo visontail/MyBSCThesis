@@ -35,7 +35,9 @@ const config = {
 
 onMounted(async () => {
   const myChart = new Chart(document.getElementById('myChart'), config)
+  return myChart
 })
+
 </script>
 
 <style>
