@@ -4,7 +4,7 @@ export default {
     const groupByDay = {}
     data.forEach((dataPoint) => {
       dataPoint.startTime = new Date(dataPoint.startTime)
-      // Step 2: Group the data by day, week, and month
+      // Group the data by day, week, and month
       const dayKey = dataPoint.startTime.toISOString().split('T')[0]
       if (!groupByDay[dayKey]) groupByDay[dayKey] = []
       groupByDay[dayKey].push(dataPoint)
@@ -89,7 +89,8 @@ export default {
     const yearStart = new Date(Date.UTC(year, 0, 1))
     return year + String(Math.ceil(((d - yearStart) / 86400000 + 1) / 7)).padStart(2, '0')
   },
-  // Step 3: Calculate the averages for each group
+
+  // Calculate the averages for each group
   calculateAverage(data) {
     const result = {}
     for (const key in data) {
@@ -103,6 +104,29 @@ export default {
           trafficTypes.forEach((type) => {
             const sum = group.reduce((acc, item) => acc + item[type], 0)
             avg[type] = sum / group.length
+          })
+          // Store the average in the result object
+          result[key] = avg
+        }
+      }
+    }
+    return result
+  },
+
+  // 
+  calcDailySum(data) {
+    const result = {}
+    for (const key in data) {
+      // eslint-disable-next-line no-prototype-builtins
+      if (data.hasOwnProperty(key)) {
+        const group = data[key]
+        const avg = {}
+        if (group.length > 0) {
+          // Calculate average for each traffic type
+          const CycTypes = Object.keys(group[0]).filter((key) => key.includes('CycTraff'));
+          CycTypes.forEach((type) => {
+            let sum = group.reduce((acc, item) => acc + item[type], 0)
+            console.log(sum);
           })
           // Store the average in the result object
           result[key] = avg

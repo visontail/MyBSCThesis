@@ -1,7 +1,7 @@
 <template>
-  <div id="stat">
+ <!--  <div id="stat">
     <ChartComponent />
-  </div>
+  </div> -->
   <div ref="mapDiv" id="mapDiv" style="width:100vw; height: 100vh;z-index: 1;"></div>
 </template>
 
@@ -170,11 +170,10 @@ export default {
           const monthlyData = Average.groupByMontly(statsArray);
 
           let statContent = dailyData + weeklyData + monthlyData
-          console.log(statContent);
-          /* if (Average.isEmpty(statContent)) {
+          if (Average.isEmpty(statContent)) {
             statContent = `
-            <h2>No Stat Data</h2>`;
-          } */
+            <h4>No Stat Data</h4>`;
+          }
           //  statContent +
           const content =` 
             <div id="content">
@@ -191,7 +190,7 @@ export default {
                 <div>
                   <h4> KÉPEK </h4>
                 </div>
-            ` +
+            ` + statContent +
             '</div>';
           const marker = new google.maps.Marker({
             id: id,
