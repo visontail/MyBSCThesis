@@ -7,7 +7,7 @@
 import Chart from 'chart.js/auto'
 import { onMounted } from 'vue'
 
-const labels = ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange']
+const labels = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
 
 const data = {
   labels: labels,
@@ -16,13 +16,13 @@ const data = {
       label: 'My first dataset',
       backgroundColor: 'rgb(6, 85, 156)',
       borderColor: 'rgb(99, 171, 235)',
-      data: [12, 19, 3, 5, 2, 16]
+      data: [12, 19, 5, 15, 10, 16, 5]
     },
     {
       label: 'My second dataset',
       backgroundColor: 'rgb(191, 177, 6)',
       borderColor: 'rgb(232, 223, 118)',
-      data: [14, 10, 6, 10, 8, 1]
+      data: [14, 10, 14, 6, 18, 8, 18]
     }
   ]
 }

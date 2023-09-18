@@ -78,6 +78,5 @@ export async function getSumStations() {
     catch(error) {
         console.error("Error fetching number of station:", error);
         throw error;
-    }
+    } 
 }
-

@@ -170,16 +170,28 @@ export default {
           const monthlyData = Average.groupByMontly(statsArray);
 
           let statContent = dailyData + weeklyData + monthlyData
-          if (Average.isEmpty(statContent)) {
+          console.log(statContent);
+          /* if (Average.isEmpty(statContent)) {
             statContent = `
             <h2>No Stat Data</h2>`;
-          }
+          } */
+          //  statContent +
           const content =` 
             <div id="content">
-                <p> Marker ID: ${id} </p>
-                <p> Marker Name: ${name} </p>
-                <p> (${lat},${lng}) </p>
-            ` + statContent +
+                <h4> ${name} </h4>
+                <p> (${lat}, ${lng}) </p>
+                <div>
+                  <p> Időjárás: 20 C </p>
+                </div>
+                <div>
+                  <p> Mai nap össz forgalma: </p>
+                  <button type="button">Váltson Havi Nézetre</button>
+                  <p> Idei évi össz forgalom: 365 </p>
+                </div>
+                <div>
+                  <h4> KÉPEK </h4>
+                </div>
+            ` +
             '</div>';
           const marker = new google.maps.Marker({
             id: id,
