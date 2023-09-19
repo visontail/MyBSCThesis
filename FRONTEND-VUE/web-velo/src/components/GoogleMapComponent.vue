@@ -125,7 +125,7 @@ const icon = {
     scale: 0.03,
 }
 
-import ChartComponent from './ChartComponent.vue';
+//import ChartComponent from './ChartComponent.vue';
 
 
 export default {
@@ -235,7 +235,7 @@ export default {
     };
   },
   components: {
-    ChartComponent
+    //ChartComponent
   },
 };
 </script>
