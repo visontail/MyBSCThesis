@@ -28,15 +28,15 @@ for x in range(n):
         demo_data_lines.append("90 60 60 77 01")
         demo_data_lines.append("H9")
         #   add date + demo data, direction 1
-        other_traff = random.randint(0, 9)
-        ped_traff = random.randint(0, 9)
-        cyc_traff = random.randint(0, 9)
-        demo_data_lines.append("90 0 " + date + " 11 60 01 000" + str(other_traff) + " 000" + str(ped_traff) + " 000" + str(cyc_traff))
+        other_traff = random.randint(0, 90)
+        ped_traff = random.randint(0, 90)
+        cyc_traff = random.randint(0, 90)
+        demo_data_lines.append("90 0 " + date + " 11 60 01 " + str(other_traff) + " " + str(ped_traff) + " " + str(cyc_traff))
         #   add date + demo data, direction 2
-        other_traff = random.randint(0, 9)
-        ped_traff = random.randint(0, 9)
-        cyc_traff = random.randint(0, 9)
-        demo_data_lines.append("90 0 " + date + " 11 60 02 000" + str(other_traff) + " 000" + str(ped_traff) + " 000" + str(cyc_traff))
+        other_traff = random.randint(0, 90)
+        ped_traff = random.randint(0, 90)
+        cyc_traff = random.randint(0, 90)
+        demo_data_lines.append("90 0 " + date + " 11 60 02 " + str(other_traff) + " " + str(ped_traff) + " " + str(cyc_traff))
         demo_data = "\n".join(demo_data_lines)
         file.write(demo_data)
         clock += 1

@@ -1,7 +1,6 @@
 <template>
   <MenubarComponent />
   <GoogleMapComponent />
-
 </template>
   
   <script>

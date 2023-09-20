@@ -1,7 +1,7 @@
 <template>
- <!--  <div id="stat">
-    <ChartComponent />
-  </div> -->
+  <div id="stat">
+    <ChartComponent :dailyDataArray="dailyDataArray" :weeklyDataArray="weeklyDataArray" :monthlyDataArray="monthlyDataArray" />
+  </div>
   <div ref="mapDiv" id="mapDiv" style="width:100vw; height: 100vh;z-index: 1;"></div>
 </template>
 
@@ -125,7 +125,7 @@ const icon = {
     scale: 0.03,
 }
 
-//import ChartComponent from './ChartComponent.vue';
+import ChartComponent from './ChartComponent.vue';
 
 
 export default {
@@ -144,6 +144,9 @@ export default {
     }
     loadPositions()
     //  load Google Maps Markers in map
+    const dailyDataArray = ref([]);
+    const weeklyDataArray = ref([]);
+    const monthlyDataArray = ref([]);
     const loadMarkers = async (map) => {
       try{
       //  selecting each Marker's data (id, name, positions(latitude, longitude))
@@ -165,13 +168,20 @@ export default {
           }
           await loadStats();
           //  calculate measurement averages
+          console.log(statsArray);
           const dailyData = Average.groupByDaily(statsArray);
           const weeklyData = Average.groupByWeekly(statsArray);
           const monthlyData = Average.groupByMontly(statsArray);
 
+          dailyDataArray.value.push({ id, dailyData });
+          weeklyDataArray.value.push({ id, weeklyData });
+          monthlyDataArray.value.push({ id, monthlyData });
+
+
           let statContent = dailyData + weeklyData + monthlyData
+          let noContent = ''
           if (Average.isEmpty(statContent)) {
-            statContent = `
+            noContent = `
             <h4>No Stat Data</h4>`;
           }
           //  statContent +
@@ -180,17 +190,17 @@ export default {
                 <h4> ${name} </h4>
                 <p> (${lat}, ${lng}) </p>
                 <div>
-                  <p> Időjárás: 20 C </p>
+                  <p> Időjárás: 20°C </p>
                 </div>
                 <div>
-                  <p> Mai nap össz forgalma: </p>
+                  <p> Mai nap össz forgalma: 25</p>
                   <button type="button">Váltson Havi Nézetre</button>
                   <p> Idei évi össz forgalom: 365 </p>
                 </div>
                 <div>
                   <h4> KÉPEK </h4>
                 </div>
-            ` + statContent +
+            ` + noContent +
             '</div>';
           const marker = new google.maps.Marker({
             id: id,
@@ -231,11 +241,14 @@ export default {
       }
     });
     return { 
-      mapDiv
+      mapDiv,
+      dailyDataArray,
+      weeklyDataArray,
+      monthlyDataArray,
     };
   },
   components: {
-    //ChartComponent
+    ChartComponent
   },
 };
 </script>
