@@ -1,19 +1,34 @@
 export default {
+  // function for creating dailyData for Weekly Chart
   groupByDaily(data) {
     // parse date strings to Date objects
     const groupByDay = {}
+    let weekKey = ""
     data.forEach((dataPoint) => {
       dataPoint.startTime = new Date(dataPoint.startTime)
+      weekKey = this.getYearWeek(dataPoint.startTime)
       // Group the data by day, week, and month
       const dayKey = dataPoint.startTime.toISOString().split('T')[0]
       if (!groupByDay[dayKey]) groupByDay[dayKey] = []
       groupByDay[dayKey].push(dataPoint)
     })
 
-    const dailyAverages = this.calculateAverage(groupByDay)
-    const dailyData = this.statContentCreator(dailyAverages)
+    const dailyData = this.calculateAverage(groupByDay)
+    let dailyAverages = ''
+    if (!this.isEmpty(dailyData)) {
+      for (const key in dailyData) {
+        const weekDay = this.dayOfWeekToDateString(key)
+        dailyAverages += ` ${key}: ${weekKey}, ${weekDay}, ${this.formatValue(dailyData[key])[0]} , ${this.formatValue(dailyData[key])[1]}
+        `
+      }
+    }
+    else {
+      dailyAverages = 'No data'
+    }
+    
+    console.log(dailyAverages);
 
-    return dailyData
+    return dailyAverages
   },
   groupByWeekly(data) {
     // parse date strings to Date objects
@@ -26,6 +41,7 @@ export default {
     })
     const weeklyAverages = this.calculateAverage(groupByWeek)
     let weeklyData = this.statContentCreator(weeklyAverages)
+
     return weeklyData
   },
   groupByMontly(data) {
@@ -39,7 +55,6 @@ export default {
     })
     const monthlyAverages = this.calculateAverage(groupByMonth)
     let monthlyData = this.statContentCreator(monthlyAverages)
-    //console.log(monthlyData);
     return monthlyData
   },
 
@@ -47,13 +62,8 @@ export default {
     let additionalContent = ''
     if (!this.isEmpty(data)) {
       for (const key in data) {
-        const newKey = this.dayOfWeekToDateString(key)
-
-        additionalContent += ` ${newKey}: ${this.formatValue(data[key])[0]} , ${this.formatValue(data[key])[1]}`
-              //OtherTraff1: ${this.formatValue(data[key])[4]}
-              //OtherTraff2: ${this.formatValue(data[key])[5]}
-              //PedTraff1: ${this.formatValue(data[key])[2]}
-              //PedTraff2: ${this.formatValue(data[key])[3]}
+        additionalContent += `${key} : ${this.formatValue(data[key])[0]} , ${this.formatValue(data[key])[1]}
+        `
       }
     }
     return additionalContent
@@ -70,13 +80,9 @@ export default {
   formatValue(dataObject) {
     let dataList = []
     let data = JSON.parse(JSON.stringify(dataObject))
+    //console.log(data);
     dataList.push(data.CycTraff1.toFixed(2))
     dataList.push(data.CycTraff2.toFixed(2))
-    dataList.push(data.PedTraff1.toFixed(2))
-    dataList.push(data.PedTraff2.toFixed(2))
-    dataList.push(data.OtherTraff1.toFixed(2))
-    dataList.push(data.OtherTraff2.toFixed(2))
-    //console.log(dataList)
     return dataList
   },
 
@@ -100,7 +106,7 @@ export default {
         const avg = {}
         if (group.length > 0) {
           // Calculate average for each traffic type
-          const trafficTypes = Object.keys(group[0]).filter((key) => key.includes('Traff'))
+          const trafficTypes = Object.keys(group[0]).filter((key) => key.includes('CycTraff'))
           trafficTypes.forEach((type) => {
             const sum = group.reduce((acc, item) => acc + item[type], 0)
             avg[type] = sum / group.length
@@ -122,8 +128,8 @@ export default {
   
     const dateObject = new Date(year, month, day);
     const dayOfWeek = dateObject.getDay(); // Get the day of the week as a number (0-6)
-    
-    const weekdayDate = `${inputDate}-${daysOfWeek[dayOfWeek]}`;
+    console.log(dayOfWeek);
+    const weekdayDate = `${daysOfWeek[dayOfWeek]}`;
     return weekdayDate
   }
 

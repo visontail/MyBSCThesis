@@ -168,14 +168,13 @@ export default {
           }
           await loadStats();
           //  calculate measurement averages
-          console.log(statsArray);
           const dailyData = Average.groupByDaily(statsArray);
           const weeklyData = Average.groupByWeekly(statsArray);
           const monthlyData = Average.groupByMontly(statsArray);
 
-          dailyDataArray.value.push({ id, dailyData });
-          weeklyDataArray.value.push({ id, weeklyData });
-          monthlyDataArray.value.push({ id, monthlyData });
+          dailyDataArray.value.push({ id, name, dailyData });
+          weeklyDataArray.value.push({ id, name,  weeklyData });
+          monthlyDataArray.value.push({ id, name, monthlyData });
 
 
           let statContent = dailyData + weeklyData + monthlyData
@@ -210,9 +209,8 @@ export default {
             icon: icon,
             content: content
           });
-          const stat = marker.content;
-          //console.log(marker);
-          clickMarker(map, marker, stat);
+          const info = marker.content;
+          clickMarker(map, marker, info);
         };
       }
       catch(err){
