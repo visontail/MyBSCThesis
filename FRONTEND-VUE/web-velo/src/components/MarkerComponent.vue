@@ -9,8 +9,6 @@ export function clickMarker(map, marker, content) {
     map.setCenter(marker.getPosition());
     toggleContent(content);
   });
-  //toggleContent(marker.content)
-  return content.id
 }
 
 function toggleContent(content) {

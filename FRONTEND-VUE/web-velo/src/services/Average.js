@@ -3,27 +3,24 @@ export default {
   groupByDaily(data) {
     // parse date strings to Date objects
     const groupByDay = {}
-    let weekKey = ""
-    let mesDate = ""
+    let weekKey = ''
     data.forEach((dataPoint) => {
       dataPoint.startTime = new Date(dataPoint.startTime)
-      weekKey = this.getYearWeek(dataPoint.startTime)
+      weekKey = this.getWeekNumber(dataPoint.startTime)
       // Group the data by day, week, and month
       const dayKey = dataPoint.startTime.toISOString().split('T')[0]
       if (!groupByDay[dayKey]) groupByDay[dayKey] = []
       groupByDay[dayKey].push(dataPoint)
     })
-
     const dailyData = this.calculateAverage(groupByDay)
     let dailyAverages = ''
     if (!this.isEmpty(dailyData)) {
       for (const key in dailyData) {
         const weekDay = this.dayOfWeekToDateString(key)
-        dailyAverages += ` ${dataPoint.startTime}, ${weekKey}, ${weekDay}, ${this.formatValue(dailyData[key])[0]} , ${this.formatValue(dailyData[key])[1]} 
-`
+        dailyAverages += ` ${key}, ${weekKey}, ${weekDay}, ${this.formatValue(dailyData[key])[0]} , ${this.formatValue(dailyData[key])[1]}
+        `
       }
-    }
-    else {
+    } else {
       dailyAverages = 'No data'
     }
     return dailyAverages
@@ -33,13 +30,12 @@ export default {
     const groupByWeek = {}
     data.forEach((dataPoint) => {
       dataPoint.startTime = new Date(dataPoint.startTime)
-      const weekKey = this.getYearWeek(dataPoint.startTime)
+      const weekKey = this.getWeekNumber(dataPoint.startTime)
       if (!groupByWeek[weekKey]) groupByWeek[weekKey] = []
       groupByWeek[weekKey].push(dataPoint)
     })
     const weeklyAverages = this.calculateAverage(groupByWeek)
     let weeklyData = this.statContentCreator(weeklyAverages)
-
     return weeklyData
   },
   groupByMontly(data) {
@@ -60,8 +56,7 @@ export default {
     let additionalContent = ''
     if (!this.isEmpty(data)) {
       for (const key in data) {
-        additionalContent += `${key} : ${this.formatValue(data[key])[0]} , ${this.formatValue(data[key])[1]}
-        `
+        additionalContent += `${key} : ${this.formatValue(data[key])[0]} , ${this.formatValue(data[key])[1]}`
       }
     }
     return additionalContent
@@ -84,13 +79,11 @@ export default {
   },
 
   // Helper function to get the ISO week number
-  getYearWeek(date) {
-    const year = date.getFullYear()
-    const d = new Date(Date.UTC(year, date.getMonth(), date.getDate()))
-    const dayNum = d.getUTCDay() || 7
-    d.setUTCDate(d.getUTCDate() + 4 - dayNum)
-    const yearStart = new Date(Date.UTC(year, 0, 1))
-    return year + String(Math.ceil(((d - yearStart) / 86400000 + 1) / 7)).padStart(2, '0')
+  getWeekNumber(date) {
+    date.setHours(0, 0, 0, 0) // Set the time to the start of the day
+    date.setDate(date.getDate() + 4 - (date.getDay() || 7)) // Adjust the date to Thursday (ISO 8601 week starts on Monday)
+    const yearStart = new Date(date.getFullYear(), 0, 1) // Get the date for the start of the current year
+    return `${date.getFullYear()}${Math.ceil(((date - yearStart) / 86400000 + 1) / 7)}`
   },
 
   // Calculate the averages for each group
@@ -116,17 +109,16 @@ export default {
     return result
   },
   dayOfWeekToDateString(inputDate) {
-    const daysOfWeek = ['0', '1', '2', '3', '4', '5', '6']; // 0-Sunday, 1-Monday, ..., 6-Saturday
-  
-    const dateParts = inputDate.split('-');
-    const year = parseInt(dateParts[0]);
-    const month = parseInt(dateParts[1]) - 1; // Months are 0-indexed (0-January, 1-February, ..., 11-December)
-    const day = parseInt(dateParts[2]);
-  
-    const dateObject = new Date(year, month, day);
-    const dayOfWeek = dateObject.getDay(); // Get the day of the week as a number (0-6)
-    const weekdayDate = `${daysOfWeek[dayOfWeek]}`;
+    const daysOfWeek = ['0', '1', '2', '3', '4', '5', '6'] // 0-Sunday, 1-Monday, ..., 6-Saturday
+
+    const dateParts = inputDate.split('-')
+    const year = parseInt(dateParts[0])
+    const month = parseInt(dateParts[1]) - 1 // Months are 0-indexed (0-January, 1-February, ..., 11-December)
+    const day = parseInt(dateParts[2])
+
+    const dateObject = new Date(year, month, day)
+    const dayOfWeek = dateObject.getDay() // Get the day of the week as a number (0-6)
+    const weekdayDate = `${daysOfWeek[dayOfWeek]}`
     return weekdayDate
   }
-
 }

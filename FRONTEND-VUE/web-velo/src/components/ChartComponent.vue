@@ -1,6 +1,6 @@
 <template>
   <h1>ChartComponent</h1>
-  <p> {{ dailyDataArray[1] }}</p>
+  <p> {{ dailyDataArray[64] }}</p>
   <canvas id="myChart"></canvas>
 </template>
 
@@ -10,7 +10,7 @@
 function createWeeklyChartData(dailyDataArray, currentWeekNum) {
   let weeklyChartData = {}
   for (let i = 0; i < dailyDataArray.length; i++) {
-    const stationID = dailyDataArray[i].id
+    //const stationID = dailyDataArray[i].id
     const stationName = dailyDataArray[i].name
     const dailyData = dailyDataArray[i].dailyData
     if (dailyData !== 'No data') {
@@ -50,6 +50,7 @@ function createWeeklyChartData(dailyDataArray, currentWeekNum) {
       }
     }
   }
+  console.log(weeklyChartData);
   return weeklyChartData
 }
 // todo migrate to Average Js use it there also and import it to here
@@ -130,7 +131,7 @@ export default {
       ]
     }
 */
-    console.log(weeklyData);
+
     const config = {
       type: 'line',
       data: weeklyData,

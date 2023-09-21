@@ -130,6 +130,8 @@ import ChartComponent from './ChartComponent.vue';
 
 export default {
   name: 'GMap',
+  methods: {
+  },
   setup() {
     //  load Google Maps Markers' positions to a 'positionsArray'
     let positionsArray = []
