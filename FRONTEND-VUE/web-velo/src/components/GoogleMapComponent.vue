@@ -211,6 +211,7 @@ export default {
           });
           const info = marker.content;
           clickMarker(map, marker, info);
+
         };
       }
       catch(err){

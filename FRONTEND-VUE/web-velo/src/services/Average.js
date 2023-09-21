@@ -4,6 +4,7 @@ export default {
     // parse date strings to Date objects
     const groupByDay = {}
     let weekKey = ""
+    let mesDate = ""
     data.forEach((dataPoint) => {
       dataPoint.startTime = new Date(dataPoint.startTime)
       weekKey = this.getYearWeek(dataPoint.startTime)
@@ -18,16 +19,13 @@ export default {
     if (!this.isEmpty(dailyData)) {
       for (const key in dailyData) {
         const weekDay = this.dayOfWeekToDateString(key)
-        dailyAverages += ` ${key}: ${weekKey}, ${weekDay}, ${this.formatValue(dailyData[key])[0]} , ${this.formatValue(dailyData[key])[1]}
-        `
+        dailyAverages += ` ${dataPoint.startTime}, ${weekKey}, ${weekDay}, ${this.formatValue(dailyData[key])[0]} , ${this.formatValue(dailyData[key])[1]} 
+`
       }
     }
     else {
       dailyAverages = 'No data'
     }
-    
-    console.log(dailyAverages);
-
     return dailyAverages
   },
   groupByWeekly(data) {
@@ -80,7 +78,6 @@ export default {
   formatValue(dataObject) {
     let dataList = []
     let data = JSON.parse(JSON.stringify(dataObject))
-    //console.log(data);
     dataList.push(data.CycTraff1.toFixed(2))
     dataList.push(data.CycTraff2.toFixed(2))
     return dataList
@@ -128,7 +125,6 @@ export default {
   
     const dateObject = new Date(year, month, day);
     const dayOfWeek = dateObject.getDay(); // Get the day of the week as a number (0-6)
-    console.log(dayOfWeek);
     const weekdayDate = `${daysOfWeek[dayOfWeek]}`;
     return weekdayDate
   }

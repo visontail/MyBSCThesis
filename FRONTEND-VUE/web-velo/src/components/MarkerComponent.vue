@@ -10,6 +10,7 @@ export function clickMarker(map, marker, content) {
     toggleContent(content);
   });
   //toggleContent(marker.content)
+  return content.id
 }
 
 function toggleContent(content) {
