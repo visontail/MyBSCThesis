@@ -9,15 +9,16 @@
 <script>
 /* eslint-disable no-undef */
 
-
 import { onMounted, ref } from 'vue';
 import { Loader } from '@googlemaps/js-api-loader';
 
 import StationAPI from '../services/StationAPI.js';
-import { clickMarker } from './MarkerComponent.vue';
 import MeasureAPI from '../services/MeasureAPI';
 
 import Average from '../services/Average';
+
+import ChartComponent from './ChartComponent.vue';
+import { clickMarker, calcSum } from './MarkerComponent.vue';
 
 const API_KEY = 'AIzaSyCrqeOVzVOTRdPZh_VoEN1epBl04KoxJlc';
 const style_sheet = [
@@ -125,17 +126,13 @@ const icon = {
     scale: 0.03,
 }
 
-import ChartComponent from './ChartComponent.vue';
-
-
 export default {
   name: 'GMap',
   setup() {
     //  load Google Maps Markers' positions to a 'positionsArray'
     const actualMarkerID = ref(0);
-    const handleMarkerClick = (markerId) => {
-      actualMarkerID.value = markerId
-      console.log(actualMarkerID);
+    const handleMarkerClick = (markerID) => {
+      actualMarkerID.value = markerID
     };
     let positionsArray = []
     const loadPositions = async () => {
@@ -171,14 +168,10 @@ export default {
               statsArray = response.data
               // today's total traffic
               const sumDay = await MeasureAPI.getTodaySum(id)
-              if(sumDay.data[0].TotalTraffic == null)
-              sumDay.data[0].TotalTraffic = 'No avaiable data today'
-              sumToday = sumDay.data[0].TotalTraffic
+              sumToday = calcSum(sumDay)
               // this year's total traffic
               const sumYear = await MeasureAPI.getYearSum(id)
-              if(sumYear.data[0].TotalTraffic == null)
-              sumYear.data[0].TotalTraffic = 'No avaiable data'
-              sumThisYear = sumYear.data[0].TotalTraffic
+              sumThisYear = calcSum(sumYear)
             }
             catch(err){
               console.log(err);
@@ -187,20 +180,12 @@ export default {
           await loadStats();
           //  calculate measurement averages
           const dailyData = Average.groupByDaily(statsArray);
-          const weeklyData = Average.groupByWeekly(statsArray);
-          const monthlyData = Average.groupByMontly(statsArray);
-
           dailyDataArray.value.push({ id, name, dailyData });
+          const weeklyData = Average.groupByWeekly(statsArray);
           weeklyDataArray.value.push({ id, name,  weeklyData });
+          const monthlyData = Average.groupByMontly(statsArray);
           monthlyDataArray.value.push({ id, name, monthlyData });
 
-
-          let statContent = dailyData + weeklyData + monthlyData
-          let noContent = ''
-          if (Average.isEmpty(statContent)) {
-            noContent = `
-            <h4>No Stat Data</h4>`;
-          }
           //  statContent +
           const content =` 
             <div id="content">
@@ -217,7 +202,7 @@ export default {
                 <div>
                   <h4> KÉPEK </h4>
                 </div>
-            ` + noContent +
+            ` +
             '</div>';
           const marker = new google.maps.Marker({
             id: id,
@@ -230,18 +215,15 @@ export default {
           google.maps.event.addDomListener(marker, 'click', function() {
             handleMarkerClick(marker.id);
           });
-          const info = marker.content;
-          clickMarker(map, marker, info);
+          clickMarker(map, marker);
         };
       }
       catch(err){
         console.log(err);
       }
     }
-
     const loader = new Loader({ apiKey: API_KEY })
     const mapDiv = ref(null)
-
     onMounted(async () => {
       await loader.load();
       try {
@@ -272,3 +254,7 @@ export default {
   },
 };
 </script>
+
+<style>
+
+</style>

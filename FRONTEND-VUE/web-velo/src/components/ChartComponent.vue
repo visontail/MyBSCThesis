@@ -10,7 +10,6 @@ import { onMounted } from 'vue'
 
 import Average from '../services/Average';
 
-
 function createWeeklyChartData(dailyDataArray, currentWeekNum) {
   let weeklyChartData = {}
   for (let i = 0; i < dailyDataArray.length; i++) {
@@ -57,8 +56,6 @@ function createWeeklyChartData(dailyDataArray, currentWeekNum) {
   console.log(weeklyChartData);
   return weeklyChartData
 }
-
-
 
 export default {
   name: 'dataChart',
@@ -135,7 +132,6 @@ export default {
       data: weeklyData,
       options: {}
     }
-
     onMounted(async () => {
       const myChart = new Chart(document.getElementById('myChart'), config)
       return myChart
