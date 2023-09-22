@@ -1,6 +1,6 @@
 <template>
   <div id="stat">
-    <ChartComponent :dailyDataArray="dailyDataArray" :weeklyDataArray="weeklyDataArray" :monthlyDataArray="monthlyDataArray" />
+    <ChartComponent :actualMarkerID="actualMarkerID" :dailyDataArray="dailyDataArray" :weeklyDataArray="weeklyDataArray" :monthlyDataArray="monthlyDataArray" />
   </div>
   <div ref="mapDiv" id="mapDiv" style="width:100vw; height: 100vh;z-index: 1;"></div>
 </template>
@@ -132,6 +132,11 @@ export default {
   name: 'GMap',
   setup() {
     //  load Google Maps Markers' positions to a 'positionsArray'
+    const actualMarkerID = ref(0);
+    const handleMarkerClick = (markerId) => {
+      actualMarkerID.value = markerId
+      console.log(actualMarkerID);
+    };
     let positionsArray = []
     const loadPositions = async () => {
       try{ 
@@ -222,9 +227,11 @@ export default {
             icon: icon,
             content: content
           });
+          google.maps.event.addDomListener(marker, 'click', function() {
+            handleMarkerClick(marker.id);
+          });
           const info = marker.content;
           clickMarker(map, marker, info);
-
         };
       }
       catch(err){
@@ -257,10 +264,11 @@ export default {
       dailyDataArray,
       weeklyDataArray,
       monthlyDataArray,
+      actualMarkerID
     };
   },
   components: {
-    ChartComponent
+    ChartComponent,
   },
 };
 </script>

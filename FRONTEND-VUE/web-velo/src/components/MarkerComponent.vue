@@ -7,11 +7,11 @@ export function clickMarker(map, marker, content) {
   marker.addListener('click', () => {
     map.setZoom(15);
     map.setCenter(marker.getPosition());
-    toggleContent(content);
+    toggleContent(content, marker.id);
   });
 }
 
-function toggleContent(content) {
+function toggleContent(content, id) {
   // Create a DOMParser // Parse the HTML string into a Document object
   const doc = new DOMParser().parseFromString(content, 'text/html');
   // Extract the first element from the parsed document
@@ -20,6 +20,7 @@ function toggleContent(content) {
   const parentElement = document.getElementById("mapDiv");
   parentElement.appendChild(divElement);
 
+  return id
 }
 
 </script> 

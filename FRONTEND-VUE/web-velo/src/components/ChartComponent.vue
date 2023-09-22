@@ -1,5 +1,6 @@
 <template>
   <h1>ChartComponent</h1>
+  <h1>{{ actualMarkerID }}</h1>
   <canvas id="myChart"></canvas>
 </template>
 
@@ -29,7 +30,7 @@ function createWeeklyChartData(dailyDataArray, currentWeekNum) {
           let data1 = [0, 0, 0, 0, 0, 0, 0]
           let data2 = [0, 0, 0, 0, 0, 0, 0]
           data1[weekDay] = cyc1
-          data1[weekDay] = cyc2
+          data2[weekDay] = cyc2
           const label1 = `From ${stationName}`
           const label2 = `To ${stationName}`
           weeklyChartData = {
@@ -57,12 +58,15 @@ function createWeeklyChartData(dailyDataArray, currentWeekNum) {
   return weeklyChartData
 }
 
+
+
 export default {
   name: 'dataChart',
   props: {
     dailyDataArray: Array,
     weeklyDataArray: Array,
     monthlyDataArray: Array,
+    actualMarkerID: Number
   },
   setup(props) {
     const currentDate = new Date()
