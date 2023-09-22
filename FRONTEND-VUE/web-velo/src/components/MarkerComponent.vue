@@ -25,4 +25,8 @@ export function calcSum(sumNum){
   }
   return sumNum.data[0].TotalTraffic
 }
+
+export async function loadMarkers(){
+  
+}
 </script>

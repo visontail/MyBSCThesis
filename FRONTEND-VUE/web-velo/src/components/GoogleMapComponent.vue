@@ -192,15 +192,15 @@ export default {
                 <h4> ${name} </h4>
                 <p> (${lat}, ${lng}) </p>
                 <div>
-                  <p> Időjárás: 20°C </p>
+                  <p> Weather: 20°C </p>
                 </div>
                 <div>
-                  <p> Mai nap össz forgalma: ${sumToday}</p>
-                  <button type="button">Váltson Havi Nézetre</button>
-                  <p> Idei évi össz forgalom: ${sumThisYear} </p>
+                  <p> Today's total traffic: ${sumToday}</p>
+                  <button type="button">Switch to monthly view</button>
+                  <p> This year's total traffic: ${sumThisYear} </p>
                 </div>
                 <div>
-                  <h4> KÉPEK </h4>
+                  <h4> PICTURES </h4>
                 </div>
             ` +
             '</div>';
