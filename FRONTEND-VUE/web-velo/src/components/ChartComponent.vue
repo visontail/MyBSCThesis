@@ -1,10 +1,13 @@
 <template>
   <h1>ChartComponent</h1>
-  <p> {{ dailyDataArray[64] }}</p>
   <canvas id="myChart"></canvas>
 </template>
 
 <script>
+import Chart from 'chart.js/auto'
+import { onMounted } from 'vue'
+
+import Average from '../services/Average';
 
 
 function createWeeklyChartData(dailyDataArray, currentWeekNum) {
@@ -21,7 +24,7 @@ function createWeeklyChartData(dailyDataArray, currentWeekNum) {
         const weekDay = parseInt(dataset[2])
         const cyc1 = parseFloat(dataset[3])
         const cyc2 = parseFloat(dataset[4])
-        const weekNum = getWeekNumber(date)
+        const weekNum = Average.getWeekNumber(date)
         if (currentWeekNum == weekNum) {
           let data1 = [0, 0, 0, 0, 0, 0, 0]
           let data2 = [0, 0, 0, 0, 0, 0, 0]
@@ -53,16 +56,7 @@ function createWeeklyChartData(dailyDataArray, currentWeekNum) {
   console.log(weeklyChartData);
   return weeklyChartData
 }
-// todo migrate to Average Js use it there also and import it to here
-function getWeekNumber(date) {
-  date.setHours(0, 0, 0, 0) // Set the time to the start of the day
-  date.setDate(date.getDate() + 4 - (date.getDay() || 7)) // Adjust the date to Thursday (ISO 8601 week starts on Monday)
-  const yearStart = new Date(date.getFullYear(), 0, 1) // Get the date for the start of the current year
-  return `${date.getFullYear()}${Math.ceil(((date - yearStart) / 86400000 + 1) / 7)}`
-}
 
-import Chart from 'chart.js/auto'
-import { onMounted } from 'vue'
 export default {
   name: 'dataChart',
   props: {
@@ -72,7 +66,7 @@ export default {
   },
   setup(props) {
     const currentDate = new Date()
-    const currentWeekNum = getWeekNumber(currentDate)
+    const currentWeekNum = Average.getWeekNumber(currentDate)
     const weeklyData = createWeeklyChartData(props.dailyDataArray, currentWeekNum)
 
     /* DATASETS

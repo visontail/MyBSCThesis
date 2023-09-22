@@ -130,8 +130,6 @@ import ChartComponent from './ChartComponent.vue';
 
 export default {
   name: 'GMap',
-  methods: {
-  },
   setup() {
     //  load Google Maps Markers' positions to a 'positionsArray'
     let positionsArray = []
@@ -159,10 +157,16 @@ export default {
           const lng = parseFloat(pos.posLongitude);
           //  load Measurement statistics data for each Station/Marker using 'StationID' into a 'statsArray'
           let  statsArray = [];
+          let sumToday = 0;
           const loadStats = async () => {
             try {
               const response = await MeasureAPI.getStats(id)
               statsArray = response.data
+              const sum = await MeasureAPI.getTodaySum(id)
+              if(sum.data[0].TotalTraffic == null)
+                sum.data[0].TotalTraffic = 'No avaiable data today'
+              sumToday = sum.data[0].TotalTraffic
+              console.log(sumToday);
             }
             catch(err){
               console.log(err);
@@ -194,7 +198,7 @@ export default {
                   <p> Időjárás: 20°C </p>
                 </div>
                 <div>
-                  <p> Mai nap össz forgalma: 25</p>
+                  <p> Mai nap össz forgalma: ${sumToday}</p>
                   <button type="button">Váltson Havi Nézetre</button>
                   <p> Idei évi össz forgalom: 365 </p>
                 </div>

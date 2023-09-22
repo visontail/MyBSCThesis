@@ -17,7 +17,7 @@ export default {
     if (!this.isEmpty(dailyData)) {
       for (const key in dailyData) {
         const weekDay = this.dayOfWeekToDateString(key)
-        dailyAverages += ` ${key}, ${weekKey}, ${weekDay}, ${this.formatValue(dailyData[key])[0]} , ${this.formatValue(dailyData[key])[1]}
+        dailyAverages += `${key}, ${weekKey}, ${weekDay}, ${this.formatValue(dailyData[key])[0]} , ${this.formatValue(dailyData[key])[1]}
         `
       }
     } else {
@@ -110,12 +110,10 @@ export default {
   },
   dayOfWeekToDateString(inputDate) {
     const daysOfWeek = ['0', '1', '2', '3', '4', '5', '6'] // 0-Sunday, 1-Monday, ..., 6-Saturday
-
     const dateParts = inputDate.split('-')
     const year = parseInt(dateParts[0])
     const month = parseInt(dateParts[1]) - 1 // Months are 0-indexed (0-January, 1-February, ..., 11-December)
     const day = parseInt(dateParts[2])
-
     const dateObject = new Date(year, month, day)
     const dayOfWeek = dateObject.getDay() // Get the day of the week as a number (0-6)
     const weekdayDate = `${daysOfWeek[dayOfWeek]}`

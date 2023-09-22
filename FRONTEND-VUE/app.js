@@ -7,6 +7,7 @@ import {
   getStats,
   getStationsTable,
   getSumStations,
+  getTodaySum,
 } from "./database.js";
 
 //  using express.js framework
@@ -44,6 +45,14 @@ app.get("/stats/:id", async (req, res) => {
   const measurementdata = await getStats(id);
   res.send(measurementdata);
 });
+
+// GET
+app.get("/today/:id", async (req, res) => {
+  const id = req.params.id;
+  const measurementdata = await getTodaySum(id);
+  res.send(measurementdata);
+});
+
 
 // GET all station number - used in menubar
 app.get("/sum", async (req, res) => {
