@@ -8,6 +8,7 @@ import {
   getStationsTable,
   getSumStations,
   getTodaySum,
+  getYearSum,
 } from "./database.js";
 
 //  using express.js framework
@@ -50,6 +51,12 @@ app.get("/stats/:id", async (req, res) => {
 app.get("/today/:id", async (req, res) => {
   const id = req.params.id;
   const measurementdata = await getTodaySum(id);
+  res.send(measurementdata);
+});
+
+app.get("/this-year/:id", async (req, res) => {
+  const id = req.params.id;
+  const measurementdata = await getYearSum(id);
   res.send(measurementdata);
 });
 

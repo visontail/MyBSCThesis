@@ -6,5 +6,8 @@ export default {
     },
     getTodaySum(id) {
         return API().get(`/today/${id}`)
-    }
+    },
+    getYearSum(id) {
+        return API().get(`/this-year/${id}`)
+    },
 }

@@ -81,13 +81,30 @@ export async function getSumStations() {
     } 
 }
 
-// SELECT measurement data from provided station
+// SUM 
 export async function getTodaySum(id) {
     try{
         const [rows] = await pool.query(`
         SELECT SUM(CycTraff1) AS TotalTraffic
         FROM Measurements
         WHERE DATE(startTime) = CURDATE() AND StationID = ?`,
+        [id]
+        )
+        return rows
+    }
+    catch(error) {
+        console.error("Error fetching statistics:", error);
+        throw error;
+    }
+}
+
+// SUM 
+export async function getYearSum(id) {
+    try{
+        const [rows] = await pool.query(`
+        SELECT SUM(CycTraff1) AS TotalTraffic
+        FROM Measurements
+        WHERE YEAR(startTime) = YEAR(CURDATE()) AND StationID = ?`,
         [id]
         )
         return rows

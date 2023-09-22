@@ -158,15 +158,22 @@ export default {
           //  load Measurement statistics data for each Station/Marker using 'StationID' into a 'statsArray'
           let  statsArray = [];
           let sumToday = 0;
+          let sumThisYear = 0;
           const loadStats = async () => {
             try {
+              // all measurement data
               const response = await MeasureAPI.getStats(id)
               statsArray = response.data
-              const sum = await MeasureAPI.getTodaySum(id)
-              if(sum.data[0].TotalTraffic == null)
-                sum.data[0].TotalTraffic = 'No avaiable data today'
-              sumToday = sum.data[0].TotalTraffic
-              console.log(sumToday);
+              // today's total traffic
+              const sumDay = await MeasureAPI.getTodaySum(id)
+              if(sumDay.data[0].TotalTraffic == null)
+              sumDay.data[0].TotalTraffic = 'No avaiable data today'
+              sumToday = sumDay.data[0].TotalTraffic
+              // this year's total traffic
+              const sumYear = await MeasureAPI.getYearSum(id)
+              if(sumYear.data[0].TotalTraffic == null)
+              sumYear.data[0].TotalTraffic = 'No avaiable data'
+              sumThisYear = sumYear.data[0].TotalTraffic
             }
             catch(err){
               console.log(err);
@@ -200,7 +207,7 @@ export default {
                 <div>
                   <p> Mai nap össz forgalma: ${sumToday}</p>
                   <button type="button">Váltson Havi Nézetre</button>
-                  <p> Idei évi össz forgalom: 365 </p>
+                  <p> Idei évi össz forgalom: ${sumThisYear} </p>
                 </div>
                 <div>
                   <h4> KÉPEK </h4>
