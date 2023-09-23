@@ -8,7 +8,7 @@ export function clickMarker(map, marker) {
     toggleContent(content);
   });
 }
-
+// 
 function toggleContent(content) {
   // Create a DOMParser // Parse the HTML string into a Document object
   const doc = new DOMParser().parseFromString(content, 'text/html');
@@ -18,15 +18,11 @@ function toggleContent(content) {
   const parentElement = document.getElementById("mapDiv");
   parentElement.appendChild(divElement);
 }
-
+// 
 export function calcSum(sumNum){
   if(sumNum.data[0].TotalTraffic == null) {
     sumNum.data[0].TotalTraffic = 'No avaiable data'
   }
   return sumNum.data[0].TotalTraffic
-}
-
-export async function loadMarkers(){
-  
 }
 </script>

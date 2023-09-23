@@ -8,52 +8,62 @@
 import Chart from 'chart.js/auto'
 import { onMounted } from 'vue'
 
-import Average from '../services/Average';
+import Average from '../services/Average'
 
-function createWeeklyChartData(dailyDataArray, currentWeekNum) {
+function createWeeklyChartData(dailyDataArray, currentWeekNum, actualMarkerID) {
   let weeklyChartData = {}
   for (let i = 0; i < dailyDataArray.length; i++) {
-    //const stationID = dailyDataArray[i].id
-    const stationName = dailyDataArray[i].name
-    const dailyData = dailyDataArray[i].dailyData
-    if (dailyData !== 'No data') {
-      const sortDaily = dailyData.split('\n')
-      for (let j = 0; j < sortDaily.length - 1; j++) {
-        const dataset = sortDaily[j].split(',')
-        const date = new Date(dataset[0])
-        const weekDay = parseInt(dataset[2])
-        const cyc1 = parseFloat(dataset[3])
-        const cyc2 = parseFloat(dataset[4])
-        const weekNum = Average.getWeekNumber(date)
-        if (currentWeekNum == weekNum) {
-          let data1 = [0, 0, 0, 0, 0, 0, 0]
-          let data2 = [0, 0, 0, 0, 0, 0, 0]
-          data1[weekDay] = cyc1
-          data2[weekDay] = cyc2
-          const label1 = `From ${stationName}`
-          const label2 = `To ${stationName}`
-          weeklyChartData = {
-            labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-            datasets: [
-              {
-                label: label1,
-                backgroundColor: 'rgb(6, 85, 156)',
-                borderColor: 'rgb(99, 171, 235)',
-                data: data1
-              },
-              {
-                label: label2,
-                backgroundColor: 'rgb(191, 177, 6)',
-                borderColor: 'rgb(232, 223, 118)',
-                data: data2
-              }
-            ]
+    const stationID = dailyDataArray[i].id
+    if (stationID == actualMarkerID) {
+      const stationName = dailyDataArray[i].name
+      const dailyData = dailyDataArray[i].dailyData
+      if (dailyData !== 'No data') {
+        const sortDaily = dailyData.split('\n')
+        for (let j = 0; j < sortDaily.length - 1; j++) {
+          const dataset = sortDaily[j].split(',')
+          const date = new Date(dataset[0])
+          const weekDay = parseInt(dataset[2])
+          const cyc1 = parseFloat(dataset[3])
+          const cyc2 = parseFloat(dataset[4])
+          const weekNum = Average.getWeekNumber(date)
+          if (currentWeekNum == weekNum) {
+            let data1 = [0, 0, 0, 0, 0, 0, 0]
+            let data2 = [0, 0, 0, 0, 0, 0, 0]
+            data1[weekDay] = cyc1
+            data2[weekDay] = cyc2
+            const label1 = `From ${stationName}`
+            const label2 = `To ${stationName}`
+            weeklyChartData = {
+              labels: [
+                'Monday',
+                'Tuesday',
+                'Wednesday',
+                'Thursday',
+                'Friday',
+                'Saturday',
+                'Sunday'
+              ],
+              datasets: [
+                {
+                  label: label1,
+                  backgroundColor: 'rgb(6, 85, 156)',
+                  borderColor: 'rgb(99, 171, 235)',
+                  data: data1
+                },
+                {
+                  label: label2,
+                  backgroundColor: 'rgb(191, 177, 6)',
+                  borderColor: 'rgb(232, 223, 118)',
+                  data: data2
+                }
+              ]
+            }
           }
         }
       }
     }
   }
-  console.log(weeklyChartData);
+  console.log(weeklyChartData)
   return weeklyChartData
 }
 
@@ -68,7 +78,7 @@ export default {
   setup(props) {
     const currentDate = new Date()
     const currentWeekNum = Average.getWeekNumber(currentDate)
-    const weeklyData = createWeeklyChartData(props.dailyDataArray, currentWeekNum)
+    const weeklyData = createWeeklyChartData(props.dailyDataArray, currentWeekNum, props.actualMarkerID)
 
     /* DATASETS
     // dataset for Weekly averages
