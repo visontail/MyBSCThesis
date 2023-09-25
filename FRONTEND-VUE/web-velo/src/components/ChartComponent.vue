@@ -1,6 +1,5 @@
 <template>
-  <h1>ChartComponent</h1>
-  <h1>{{ selectedMarkerID }}</h1>
+  <p> Weekly Averages </p>
   <canvas id="myChart"></canvas>
 </template>
 
