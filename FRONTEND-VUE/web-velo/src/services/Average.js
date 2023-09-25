@@ -6,9 +6,9 @@ export default {
     let weekKey = ''
     data.forEach((dataPoint) => {
       dataPoint.startTime = new Date(dataPoint.startTime)
+      const dayKey = dataPoint.startTime.toISOString().split('T')[0]
       weekKey = this.getWeekNumber(dataPoint.startTime)
       // Group the data by day, week, and month
-      const dayKey = dataPoint.startTime.toISOString().split('T')[0]
       if (!groupByDay[dayKey]) groupByDay[dayKey] = []
       groupByDay[dayKey].push(dataPoint)
     })

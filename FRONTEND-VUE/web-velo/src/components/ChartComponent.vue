@@ -1,20 +1,20 @@
 <template>
   <h1>ChartComponent</h1>
-  <h1>{{ actualMarkerID }}</h1>
+  <h1>{{ selectedMarkerID }}</h1>
   <canvas id="myChart"></canvas>
 </template>
 
 <script>
-import Chart from 'chart.js/auto'
-import { onMounted } from 'vue'
+import Chart from 'chart.js/auto';
+import { ref, watch } from 'vue';
 
-import Average from '../services/Average'
+import Average from '../services/Average';
 
-function createWeeklyChartData(dailyDataArray, currentWeekNum, actualMarkerID) {
+function createWeeklyChartData(dailyDataArray, currentWeekNum, selectedMarkerID) {
   let weeklyChartData = {}
   for (let i = 0; i < dailyDataArray.length; i++) {
     const stationID = dailyDataArray[i].id
-    if (stationID == actualMarkerID) {
+    if (stationID == selectedMarkerID) {
       const stationName = dailyDataArray[i].name
       const dailyData = dailyDataArray[i].dailyData
       if (dailyData !== 'No data') {
@@ -29,8 +29,8 @@ function createWeeklyChartData(dailyDataArray, currentWeekNum, actualMarkerID) {
           if (currentWeekNum == weekNum) {
             let data1 = [0, 0, 0, 0, 0, 0, 0]
             let data2 = [0, 0, 0, 0, 0, 0, 0]
-            data1[weekDay] = cyc1
-            data2[weekDay] = cyc2
+            data1[weekDay-1] = cyc1
+            data2[weekDay-1] = cyc2
             const label1 = `From ${stationName}`
             const label2 = `To ${stationName}`
             weeklyChartData = {
@@ -63,7 +63,7 @@ function createWeeklyChartData(dailyDataArray, currentWeekNum, actualMarkerID) {
       }
     }
   }
-  console.log(weeklyChartData)
+  console.log(weeklyChartData);
   return weeklyChartData
 }
 
@@ -73,12 +73,39 @@ export default {
     dailyDataArray: Array,
     weeklyDataArray: Array,
     monthlyDataArray: Array,
-    actualMarkerID: Number
+    selectedMarkerID: Number
+  },
+  mounted(){
   },
   setup(props) {
     const currentDate = new Date()
     const currentWeekNum = Average.getWeekNumber(currentDate)
-    const weeklyData = createWeeklyChartData(props.dailyDataArray, currentWeekNum, props.actualMarkerID)
+
+    const chartInstance = ref(null);
+    // Watch for changes in selectedMarkerID and update the chart accordingly
+    watch(
+      () => props.selectedMarkerID,
+      () => {
+        if (!chartInstance.value) {
+          const data = createWeeklyChartData(props.dailyDataArray, currentWeekNum, props.selectedMarkerID)
+          chartInstance.value = createChart(data);
+        } else {
+          const updatedChartData = createWeeklyChartData(props.dailyDataArray, currentWeekNum, props.selectedMarkerID);
+          chartInstance.value.data = updatedChartData;
+          chartInstance.value.update();
+        }
+      }
+    );
+
+function createChart(data) {
+  const chartElement = document.getElementById('myChart');
+  const chartConfig = {
+    type: 'line',
+    data: data,
+    options: {},
+  };
+  return new Chart(chartElement, chartConfig);
+}
 
     /* DATASETS
     // dataset for Weekly averages
@@ -136,17 +163,7 @@ export default {
       ]
     }
 */
-
-    const config = {
-      type: 'line',
-      data: weeklyData,
-      options: {}
-    }
-    onMounted(async () => {
-      const myChart = new Chart(document.getElementById('myChart'), config)
-      return myChart
-    })
-  }
+  },
 }
 </script>
 
