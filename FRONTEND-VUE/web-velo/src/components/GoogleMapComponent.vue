@@ -1,6 +1,7 @@
 <template>
   <div id="stat">
-    <ChartComponent :selectedMarkerID="selectedMarkerID" :dailyDataArray="dailyDataArray" :weeklyDataArray="weeklyDataArray" :monthlyDataArray="monthlyDataArray" />
+    <ChartComponent :selectedMarkerID="selectedMarkerID" :dailyDataArray="dailyDataArray" />
+    <!--  :weeklyDataArray="weeklyDataArray" :monthlyDataArray="monthlyDataArray" -->
   </div>
   <div ref="mapDiv" id="mapDiv" style="width:100vw; height: 100vh;z-index: 1;">
   </div>
@@ -245,8 +246,8 @@ export default {
     return { 
       mapDiv,
       dailyDataArray,
-      weeklyDataArray,
-      monthlyDataArray,
+      //weeklyDataArray,
+      //monthlyDataArray,
       selectedMarkerID
     };
   },

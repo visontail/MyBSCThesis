@@ -27,12 +27,13 @@ function createWeeklyChartData(dailyDataArray, currentWeekNum, selectedMarkerID)
           const cyc2 = parseFloat(dataset[4])
           const weekNum = Average.getWeekNumber(date)
           if (currentWeekNum == weekNum) {
-            let data1 = [0, 0, 0, 0, 0, 0, 0]
-            let data2 = [0, 0, 0, 0, 0, 0, 0]
+            let data1 = [0, 90, 50, 60, 23, 25, 12]
+            let data2 = [0, 10, 50, 34, 40, 60, 21]
             data1[weekDay-1] = cyc1
             data2[weekDay-1] = cyc2
             const label1 = `From ${stationName}`
             const label2 = `To ${stationName}`
+            
             weeklyChartData = {
               labels: [
                 'Monday',
@@ -46,15 +47,31 @@ function createWeeklyChartData(dailyDataArray, currentWeekNum, selectedMarkerID)
               datasets: [
                 {
                   label: label1,
-                  backgroundColor: 'rgb(6, 85, 156)',
-                  borderColor: 'rgb(99, 171, 235)',
-                  data: data1
+                  data: data1,
+                  borderColor: '#F0810F',
+                  pointBackgroundColor: '#F0810F',
+                  fill: {
+                    target: 'origin',
+                    below: 'rgb(240,129,15)'    // And blue below the origin
+                  },
+                  borderWidth: 1,
+                  pointBorderColor: 'rgb(240,129,15)',
+                  backgroundColor: 'rgba(240,129,15,0.4)',
+                  tension: 0.2,
                 },
                 {
                   label: label2,
-                  backgroundColor: 'rgb(191, 177, 6)',
-                  borderColor: 'rgb(232, 223, 118)',
-                  data: data2
+                  data: data2,
+                  borderColor: '#E6DF44',
+                  pointBackgroundColor: '#E6DF44',
+                  fill: {
+                    target: 'origin',
+                    below: 'rgb(230,223,68)'    // And blue below the origin
+                  },
+                  borderWidth: 1,
+                  pointBorderColor: 'rgb(230,223,68)',
+                  backgroundColor: 'rgba(230,223,68,0.8)',
+                  tension: 0.2,
                 }
               ]
             }
@@ -66,7 +83,6 @@ function createWeeklyChartData(dailyDataArray, currentWeekNum, selectedMarkerID)
   console.log(weeklyChartData);
   return weeklyChartData
 }
-
 export default {
   name: 'dataChart',
   props: {
@@ -75,9 +91,8 @@ export default {
     monthlyDataArray: Array,
     selectedMarkerID: Number
   },
-  mounted(){
-  },
   setup(props) {
+
     const currentDate = new Date()
     const currentWeekNum = Average.getWeekNumber(currentDate)
 
@@ -169,7 +184,6 @@ function createChart(data) {
 
 <style>
 #myChart {
-  /* Center horizontally*/
   max-height: 300px;
   max-width: 600px;
   margin: 0;
