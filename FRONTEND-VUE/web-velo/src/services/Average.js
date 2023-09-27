@@ -1,13 +1,18 @@
 export default {
-  // function for creating dailyData for Weekly Chart
+  // Function for creating dailyData for Weekly Chart
   groupByDaily(data) {
     // parse date strings to Date objects
     const groupByDay = {}
     let weekKey = ''
+    // iterates through each dataset
     data.forEach((dataPoint) => {
+      // string to date variable
       dataPoint.startTime = new Date(dataPoint.startTime)
       const dayKey = dataPoint.startTime.toISOString().split('T')[0]
+      //dataPoint.startTime.toISOString().split('T')[1];
+      // get week number of the year to categorize data
       weekKey = this.getWeekNumber(dataPoint.startTime)
+      console.log(weekKey);
       // Group the data by day, week, and month
       if (!groupByDay[dayKey]) groupByDay[dayKey] = []
       groupByDay[dayKey].push(dataPoint)

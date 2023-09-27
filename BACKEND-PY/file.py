@@ -21,6 +21,18 @@ def moveFile(name, path):
         return False
     else:
         return True
+    
+def get_weeknum(date):
+    try:
+    # convert the input date string to a datetime object
+        date_obj = datetime.strptime(date, '%Y-%m-%d')
+    # get the year and week number
+        year = date_obj.strftime('%Y')
+        week_number = date_obj.strftime('%U')
+    # return combination of two to prevent duplication
+        return  year + week_number
+    except ValueError:
+        return None
 
 # Class for xTx Files
 class File():
@@ -50,10 +62,12 @@ class File():
         # - sorting information
         meas_name = lines[1][1]
         meas_time = [
-                datetime.strptime(lines[3][1] + lines[3][2], '%Y%m%d%H%M%S').strftime('%Y-%m-%d %H:%M:%S'),
-                datetime.strptime(lines[3][3] + lines[3][4], '%Y%m%d%H%M%S').strftime('%Y-%m-%d %H:%M:%S') 
+                datetime.strptime(lines[3][1], '%Y%m%d').strftime('%Y-%m-%d'),
+                datetime.strptime(lines[3][2], '%H%M%S').strftime('%H:%M:%S'),
+                datetime.strptime(lines[3][4], '%H%M%S').strftime('%H:%M:%S'),
                 ]
-        meas = [ lines[-2][4], lines[-2][6], lines[-2][7], lines[-2][8], lines[-1][6], lines[-1][7], lines[-1][8] ]
-
+        weeknum = get_weeknum(meas_time[0])
+        meas = [ lines[-2][6], lines[-2][7], lines[-2][8], lines[-1][6], lines[-1][7], lines[-1][8] ]
         # - returning a list
-        return meas_name, meas_time, meas
+        return meas_name, meas_time, weeknum, meas
+

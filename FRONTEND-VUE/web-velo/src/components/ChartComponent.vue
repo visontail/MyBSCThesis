@@ -1,13 +1,11 @@
 <template>
   <div>
-    <p>Weekly Averages</p>
+    <h3>Weekly Averages</h3>
     <div :hidden="showNoChart">
       <canvas id="myChart"></canvas>
     </div>
     <div :hidden="showNoData">
-      <p>Valami van itt</p>
-      <h1>DE</h1>
-      <p>adat, na az nincs</p>
+      <h1>No avaiable data</h1>
     </div>
   </div>
 </template>
