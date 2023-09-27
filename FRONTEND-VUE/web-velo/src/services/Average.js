@@ -7,12 +7,11 @@ export default {
     // iterates through each dataset
     data.forEach((dataPoint) => {
       // string to date variable
-      dataPoint.startTime = new Date(dataPoint.startTime)
+      dataPoint.startTime = new Date(dataPoint.Date)
       const dayKey = dataPoint.startTime.toISOString().split('T')[0]
       //dataPoint.startTime.toISOString().split('T')[1];
       // get week number of the year to categorize data
-      weekKey = this.getWeekNumber(dataPoint.startTime)
-      console.log(weekKey);
+      weekKey = dataPoint.weekNumber
       // Group the data by day, week, and month
       if (!groupByDay[dayKey]) groupByDay[dayKey] = []
       groupByDay[dayKey].push(dataPoint)

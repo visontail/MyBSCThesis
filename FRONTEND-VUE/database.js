@@ -54,7 +54,7 @@ export async function getMarkerData() {
 export async function getStats(id) {
     try{
         const [rows] = await pool.query(`
-            SELECT startTime, endTime, CycTraff1, PedTraff1, OtherTraff1, CycTraff2, PedTraff2, OtherTraff2
+            SELECT Date, startTime, endTime, weekNumber, CycTraff1, PedTraff1, OtherTraff1, CycTraff2, PedTraff2, OtherTraff2
             FROM Measurements
             WHERE StationID = ?`,
             [id]

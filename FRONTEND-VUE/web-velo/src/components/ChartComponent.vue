@@ -33,8 +33,8 @@ function createWeeklyChartData(dailyDataArray, currentWeekNum, selectedMarkerID)
           const cyc2 = parseFloat(dataset[4])
           const weekNum = Average.getWeekNumber(date)
           if (currentWeekNum == weekNum) {
-            let data1 = [0, 90, 50, 60, 23, 25, 12]
-            let data2 = [0, 10, 50, 34, 40, 60, 21]
+            let data1 = [0, 0, 0, 0, 0, 0, 0]
+            let data2 = [0, 0, 0, 0, 0, 0, 0]
             data1[weekDay - 1] = cyc1
             data2[weekDay - 1] = cyc2
             const label1 = `From ${stationName}`
