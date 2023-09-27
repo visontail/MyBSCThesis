@@ -1,13 +1,22 @@
 <template>
-  <p> Weekly Averages </p>
-  <canvas id="myChart"></canvas>
+  <div>
+    <p>Weekly Averages</p>
+    <div :hidden="showNoChart">
+      <canvas id="myChart"></canvas>
+    </div>
+    <div :hidden="showNoData">
+      <p>Valami van itt</p>
+      <h1>DE</h1>
+      <p>adat, na az nincs</p>
+    </div>
+  </div>
 </template>
 
 <script>
-import Chart from 'chart.js/auto';
-import { ref, watch } from 'vue';
+import Chart from 'chart.js/auto'
+import { ref, watch } from 'vue'
 
-import Average from '../services/Average';
+import Average from '../services/Average'
 
 function createWeeklyChartData(dailyDataArray, currentWeekNum, selectedMarkerID) {
   let weeklyChartData = {}
@@ -28,11 +37,11 @@ function createWeeklyChartData(dailyDataArray, currentWeekNum, selectedMarkerID)
           if (currentWeekNum == weekNum) {
             let data1 = [0, 90, 50, 60, 23, 25, 12]
             let data2 = [0, 10, 50, 34, 40, 60, 21]
-            data1[weekDay-1] = cyc1
-            data2[weekDay-1] = cyc2
+            data1[weekDay - 1] = cyc1
+            data2[weekDay - 1] = cyc2
             const label1 = `From ${stationName}`
             const label2 = `To ${stationName}`
-            
+
             weeklyChartData = {
               labels: [
                 'Monday',
@@ -51,12 +60,12 @@ function createWeeklyChartData(dailyDataArray, currentWeekNum, selectedMarkerID)
                   pointBackgroundColor: '#F0810F',
                   fill: {
                     target: 'origin',
-                    below: 'rgb(240,129,15)'    // And blue below the origin
+                    below: 'rgb(240,129,15)' // And blue below the origin
                   },
                   borderWidth: 1,
                   pointBorderColor: 'rgb(240,129,15)',
                   backgroundColor: 'rgba(240,129,15,0.4)',
-                  tension: 0.2,
+                  tension: 0.2
                 },
                 {
                   label: label2,
@@ -65,12 +74,12 @@ function createWeeklyChartData(dailyDataArray, currentWeekNum, selectedMarkerID)
                   pointBackgroundColor: '#E6DF44',
                   fill: {
                     target: 'origin',
-                    below: 'rgb(230,223,68)'    // And blue below the origin
+                    below: 'rgb(230,223,68)' // And blue below the origin
                   },
                   borderWidth: 1,
                   pointBorderColor: 'rgb(230,223,68)',
                   backgroundColor: 'rgba(230,223,68,0.8)',
-                  tension: 0.2,
+                  tension: 0.2
                 }
               ]
             }
@@ -79,48 +88,60 @@ function createWeeklyChartData(dailyDataArray, currentWeekNum, selectedMarkerID)
       }
     }
   }
-  console.log(weeklyChartData);
   return weeklyChartData
 }
+
 export default {
   name: 'dataChart',
   props: {
     dailyDataArray: Array,
     weeklyDataArray: Array,
     monthlyDataArray: Array,
-    selectedMarkerID: Number
+    selectedMarkerID: Number,
+    showChart: {
+      type: Boolean,
+      default: true
+    }
   },
   setup(props) {
-
     const currentDate = new Date()
     const currentWeekNum = Average.getWeekNumber(currentDate)
 
-    const chartInstance = ref(null);
+    const chartInstance = ref(null)
+
+    const showNoChart = ref(false)
+    const showNoData = ref(true)
     // Watch for changes in selectedMarkerID and update the chart accordingly
     watch(
       () => props.selectedMarkerID,
       () => {
-        if (!chartInstance.value) {
-          const data = createWeeklyChartData(props.dailyDataArray, currentWeekNum, props.selectedMarkerID)
-          chartInstance.value = createChart(data);
+        const data = createWeeklyChartData(
+          props.dailyDataArray,
+          currentWeekNum,
+          props.selectedMarkerID
+        )
+        if (data.datasets) {
+          chartInstance.value = createChart(data)
         } else {
-          const updatedChartData = createWeeklyChartData(props.dailyDataArray, currentWeekNum, props.selectedMarkerID);
-          chartInstance.value.data = updatedChartData;
-          chartInstance.value.update();
+          showNoData.value = false
+          showNoChart.value = true
         }
       }
-    );
+    )
 
-function createChart(data) {
-  const chartElement = document.getElementById('myChart');
-  const chartConfig = {
-    type: 'line',
-    data: data,
-    options: {},
-  };
-  return new Chart(chartElement, chartConfig);
-}
-
+    function createChart(data) {
+      const chartElement = document.getElementById('myChart')
+      const chartConfig = {
+        type: 'line',
+        data: data,
+        options: {}
+      }
+      return new Chart(chartElement, chartConfig)
+    }
+    return {
+      showNoChart,
+      showNoData
+    }
     /* DATASETS
     // dataset for Weekly averages
     const dailyData = {
@@ -177,7 +198,7 @@ function createChart(data) {
       ]
     }
 */
-  },
+  }
 }
 </script>
 
@@ -190,6 +211,5 @@ function createChart(data) {
 #stat {
   font-size: 24px;
   margin: 12px;
-  outline: dashed 1px black;
 }
 </style>
