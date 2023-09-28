@@ -16,13 +16,13 @@ import { ref, watch } from 'vue'
 
 import Average from '../services/Average'
 
-function createWeeklyChartData(dailyDataArray, currentWeekNum, selectedMarkerID) {
+function createWeeklyChartData(dataArray, currentWeekNum, selectedMarkerID) {
   let weeklyChartData = {}
-  for (let i = 0; i < dailyDataArray.length; i++) {
-    const stationID = dailyDataArray[i].id
+  for (let i = 0; i < dataArray.length; i++) {
+    const stationID = dataArray[i].id
     if (stationID == selectedMarkerID) {
-      const stationName = dailyDataArray[i].name
-      const dailyData = dailyDataArray[i].dailyData
+      const stationName = dataArray[i].name
+      const dailyData = dataArray[i].dailyData
       if (dailyData !== 'No data') {
         const sortDaily = dailyData.split('\n')
         for (let j = 0; j < sortDaily.length - 1; j++) {
@@ -39,17 +39,8 @@ function createWeeklyChartData(dailyDataArray, currentWeekNum, selectedMarkerID)
             data2[weekDay - 1] = cyc2
             const label1 = `From ${stationName}`
             const label2 = `To ${stationName}`
-
             weeklyChartData = {
-              labels: [
-                'Monday',
-                'Tuesday',
-                'Wednesday',
-                'Thursday',
-                'Friday',
-                'Saturday',
-                'Sunday'
-              ],
+              labels: [ 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday' ],
               datasets: [
                 {
                   label: label1,
@@ -93,8 +84,6 @@ export default {
   name: 'dataChart',
   props: {
     dailyDataArray: Array,
-    weeklyDataArray: Array,
-    monthlyDataArray: Array,
     selectedMarkerID: Number,
     showChart: {
       type: Boolean,
@@ -106,7 +95,6 @@ export default {
     const currentWeekNum = Average.getWeekNumber(currentDate)
 
     const chartInstance = ref(null)
-
     const showNoChart = ref(false)
     const showNoData = ref(true)
     // Watch for changes in selectedMarkerID and update the chart accordingly
@@ -126,7 +114,6 @@ export default {
         }
       }
     )
-
     function createChart(data) {
       const chartElement = document.getElementById('myChart')
       const chartConfig = {
@@ -141,27 +128,9 @@ export default {
       showNoData
     }
     /* DATASETS
-    // dataset for Weekly averages
+    // dataset for Daily averages
     const dailyData = {
       labels: ['00:00', '04:00', '08:00', '12:00', '16:00', '20:00', '24:00'],
-      datasets: [
-        {
-          label: 'From [StationName]',
-          backgroundColor: 'rgb(6, 85, 156)',
-          borderColor: 'rgb(99, 171, 235)',
-          data: [0, 59, 5, 20, 40, 16, 0]
-        },
-        {
-          label: 'To [StationName]',
-          backgroundColor: 'rgb(191, 177, 6)',
-          borderColor: 'rgb(232, 223, 118)',
-          data: [14, 10, 14, 6, 18, 8, 18]
-        }
-      ]
-    }
-    // dataset for Monthly averages
-    const weeklyData = {
-      labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
       datasets: [
         {
           label: 'From [StationName]',

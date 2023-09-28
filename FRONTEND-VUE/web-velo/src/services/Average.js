@@ -3,68 +3,70 @@ export default {
   groupByDaily(data) {
     // parse date strings to Date objects
     const groupByDay = {}
-    let weekKey = ''
+    let weekNum = ''
+    let date = ''
     // iterates through each dataset
     data.forEach((dataPoint) => {
       // string to date variable
-      dataPoint.startTime = new Date(dataPoint.Date)
-      const dayKey = dataPoint.startTime.toISOString().split('T')[0]
-      //dataPoint.startTime.toISOString().split('T')[1];
+      date = (dataPoint.Date).split('T')[0]
+      const dayKey = (dataPoint.Date).split('T')[0]
       // get week number of the year to categorize data
-      weekKey = dataPoint.weekNumber
+      weekNum = dataPoint.weekNumber
       // Group the data by day, week, and month
-      if (!groupByDay[dayKey]) groupByDay[dayKey] = []
+      if (!groupByDay[dayKey])
+      groupByDay[dayKey] = []
       groupByDay[dayKey].push(dataPoint)
     })
-    const dailyData = this.calculateAverage(groupByDay)
-    let dailyAverages = ''
-    if (!this.isEmpty(dailyData)) {
-      for (const key in dailyData) {
-        const weekDay = this.dayOfWeekToDateString(key)
-        dailyAverages += `${key}, ${weekKey}, ${weekDay}, ${this.formatValue(dailyData[key])[0]} , ${this.formatValue(dailyData[key])[1]}
-        `
-      }
-    } else {
-      dailyAverages = 'No data'
-    }
+    console.log(groupByDay);
+    const dailyAverages = this.avgFormat(groupByDay, date, weekNum)
     return dailyAverages
-  },
-  groupByWeekly(data) {
-    // parse date strings to Date objects
-    const groupByWeek = {}
-    data.forEach((dataPoint) => {
-      dataPoint.startTime = new Date(dataPoint.startTime)
-      const weekKey = this.getWeekNumber(dataPoint.startTime)
-      if (!groupByWeek[weekKey]) groupByWeek[weekKey] = []
-      groupByWeek[weekKey].push(dataPoint)
-    })
-    const weeklyAverages = this.calculateAverage(groupByWeek)
-    let weeklyData = this.statContentCreator(weeklyAverages)
-    return weeklyData
   },
   groupByMontly(data) {
     // parse date strings to Date objects
     const groupByMonth = {}
+    let weekNum = ''
+    let date = ''
     data.forEach((dataPoint) => {
-      dataPoint.startTime = new Date(dataPoint.startTime)
-      const monthKey = dataPoint.startTime.toISOString().slice(0, 7)
-      if (!groupByMonth[monthKey]) groupByMonth[monthKey] = []
+      date = (dataPoint.Date).split('T')[0]
+      const monthKey = date.split('T')[0]
+      weekNum = dataPoint.weekNumber
+      if (!groupByMonth[monthKey]) 
+      groupByMonth[monthKey] = []
       groupByMonth[monthKey].push(dataPoint)
     })
-    const monthlyAverages = this.calculateAverage(groupByMonth)
-    let monthlyData = this.statContentCreator(monthlyAverages)
-    return monthlyData
+    const monthlyAverages = this.avgFormat(groupByMonth, date, weekNum)
+    return monthlyAverages
   },
 
-  statContentCreator(data) {
-    let additionalContent = ''
-    if (!this.isEmpty(data)) {
-      for (const key in data) {
-        additionalContent += `${key} : ${this.formatValue(data[key])[0]} , ${this.formatValue(data[key])[1]}`
+  avgFormat(groupByTime, date, weekNum) {
+    const yearKey = date.split('-')[0]
+    const monthKey = date.split('-')[1]
+    const timeData = this.calculateAverage(groupByTime)
+    let timeAverages = ''
+    if (!this.isEmpty(timeData)) {
+      for (const key in timeData) {
+        const weekDay = this.dayOfWeekToDateString(key)
+        timeAverages += `${key}, ${yearKey}, ${monthKey} ,${weekNum}, ${weekDay}, : ${this.formatValue(timeData[key])[0]} , ${this.formatValue(timeData[key])[1]}`
       }
     }
-    return additionalContent
+    else {
+      timeAverages = 'No data'
+    }
+    return timeAverages
+    /* const dailyData = this.calculateAverage(groupByDay)
+    if (!this.isEmpty(dailyData)) {
+      for (const key in dailyData) {
+        console.log(key);
+        const weekDay = this.dayOfWeekToDateString(key)
+        dailyAverages += `${key}, ${weekKey}, ${weekDay}, ${this.formatValue(dailyData[key])[0]} , ${this.formatValue(dailyData[key])[1]}
+        `}
+    } 
+    else {
+      dailyAverages = 'No data'
+    }
+    return dailyAverages */
   },
+
   isEmpty(obj) {
     for (const key in obj) {
       // eslint-disable-next-line no-prototype-builtins

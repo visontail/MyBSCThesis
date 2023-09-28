@@ -1,5 +1,5 @@
 <template>
-    <ChartComponent :hidden="showChart" :selectedMarkerID="selectedMarkerID" :dailyDataArray="dailyDataArray" :weeklyDataArray="weeklyDataArray" :monthlyDataArray="monthlyDataArray"/>
+    <ChartComponent :hidden="showChart" :selectedMarkerID="selectedMarkerID" :dailyDataArray="dailyDataArray"/>
   <div ref="mapDiv" id="mapDiv" style="width:100vw; height: 100vh;z-index: 1;">
   </div>
 </template>
@@ -148,8 +148,6 @@ export default {
     loadPositions()
     //  load Google Maps Markers in map
     const dailyDataArray = ref([]);
-    const weeklyDataArray = ref([]);
-    const monthlyDataArray = ref([]);
     const loadMarkers = async (map) => {
       try{
       //  selecting each Marker's data (id, name, positions(latitude, longitude))
@@ -182,10 +180,6 @@ export default {
           //  calculate measurement averages
           const dailyData = Average.groupByDaily(statsArray);
           dailyDataArray.value.push({ id, name, dailyData });
-          const weeklyData = Average.groupByWeekly(statsArray);
-          weeklyDataArray.value.push({ id, name,  weeklyData });
-          const monthlyData = Average.groupByMontly(statsArray);
-          monthlyDataArray.value.push({ id, name, monthlyData });
 
           //  statContent +
           const content =` 
@@ -245,8 +239,6 @@ export default {
     return { 
       mapDiv,
       dailyDataArray,
-      //weeklyDataArray,
-      //monthlyDataArray,
       selectedMarkerID,
       showChart
     };
