@@ -4,11 +4,9 @@ export default {
     // parse date strings to Date objects
     const groupByDay = {}
     let weekNum = ''
-    let date = ''
     // iterates through each dataset
     data.forEach((dataPoint) => {
       // string to date variable
-      date = (dataPoint.Date).split('T')[0]
       const dayKey = (dataPoint.Date).split('T')[0]
       // get week number of the year to categorize data
       weekNum = dataPoint.weekNumber
@@ -17,36 +15,50 @@ export default {
       groupByDay[dayKey] = []
       groupByDay[dayKey].push(dataPoint)
     })
-    console.log(groupByDay);
-    const dailyAverages = this.avgFormat(groupByDay, date, weekNum)
+    const dailyAverages = this.avgFormat(groupByDay,weekNum)
     return dailyAverages
   },
-  groupByMontly(data) {
-    // parse date strings to Date objects
-    const groupByMonth = {}
-    let weekNum = ''
-    let date = ''
+  groupByMonthly(data) {
+    // Parse date strings to Date objects
+    const groupByMonth = {};
     data.forEach((dataPoint) => {
-      date = (dataPoint.Date).split('T')[0]
-      const monthKey = date.split('T')[0]
-      weekNum = dataPoint.weekNumber
-      if (!groupByMonth[monthKey]) 
-      groupByMonth[monthKey] = []
-      groupByMonth[monthKey].push(dataPoint)
-    })
-    const monthlyAverages = this.avgFormat(groupByMonth, date, weekNum)
-    return monthlyAverages
+      const date = new Date(dataPoint.Date);
+      const yearKey = date.getFullYear();
+      const monthKey = date.getMonth() + 1; // months starts with 0
+      const monthYearKey = `${yearKey}-${monthKey}`;
+  
+      if (!groupByMonth[monthYearKey]) {
+        groupByMonth[monthYearKey] = [];
+      }
+      groupByMonth[monthYearKey].push(dataPoint);
+    });
+  
+    const monthlyAverages = this.avgFormat(groupByMonth)
+    /* let monthlyAverages = '';
+  
+    if (!this.isEmpty(monthData)) {
+      for (const key in monthData) {
+        const [yearKey, monthKey] = key.split('-');
+        const monthYear = `${yearKey}-${monthKey}`;
+        monthlyAverages += `${monthYear}, ${yearKey}, ${monthKey}: ${this.formatValue(monthData[key])[0]}, ${this.formatValue(monthData[key])[1]}\n`;
+      }
+    } else {
+      monthlyAverages = 'No data';
+    } */
+    console.log(monthlyAverages);
+    return monthlyAverages;
   },
+  
 
-  avgFormat(groupByTime, date, weekNum) {
-    const yearKey = date.split('-')[0]
-    const monthKey = date.split('-')[1]
+  avgFormat(groupByTime) {
     const timeData = this.calculateAverage(groupByTime)
     let timeAverages = ''
     if (!this.isEmpty(timeData)) {
       for (const key in timeData) {
-        const weekDay = this.dayOfWeekToDateString(key)
-        timeAverages += `${key}, ${yearKey}, ${monthKey} ,${weekNum}, ${weekDay}, : ${this.formatValue(timeData[key])[0]} , ${this.formatValue(timeData[key])[1]}`
+        const yearKey = key.split('-')[0]
+        const monthKey = key.split('-')[1]
+        timeAverages += `${key}, ${yearKey}, ${monthKey} : ${this.formatValue(timeData[key])[0]} , ${this.formatValue(timeData[key])[1]}
+        `
       }
     }
     else {

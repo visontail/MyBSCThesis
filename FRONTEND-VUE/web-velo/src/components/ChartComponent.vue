@@ -84,6 +84,7 @@ export default {
   name: 'dataChart',
   props: {
     dailyDataArray: Array,
+    monthlyDataArray: Array,
     selectedMarkerID: Number,
     showChart: {
       type: Boolean,
