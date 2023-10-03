@@ -3,24 +3,36 @@ export default {
   groupByDaily(data) {
     // parse date strings to Date objects
     const groupByDay = {}
-    let weekNum = ''
+    let dailyAverages = '';
     // iterates through each dataset
     data.forEach((dataPoint) => {
       // string to date variable
       const dayKey = (dataPoint.Date).split('T')[0]
       // get week number of the year to categorize data
-      weekNum = dataPoint.weekNumber
       // Group the data by day, week, and month
       if (!groupByDay[dayKey])
       groupByDay[dayKey] = []
       groupByDay[dayKey].push(dataPoint)
     })
-    const dailyAverages = this.avgFormat(groupByDay,weekNum)
+    const dailyData = this.calculateAverage(groupByDay)
+    if (!this.isEmpty(dailyData)) {
+      for (const key in dailyData) {
+        const weekDay = this.dayOfWeekToDateString(key)
+        const weekNum = this.getWeekNumber(new Date (key))
+        dailyAverages += `${key}, ${weekNum}, ${weekDay}, ${this.formatValue(dailyData[key])[0]} , ${this.formatValue(dailyData[key])[1]}
+        `
+      }
+    }
+    else {
+      dailyAverages = 'No data'
+    }
+    console.log(dailyAverages);
     return dailyAverages
   },
   groupByMonthly(data) {
     // Parse date strings to Date objects
     const groupByMonth = {};
+    let monthlyAverages = ''
     data.forEach((dataPoint) => {
       const date = new Date(dataPoint.Date);
       const yearKey = date.getFullYear();
@@ -32,20 +44,19 @@ export default {
       }
       groupByMonth[monthYearKey].push(dataPoint);
     });
-  
-    const monthlyAverages = this.avgFormat(groupByMonth)
-    /* let monthlyAverages = '';
-  
-    if (!this.isEmpty(monthData)) {
-      for (const key in monthData) {
-        const [yearKey, monthKey] = key.split('-');
-        const monthYear = `${yearKey}-${monthKey}`;
-        monthlyAverages += `${monthYear}, ${yearKey}, ${monthKey}: ${this.formatValue(monthData[key])[0]}, ${this.formatValue(monthData[key])[1]}\n`;
+    const monthlyData = this.calculateAverage(groupByMonth)
+    if (!this.isEmpty(monthlyData)) {
+      for (const key in monthlyData) {
+        const yearKey = key.split('-')[0]
+        const monthKey = key.split('-')[1]
+        monthlyAverages += `${key}, ${yearKey}, ${monthKey} : ${this.formatValue(monthlyData[key])[0]} , ${this.formatValue(monthlyData[key])[1]}
+        `
       }
-    } else {
-      monthlyAverages = 'No data';
-    } */
-    console.log(monthlyAverages);
+    }
+    else {
+      monthlyAverages = 'No data'
+    }
+    //console.log(monthlyAverages);
     return monthlyAverages;
   },
   

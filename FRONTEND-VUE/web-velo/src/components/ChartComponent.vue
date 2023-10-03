@@ -27,16 +27,16 @@ function createWeeklyChartData(dataArray, currentWeekNum, selectedMarkerID) {
         const sortDaily = dailyData.split('\n')
         for (let j = 0; j < sortDaily.length - 1; j++) {
           const dataset = sortDaily[j].split(',')
-          const date = new Date(dataset[0])
+          const weekNum = parseInt(dataset[1])
           const weekDay = parseInt(dataset[2])
           const cyc1 = parseFloat(dataset[3])
           const cyc2 = parseFloat(dataset[4])
-          const weekNum = Average.getWeekNumber(date)
+          console.log(cyc1, cyc2);
           if (currentWeekNum == weekNum) {
             let data1 = [0, 0, 0, 0, 0, 0, 0]
             let data2 = [0, 0, 0, 0, 0, 0, 0]
-            data1[weekDay - 1] = cyc1
-            data2[weekDay - 1] = cyc2
+            data1[weekDay] = cyc1
+            data2[weekDay] = cyc2
             const label1 = `From ${stationName}`
             const label2 = `To ${stationName}`
             weeklyChartData = {
