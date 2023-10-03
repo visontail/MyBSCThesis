@@ -79,7 +79,7 @@ function createWeeklyChartData(dataArray, currentWeekNum, selectedMarkerID) {
   return weeklyChartData
 }
 
-function createYearlyChartData(dataArray, currentYearNum, selectedMarkerID) {
+/* function createYearlyChartData(dataArray, currentYearNum, selectedMarkerID) {
   let yearlyChartData = {}
   for (let i = 0; i < dataArray.length; i++) {
     const stationID = dataArray[i].id
@@ -140,11 +140,77 @@ function createYearlyChartData(dataArray, currentYearNum, selectedMarkerID) {
     }
   }
   return yearlyChartData
-}
+} */
 
+/* function createDailyChartData(dataArray, currentDay, selectedMarkerID) {
+  let dailyChartData = {}
+  for (let i = 0; i < dataArray.length; i++) {
+    const stationID = dataArray[i].id
+    if (stationID == selectedMarkerID) {
+      const stationName = dataArray[i].name
+      const hourlyData = dataArray[i].hourlyData
+      if (hourlyData !== 'No data') {
+        const sortHourly = hourlyData.split('\n')
+        let data1 = [0, 0, 0, 0, 0, 0, 0]
+        let data2 = [0, 0, 0, 0, 0, 0, 0]
+        for (let j = 0; j < sortHourly.length - 1; j++) {
+          const dataset = sortHourly[j].split(',')
+          const dayNum = parseInt(dataset[1])
+          const hourKey = parseInt(dataset[2])
+          const cyc1 = parseFloat(dataset[3])
+          const cyc2 = parseFloat(dataset[4])
+          if (currentDay == dayNum) {
+            console.log(dataset);
+            data1[hourKey] += cyc1
+            data2[hourKey] += cyc2
+            const label1 = `From ${stationName}`
+            const label2 = `To ${stationName}`
+            dailyChartData = {
+              labels: ['00:00', '04:00', '08:00', '12:00', '16:00', '20:00', '24:00'],
+              datasets: [
+                {
+                  label: label1,
+                  data: data1,
+                  borderColor: '#F0810F',
+                  pointBackgroundColor: '#F0810F',
+                  fill: {
+                    target: 'origin',
+                    below: 'rgb(240,129,15)' // And blue below the origin
+                  },
+                  borderWidth: 1,
+                  pointBorderColor: 'rgb(240,129,15)',
+                  backgroundColor: 'rgba(240,129,15,0.4)',
+                  tension: 0.2
+                },
+                {
+                  label: label2,
+                  data: data2,
+                  borderColor: '#E6DF44',
+                  pointBackgroundColor: '#E6DF44',
+                  fill: {
+                    target: 'origin',
+                    below: 'rgb(230,223,68)' // And blue below the origin
+                  },
+                  borderWidth: 1,
+                  pointBorderColor: 'rgb(230,223,68)',
+                  backgroundColor: 'rgba(230,223,68,0.8)',
+                  tension: 0.2
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+  console.log(dailyChartData);
+  return dailyChartData
+}
+ */
 export default {
   name: 'dataChart',
   props: {
+    hourlyDataArray: Array,
     dailyDataArray: Array,
     monthlyDataArray: Array,
     selectedMarkerID: Number,
@@ -155,7 +221,7 @@ export default {
   },
   setup(props) {
     const currentDate = new Date()
-    // const currentDay = ''
+    //const currentDay = currentDate.getDay()
     const currentWeekNum = Average.getWeekNumber(currentDate)
     // const currentYearNum = currentDate.getFullYear()
     const chartInstance = ref(null)
@@ -165,6 +231,11 @@ export default {
     watch(
       () => props.selectedMarkerID,
       () => {
+        /* const hourlyData = createDailyChartData(
+          props.hourlyDataArray,
+          currentDay,
+          props.selectedMarkerID
+        ) */
         const dailyData = createWeeklyChartData(
           props.dailyDataArray,
           currentWeekNum,

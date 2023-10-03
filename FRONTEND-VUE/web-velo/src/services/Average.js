@@ -1,48 +1,74 @@
 export default {
+  // Function for 
+  groupByHourly(data) {
+    // parse date strings to Date objects
+    const groupByHourly = {}
+    let hourlyAverages = ''
+    // iterates through each dataset
+    data.forEach((dataPoint) => {
+      // string to date variable
+      const hourlyKey = dataPoint.Date.split('T')[0] + ' ' + dataPoint.startTime
+      // get week number of the year to categorize data
+      // Group the data by day, week, and month
+      if (!groupByHourly[hourlyKey]) groupByHourly[hourlyKey] = []
+      groupByHourly[hourlyKey].push(dataPoint)
+    })
+    const hourlyData = this.calculateAverage(groupByHourly)
+    if (!this.isEmpty(hourlyData)) {
+      for (const key in hourlyData) {
+        const dayKey = (new Date(key.split(' ')[0])).getDay()
+        const hourKey = this.createHourKey(key)
+        hourlyAverages += `${key}, ${dayKey}, ${hourKey}, ${this.formatValue(hourlyData[key])[0]} , ${this.formatValue(hourlyData[key])[1]}
+          `
+      }
+    } else {
+      hourlyAverages = 'No data'
+    }
+    return hourlyAverages
+  },
   // Function for creating dailyData for Weekly Chart
   groupByDaily(data) {
     // parse date strings to Date objects
     const groupByDay = {}
-    let dailyAverages = '';
+    let dailyAverages = ''
     // iterates through each dataset
     data.forEach((dataPoint) => {
       // string to date variable
-      const dayKey = (dataPoint.Date).split('T')[0]
+      const dayKey = dataPoint.Date.split('T')[0]
       // get week number of the year to categorize data
       // Group the data by day, week, and month
-      if (!groupByDay[dayKey])
-      groupByDay[dayKey] = []
+      if (!groupByDay[dayKey]) groupByDay[dayKey] = []
       groupByDay[dayKey].push(dataPoint)
     })
     const dailyData = this.calculateAverage(groupByDay)
     if (!this.isEmpty(dailyData)) {
       for (const key in dailyData) {
         const weekDay = this.dayOfWeekToDateString(key)
-        const weekNum = this.getWeekNumber(new Date (key))
+        const weekNum = this.getWeekNumber(new Date(key))
         dailyAverages += `${key}, ${weekNum}, ${weekDay}, ${this.formatValue(dailyData[key])[0]} , ${this.formatValue(dailyData[key])[1]}
         `
       }
-    }
-    else {
+    } else {
       dailyAverages = 'No data'
     }
     return dailyAverages
   },
+  // Function for 
   groupByMonthly(data) {
     // Parse date strings to Date objects
-    const groupByMonth = {};
+    const groupByMonth = {}
     let monthlyAverages = ''
     data.forEach((dataPoint) => {
-      const date = new Date(dataPoint.Date);
-      const yearKey = date.getFullYear();
-      const monthKey = date.getMonth() + 1; // months starts with 0
-      const monthYearKey = `${yearKey}-${monthKey}`;
-  
+      const date = new Date(dataPoint.Date)
+      const yearKey = date.getFullYear()
+      const monthKey = date.getMonth() + 1 // months starts with 0
+      const monthYearKey = `${yearKey}-${monthKey}`
+
       if (!groupByMonth[monthYearKey]) {
-        groupByMonth[monthYearKey] = [];
+        groupByMonth[monthYearKey] = []
       }
-      groupByMonth[monthYearKey].push(dataPoint);
-    });
+      groupByMonth[monthYearKey].push(dataPoint)
+    })
     const monthlyData = this.calculateAverage(groupByMonth)
     if (!this.isEmpty(monthlyData)) {
       for (const key in monthlyData) {
@@ -51,43 +77,12 @@ export default {
         monthlyAverages += `${key}, ${yearKey}, ${monthKey}, ${this.formatValue(monthlyData[key])[0]} , ${this.formatValue(monthlyData[key])[1]}
         `
       }
-    }
-    else {
+    } else {
       monthlyAverages = 'No data'
     }
-    return monthlyAverages;
+    return monthlyAverages
   },
-  
-
-  avgFormat(groupByTime) {
-    const timeData = this.calculateAverage(groupByTime)
-    let timeAverages = ''
-    if (!this.isEmpty(timeData)) {
-      for (const key in timeData) {
-        const yearKey = key.split('-')[0]
-        const monthKey = key.split('-')[1]
-        timeAverages += `${key}, ${yearKey}, ${monthKey} : ${this.formatValue(timeData[key])[0]} , ${this.formatValue(timeData[key])[1]}
-        `
-      }
-    }
-    else {
-      timeAverages = 'No data'
-    }
-    return timeAverages
-    /* const dailyData = this.calculateAverage(groupByDay)
-    if (!this.isEmpty(dailyData)) {
-      for (const key in dailyData) {
-        console.log(key);
-        const weekDay = this.dayOfWeekToDateString(key)
-        dailyAverages += `${key}, ${weekKey}, ${weekDay}, ${this.formatValue(dailyData[key])[0]} , ${this.formatValue(dailyData[key])[1]}
-        `}
-    } 
-    else {
-      dailyAverages = 'No data'
-    }
-    return dailyAverages */
-  },
-
+  // Function for 
   isEmpty(obj) {
     for (const key in obj) {
       // eslint-disable-next-line no-prototype-builtins
@@ -97,6 +92,7 @@ export default {
     }
     return true
   },
+  // Function for 
   formatValue(dataObject) {
     let dataList = []
     let data = JSON.parse(JSON.stringify(dataObject))
@@ -104,15 +100,6 @@ export default {
     dataList.push(data.CycTraff2.toFixed(2))
     return dataList
   },
-
-  // Helper function to get the ISO week number
-  getWeekNumber(date) {
-    date.setHours(0, 0, 0, 0) // Set the time to the start of the day
-    date.setDate(date.getDate() + 4 - (date.getDay() || 7)) // Adjust the date to Thursday (ISO 8601 week starts on Monday)
-    const yearStart = new Date(date.getFullYear(), 0, 1) // Get the date for the start of the current year
-    return `${date.getFullYear()}${Math.ceil(((date - yearStart) / 86400000 + 1) / 7)}`
-  },
-
   // Calculate the averages for each group
   calculateAverage(data) {
     const result = {}
@@ -135,6 +122,44 @@ export default {
     }
     return result
   },
+  // Function for 
+  createHourKey(time){
+      const hour = time.split(' ')[1].split(':')[0]
+      let hourKey = 0
+      if (hour >= 0 && hour < 4) {
+        hourKey = 0;
+        return hourKey
+      } else if (hour >= 4 && hour < 8) {
+        hourKey = 1;
+        return hourKey
+      } else if (hour >= 8 && hour < 12) {
+        hourKey = 2;
+        return hourKey
+      } else if (hour >= 12 && hour < 16) {
+        hourKey = 3;
+        return hourKey
+      } else if (hour >= 16 && hour < 20) {
+        hourKey = 4;
+        return hourKey
+      } else if (hour >= 20 && hour < 24) {
+        hourKey = 5;
+        return hourKey
+      }
+        else if (hour == 24) {
+        hourKey = 5;
+        return hourKey
+      } else {
+        return 'Invalid input';
+      }
+  },
+  // Helper function to get the ISO week number
+  getWeekNumber(date) {
+    date.setHours(0, 0, 0, 0) // Set the time to the start of the day
+    date.setDate(date.getDate() + 4 - (date.getDay() || 7)) // Adjust the date to Thursday (ISO 8601 week starts on Monday)
+    const yearStart = new Date(date.getFullYear(), 0, 1) // Get the date for the start of the current year
+    return `${date.getFullYear()}${Math.ceil(((date - yearStart) / 86400000 + 1) / 7)}`
+  },
+  // Function for 
   dayOfWeekToDateString(inputDate) {
     const daysOfWeek = ['0', '1', '2', '3', '4', '5', '6'] // 0-Sunday, 1-Monday, ..., 6-Saturday
     const dateParts = inputDate.split('-')
