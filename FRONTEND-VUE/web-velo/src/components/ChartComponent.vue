@@ -25,16 +25,15 @@ function createWeeklyChartData(dataArray, currentWeekNum, selectedMarkerID) {
       const dailyData = dataArray[i].dailyData
       if (dailyData !== 'No data') {
         const sortDaily = dailyData.split('\n')
+        let data1 = [0, 0, 0, 0, 0, 0, 0]
+        let data2 = [0, 0, 0, 0, 0, 0, 0]
         for (let j = 0; j < sortDaily.length - 1; j++) {
           const dataset = sortDaily[j].split(',')
           const weekNum = parseInt(dataset[1])
           const weekDay = parseInt(dataset[2])
           const cyc1 = parseFloat(dataset[3])
           const cyc2 = parseFloat(dataset[4])
-          console.log(cyc1, cyc2);
           if (currentWeekNum == weekNum) {
-            let data1 = [0, 0, 0, 0, 0, 0, 0]
-            let data2 = [0, 0, 0, 0, 0, 0, 0]
             data1[weekDay] = cyc1
             data2[weekDay] = cyc2
             const label1 = `From ${stationName}`
@@ -80,6 +79,69 @@ function createWeeklyChartData(dataArray, currentWeekNum, selectedMarkerID) {
   return weeklyChartData
 }
 
+function createYearlyChartData(dataArray, currentYearNum, selectedMarkerID) {
+  let yearlyChartData = {}
+  for (let i = 0; i < dataArray.length; i++) {
+    const stationID = dataArray[i].id
+    if (stationID == selectedMarkerID) {
+      const stationName = dataArray[i].name
+      const monthlyData = dataArray[i].MonthlyData
+      if (monthlyData !== 'No data') {
+        const sortMonthly = monthlyData.split('\n')
+        let data1 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        let data2 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        for (let j = 0; j < sortMonthly.length - 1; j++) {
+          const dataset = sortMonthly[j].split(',')
+          const yearNum = parseInt(dataset[1])
+          const monthTag = parseInt(dataset[2])
+          const cyc1 = parseFloat(dataset[3])
+          const cyc2 = parseFloat(dataset[4])
+          if (currentYearNum == yearNum) {
+            data1[monthTag - 1] = cyc1
+            data2[monthTag - 1] = cyc2
+            const label1 = `From ${stationName}`
+            const label2 = `To ${stationName}`
+            yearlyChartData = {
+              labels: [ 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+              datasets: [
+                {
+                  label: label1,
+                  data: data1,
+                  borderColor: '#F0810F',
+                  pointBackgroundColor: '#F0810F',
+                  fill: {
+                    target: 'origin',
+                    below: 'rgb(240,129,15)' // And blue below the origin
+                  },
+                  borderWidth: 1,
+                  pointBorderColor: 'rgb(240,129,15)',
+                  backgroundColor: 'rgba(240,129,15,0.4)',
+                  tension: 0.2
+                },
+                {
+                  label: label2,
+                  data: data2,
+                  borderColor: '#E6DF44',
+                  pointBackgroundColor: '#E6DF44',
+                  fill: {
+                    target: 'origin',
+                    below: 'rgb(230,223,68)' // And blue below the origin
+                  },
+                  borderWidth: 1,
+                  pointBorderColor: 'rgb(230,223,68)',
+                  backgroundColor: 'rgba(230,223,68,0.8)',
+                  tension: 0.2
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+  return yearlyChartData
+}
+
 export default {
   name: 'dataChart',
   props: {
@@ -93,8 +155,9 @@ export default {
   },
   setup(props) {
     const currentDate = new Date()
+    // const currentDay = ''
     const currentWeekNum = Average.getWeekNumber(currentDate)
-
+    // const currentYearNum = currentDate.getFullYear()
     const chartInstance = ref(null)
     const showNoChart = ref(false)
     const showNoData = ref(true)
@@ -102,13 +165,18 @@ export default {
     watch(
       () => props.selectedMarkerID,
       () => {
-        const data = createWeeklyChartData(
+        const dailyData = createWeeklyChartData(
           props.dailyDataArray,
           currentWeekNum,
           props.selectedMarkerID
         )
-        if (data.datasets) {
-          chartInstance.value = createChart(data)
+        /* const monthlyData = createYearlyChartData(
+          props.monthlyDataArray,
+          currentYearNum,
+          props.selectedMarkerID
+        ) */
+        if (dailyData.datasets) {
+          chartInstance.value = createChart(dailyData)
         } else {
           showNoData.value = false
           showNoChart.value = true

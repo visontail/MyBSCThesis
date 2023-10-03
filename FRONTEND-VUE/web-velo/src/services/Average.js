@@ -26,7 +26,6 @@ export default {
     else {
       dailyAverages = 'No data'
     }
-    console.log(dailyAverages);
     return dailyAverages
   },
   groupByMonthly(data) {
@@ -49,14 +48,13 @@ export default {
       for (const key in monthlyData) {
         const yearKey = key.split('-')[0]
         const monthKey = key.split('-')[1]
-        monthlyAverages += `${key}, ${yearKey}, ${monthKey} : ${this.formatValue(monthlyData[key])[0]} , ${this.formatValue(monthlyData[key])[1]}
+        monthlyAverages += `${key}, ${yearKey}, ${monthKey}, ${this.formatValue(monthlyData[key])[0]} , ${this.formatValue(monthlyData[key])[1]}
         `
       }
     }
     else {
       monthlyAverages = 'No data'
     }
-    //console.log(monthlyAverages);
     return monthlyAverages;
   },
   
