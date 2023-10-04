@@ -197,7 +197,6 @@ export default {
                 </div>
                 <div>
                   <p> Today's total traffic: ${sumToday}</p>
-                  <button type="button">Switch to monthly view</button>
                   <p> This year's total traffic: ${sumThisYear} </p>
                 </div>
                 <div>

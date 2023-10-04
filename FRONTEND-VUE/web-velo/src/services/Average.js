@@ -8,6 +8,7 @@ export default {
     data.forEach((dataPoint) => {
       // string to date variable
       const hourlyKey = dataPoint.Date.split('T')[0] + ' ' + dataPoint.startTime
+      console.log(hourlyKey);
       // get week number of the year to categorize data
       // Group the data by day, week, and month
       if (!groupByHourly[hourlyKey]) groupByHourly[hourlyKey] = []
@@ -18,6 +19,7 @@ export default {
       for (const key in hourlyData) {
         const dayKey = (new Date(key.split(' ')[0])).getDay()
         const hourKey = this.createHourKey(key)
+        console.log(key);
         hourlyAverages += `${key}, ${dayKey}, ${hourKey}, ${this.formatValue(hourlyData[key])[0]} , ${this.formatValue(hourlyData[key])[1]}
           `
       }

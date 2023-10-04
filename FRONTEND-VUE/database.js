@@ -66,6 +66,7 @@ export async function getStats(id) {
         throw error;
     }
 }
+console.log(getStats(120003));
 
 // COUNT Stations
 export async function getSumStations() {
