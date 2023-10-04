@@ -22,7 +22,7 @@ for x in range(n):
         #
         demo_data_lines.append("H4 01 02 VELOCLASS MXV2018047 UEH_0120.2 Merfoldko")
         #   add date
-        demo_data_lines.append("H6 " + date + " "+ str(clock) +"0000 " + date + " " + str(clock+1) +"0000 " + date + " 095709 " + date + " "+ str(clock) +"0000 " + date + " " + str(clock+1) +"0000 ")
+        demo_data_lines.append("H6 " + date + "200" + " "+ str(clock) +"0000 " + date + " " + str(clock+1) +"0000 " + date + " 095709 " + date + " "+ str(clock) +"0000 " + date + " " + str(clock+1) +"0000 ")
         #   add remainging
         demo_data_lines.append("L0 02 02 L M")
         demo_data_lines.append("90 60 60 77 01")

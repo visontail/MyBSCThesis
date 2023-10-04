@@ -25,7 +25,7 @@ def moveFile(name, path):
 def get_weeknum(date):
     try:
     # convert the input date string to a datetime object
-        date_obj = datetime.strptime(date, '%Y-%m-%d')
+        date_obj = datetime.strptime(date, '%Y-%m-%d %H:%M:%S')
     # get the year and week number
         year = date_obj.strftime('%Y')
         week_number = date_obj.strftime('%U')
@@ -62,7 +62,7 @@ class File():
         # - sorting information
         meas_name = lines[1][1]
         meas_time = [
-                datetime.strptime(lines[3][1], '%Y%m%d').strftime('%Y-%m-%d'),
+                datetime.strptime(lines[3][1], '%Y%m%d%H%M%S').strftime('%Y-%m-%d %H:%M:%S'),
                 datetime.strptime(lines[3][2], '%H%M%S').strftime('%H:%M:%S'),
                 datetime.strptime(lines[3][4], '%H%M%S').strftime('%H:%M:%S'),
                 ]
