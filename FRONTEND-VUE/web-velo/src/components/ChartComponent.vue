@@ -1,28 +1,31 @@
 <template>
   <div>
-    <h3>Weekly Averages</h3>
+    <h3>{{ chartTypeLabel }} Averages</h3>
     <div :hidden="showNoChart">
       <canvas id="myChart"></canvas>
-      <div class="btn-group" role="group" aria-label="Basic example">
-        <button type="button" class="btn btn-secondary" id="view-btn-active"> DAILY </button>
-        <button type="button" class="btn btn-secondary" id="view-btn"> WEEKLY </button>
-        <button type="button" class="btn btn-secondary" id="view-btn"> YEARLY </button>
+      <div class="btn-group" role="group">
+        <button type="button" class="btn btn-secondary" @click="switchToDaily"> DAILY </button>
+        <button type="button" class="btn btn-secondary" @click="switchToWeekly"> WEEKLY </button>
+        <button type="button" class="btn btn-secondary" @click="switchToYearly"> YEARLY </button>
       </div>
     </div>  
     <div :hidden="showNoData">
-      <h1>No avaiable data</h1>
+      <h1>No available data</h1>
     </div>
   </div>
 </template>
 
 <script>
 import Chart from 'chart.js/auto'
-import { ref, watch } from 'vue'
+import { ref, watch, computed } from 'vue'
 
-//import Average from '../services/Average'
+import Average from '../services/Average'
 
-function createDailyChartData(dataArray, currentDate, selectedMarkerID) {
+function createDailyChartData(dataArray, selectedMarkerID) {
   let dailyChartData = {}
+  const currentFullDate = new Date()
+  const currentDate = Average.shortenDate(currentFullDate)
+  console.log(currentDate);
   for (let i = 0; i < dataArray.length; i++) {
     const stationID = dataArray[i].id
     if (stationID == selectedMarkerID) {
@@ -34,12 +37,11 @@ function createDailyChartData(dataArray, currentDate, selectedMarkerID) {
         let data2 = [0, 0, 0, 0, 0, 0, 0]
         for (let j = 0; j < sortHourly.length - 1; j++) {
           const dataset = sortHourly[j].split(',')
-          const dateKey = new Date(dataset[0])
+          const dateKey = Average.shortenDate(new Date(dataset[0]))
           const hourKey = parseInt(dataset[2])
           const cyc1 = parseFloat(dataset[3])
           const cyc2 = parseFloat(dataset[4])
           if (currentDate == dateKey) {
-            console.log(dataset);
             data1[hourKey] += cyc1
             data2[hourKey] += cyc2
             const label1 = `From ${stationName}`
@@ -86,8 +88,9 @@ function createDailyChartData(dataArray, currentDate, selectedMarkerID) {
   return dailyChartData
 }
 
-/* function createWeeklyChartData(dataArray, currentWeekNum, selectedMarkerID) {
+function createWeeklyChartData(dataArray, selectedMarkerID) {
   let weeklyChartData = {}
+  const currentWeekNum = Average.getWeekNumber(new Date())
   for (let i = 0; i < dataArray.length; i++) {
     const stationID = dataArray[i].id
     if (stationID == selectedMarkerID) {
@@ -147,10 +150,11 @@ function createDailyChartData(dataArray, currentDate, selectedMarkerID) {
     }
   }
   return weeklyChartData
-} */
+}
 
-/* function createYearlyChartData(dataArray, currentYearNum, selectedMarkerID) {
+function createYearlyChartData(dataArray, selectedMarkerID) {
   let yearlyChartData = {}
+  const currentYearNum = new Date().getFullYear()
   for (let i = 0; i < dataArray.length; i++) {
     const stationID = dataArray[i].id
     if (stationID == selectedMarkerID) {
@@ -210,7 +214,7 @@ function createDailyChartData(dataArray, currentDate, selectedMarkerID) {
     }
   }
   return yearlyChartData
-} */
+}
 
 export default {
   name: 'dataChart',
@@ -225,33 +229,38 @@ export default {
     }
   },
   setup(props) {
-    const currentDate = new Date()
-    //const currentWeekNum = Average.getWeekNumber(currentDate)
-    // const currentYearNum = currentDate.getFullYear()
     const chartInstance = ref(null)
     const showNoChart = ref(false)
     const showNoData = ref(true)
+    const currentChartType = ref('daily') // Initialize with 'daily'
     // Watch for changes in selectedMarkerID and update the chart accordingly
     watch(
-      () => props.selectedMarkerID,
+      [() => props.selectedMarkerID, () => currentChartType.value],
       () => {
-        const hourlyData = createDailyChartData(
-          props.hourlyDataArray,
-          currentDate,
-          props.selectedMarkerID
-        )
-        /* const dailyData = createWeeklyChartData(
-          props.dailyDataArray,
-          currentWeekNum,
-          props.selectedMarkerID
-        ) */
-        /* const monthlyData = createYearlyChartData(
-          props.monthlyDataArray,
-          currentYearNum,
-          props.selectedMarkerID
-        ) */
-        if (hourlyData.datasets) {
-          chartInstance.value = createChart(hourlyData)
+        let chartData = null
+        if (chartInstance.value) {
+          // Destroy the existing chart instance
+          chartInstance.value.destroy()
+        }
+        if (currentChartType.value === 'daily') {
+          chartData = createDailyChartData(
+            props.hourlyDataArray,
+            props.selectedMarkerID
+          )
+        } else if (currentChartType.value === 'weekly') {
+          chartData = createWeeklyChartData(
+            props.dailyDataArray,
+            props.selectedMarkerID
+          )
+        } else if (currentChartType.value === 'yearly') {
+          chartData = createYearlyChartData(
+            props.monthlyDataArray,
+            props.selectedMarkerID
+          )
+        }
+
+        if (chartData && chartData.datasets) {
+          chartInstance.value = createChart(chartData)
         } else {
           showNoData.value = false
           showNoChart.value = true
@@ -267,9 +276,36 @@ export default {
       }
       return new Chart(chartElement, chartConfig)
     }
+    function switchToDaily() {
+      currentChartType.value = 'daily'
+    }
+
+    function switchToWeekly() {
+      currentChartType.value = 'weekly'
+    }
+
+    function switchToYearly() {
+      currentChartType.value = 'yearly'
+    }
+
+    const chartTypeLabel = computed(() => {
+      if (currentChartType.value === 'daily') {
+        return 'Daily'
+      } else if (currentChartType.value === 'weekly') {
+        return 'Weekly'
+      } else if (currentChartType.value === 'yearly') {
+        return 'Yearly'
+      } else {
+        return ''
+      }
+    })
     return {
       showNoChart,
       showNoData,
+      switchToDaily,
+      switchToWeekly,
+      switchToYearly,
+      chartTypeLabel,
     }
   }
 }

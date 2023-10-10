@@ -8,7 +8,6 @@ export default {
     data.forEach((dataPoint) => {
       // string to date variable
       const hourlyKey = dataPoint.Date.split('T')[0] + ' ' + dataPoint.startTime
-      console.log(hourlyKey);
       // get week number of the year to categorize data
       // Group the data by day, week, and month
       if (!groupByHourly[hourlyKey]) groupByHourly[hourlyKey] = []
@@ -19,7 +18,6 @@ export default {
       for (const key in hourlyData) {
         const dayKey = (new Date(key.split(' ')[0])).getDay()
         const hourKey = this.createHourKey(key)
-        console.log(key);
         hourlyAverages += `${key}, ${dayKey}, ${hourKey}, ${this.formatValue(hourlyData[key])[0]} , ${this.formatValue(hourlyData[key])[1]}
           `
       }
@@ -172,5 +170,14 @@ export default {
     const dayOfWeek = dateObject.getDay() // Get the day of the week as a number (0-6)
     const weekdayDate = `${daysOfWeek[dayOfWeek]}`
     return weekdayDate
-  }
+  },
+  // Function for
+  shortenDate(date) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  const shortenDate = `${year}-${month}-${day} `;
+  console.log(shortenDate);
+  return shortenDate;
+  },
 }
