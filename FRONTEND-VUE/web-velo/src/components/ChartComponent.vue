@@ -19,7 +19,7 @@
 import Chart from 'chart.js/auto'
 import { ref, watch } from 'vue'
 
-import Average from '../services/Average'
+//import Average from '../services/Average'
 
 function createDailyChartData(dataArray, currentDate, selectedMarkerID) {
   let dailyChartData = {}
