@@ -8,7 +8,7 @@ const options = {
     days: '3'
   },
   headers: {
-    'X-RapidAPI-Key': '29c96c7a85mshf0de203c63bd9e3p1942f6jsnd6241943c4e4',
+    'X-RapidAPI-Key': 'RAPID_API_WEATHER_KEY',
     'X-RapidAPI-Host': 'weatherapi-com.p.rapidapi.com'
   }
 };
