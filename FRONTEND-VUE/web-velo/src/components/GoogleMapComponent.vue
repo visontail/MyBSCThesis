@@ -13,7 +13,7 @@ import { Loader } from '@googlemaps/js-api-loader';
 
 import StationAPI from '../services/StationAPI.js';
 import MeasureAPI from '../services/MeasureAPI';
-import WeatherAPI from '../services/WeatherAPI';
+//  import WeatherAPI from '../services/WeatherAPI';
 
 import Average from '../services/Average';
 
@@ -157,6 +157,7 @@ export default {
         for (const pos of positionsArray) {
           const id = pos.StationID;
           const name = pos.StationName;
+          const img = pos.StationImg;
           const lat = parseFloat(pos.posLatitude);
           const lng = parseFloat(pos.posLongitude);
           //  load Measurement statistics data for each Station/Marker using 'StationID' into a 'statsArray'
@@ -188,11 +189,10 @@ export default {
           const MonthlyData = Average.groupByMonthly(statsArray);
           monthlyDataArray.value.push({ id, name, MonthlyData });
           
-          //const cord = `${lat},${lng}`
-          //const weatherData = await WeatherAPI.getWeatherAPIdata(cord);
-          //const currentWeather = WeatherAPI.getTodayWeatherData(weatherData)
-          //const currentIcon = WeatherAPI.getIconData(weatherData)
-          //  statContent +
+          //  const cord = `${lat},${lng}`
+          //  const weatherData = await WeatherAPI.getWeatherAPIdata(cord);
+          //  const currentWeather = WeatherAPI.getTodayWeatherData(weatherData)
+          //  const currentIcon = WeatherAPI.getIconData(weatherData)
           const content =` 
             <div id="content">
                 <h4> ${name} </h4>
@@ -207,9 +207,9 @@ export default {
                 </div>
                 <div>
                   <h4> PICTURES </h4>
+                  <img src="${img}" >
                 </div>
-            ` +
-            '</div>';
+              </div>`;
           const marker = new google.maps.Marker({
             id: id,
             title: name,

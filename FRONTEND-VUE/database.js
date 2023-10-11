@@ -40,7 +40,7 @@ export async function getMeasurementsTable() {
 //SELECT stations' data
 export async function getMarkerData() {
     try{
-        const [stationPos] = await pool.query("SELECT StationID, StationName, posLatitude, posLongitude FROM Stations")
+        const [stationPos] = await pool.query("SELECT StationID, StationName, StationImg, posLatitude, posLongitude FROM Stations")
     return stationPos
     }
     catch(error) {
