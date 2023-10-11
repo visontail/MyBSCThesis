@@ -18,9 +18,9 @@
 <script>
 import Chart from 'chart.js/auto'
 import { ref, watch, computed } from 'vue'
-
 import Average from '../services/Average'
 
+// Function for 
 function createDailyChartData(dataArray, selectedMarkerID) {
   let dailyChartData = {}
   const currentFullDate = new Date()
@@ -87,7 +87,7 @@ function createDailyChartData(dataArray, selectedMarkerID) {
   console.log(dailyChartData);
   return dailyChartData
 }
-
+// Function for 
 function createWeeklyChartData(dataArray, selectedMarkerID) {
   let weeklyChartData = {}
   const currentWeekNum = Average.getWeekNumber(new Date())
@@ -151,7 +151,7 @@ function createWeeklyChartData(dataArray, selectedMarkerID) {
   }
   return weeklyChartData
 }
-
+// Function for 
 function createYearlyChartData(dataArray, selectedMarkerID) {
   let yearlyChartData = {}
   const currentYearNum = new Date().getFullYear()
@@ -232,7 +232,7 @@ export default {
     const chartInstance = ref(null)
     const showNoChart = ref(false)
     const showNoData = ref(true)
-    const currentChartType = ref('daily') // Initialize with 'daily'
+    const currentChartType = ref('weekly') // Initialize with 'daily'
     // Watch for changes in selectedMarkerID and update the chart accordingly
     watch(
       [() => props.selectedMarkerID, () => currentChartType.value],
@@ -258,7 +258,6 @@ export default {
             props.selectedMarkerID
           )
         }
-
         if (chartData && chartData.datasets) {
           chartInstance.value = createChart(chartData)
         } else {

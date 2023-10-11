@@ -13,6 +13,7 @@ import { Loader } from '@googlemaps/js-api-loader';
 
 import StationAPI from '../services/StationAPI.js';
 import MeasureAPI from '../services/MeasureAPI';
+import WeatherAPI from '../services/WeatherAPI';
 
 import Average from '../services/Average';
 
@@ -186,14 +187,17 @@ export default {
           dailyDataArray.value.push({ id, name, dailyData });
           const MonthlyData = Average.groupByMonthly(statsArray);
           monthlyDataArray.value.push({ id, name, MonthlyData });
-
+          
+          const cord = `${lat},${lng}`
+          const weatherData = await WeatherAPI.getWeatherAPIdata(cord);
+          const currentWeather = WeatherAPI.getTodayWeatherdata(weatherData)
           //  statContent +
           const content =` 
             <div id="content">
                 <h4> ${name} </h4>
                 <p> (${lat}, ${lng}) </p>
                 <div>
-                  <p> Weather: 20°C </p>
+                  <p> Weather: ${currentWeather}°C</p>
                 </div>
                 <div>
                   <p> Today's total traffic: ${sumToday}</p>
