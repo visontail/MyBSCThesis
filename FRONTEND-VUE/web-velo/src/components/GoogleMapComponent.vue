@@ -188,18 +188,20 @@ export default {
           const MonthlyData = Average.groupByMonthly(statsArray);
           monthlyDataArray.value.push({ id, name, MonthlyData });
           
-          const cord = `${lat},${lng}`
-          const weatherData = await WeatherAPI.getWeatherAPIdata(cord);
-          const currentWeather = WeatherAPI.getTodayWeatherdata(weatherData)
+          //const cord = `${lat},${lng}`
+          //const weatherData = await WeatherAPI.getWeatherAPIdata(cord);
+          //const currentWeather = WeatherAPI.getTodayWeatherData(weatherData)
+          //const currentIcon = WeatherAPI.getIconData(weatherData)
           //  statContent +
           const content =` 
             <div id="content">
                 <h4> ${name} </h4>
-                <p> (${lat}, ${lng}) </p>
-                <div>
+                <p> (${lat}, ${lng}) </p>`
+                /* <div>
                   <p> Weather: ${currentWeather}°C</p>
-                </div>
-                <div>
+                  <img src="${currentIcon}">
+                </div> */
+                +`<div>
                   <p> Today's total traffic: ${sumToday}</p>
                   <p> This year's total traffic: ${sumThisYear} </p>
                 </div>

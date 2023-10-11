@@ -21,9 +21,16 @@ export default {
       console.error(error);
     }
   },
-  getTodayWeatherdata(data){
+  getTodayWeatherData(data){
     try {
       return data.current.temp_c
+    } catch (error) {
+      console.error(error);
+    }
+  },
+  getIconData(data){
+    try {
+      return data.current.condition.icon
     } catch (error) {
       console.error(error);
     }

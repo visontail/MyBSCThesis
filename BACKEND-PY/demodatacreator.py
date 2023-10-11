@@ -10,7 +10,7 @@ demo_xtx = path + file_name
 n = int(input("How many demo data file you need? \n"))
 station_ID = input("Provide the Station's ID! \n")
 date = input("Provide the date! (date format example: 20230915) \n")
-clock = 10
+clock = 8
 
 for x in range(n):
     with open(demo_xtx + "-" +str(x) +".xtx", 'w') as file:

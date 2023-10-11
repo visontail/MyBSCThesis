@@ -25,7 +25,6 @@ function createDailyChartData(dataArray, selectedMarkerID) {
   let dailyChartData = {}
   const currentFullDate = new Date()
   const currentDate = Average.shortenDate(currentFullDate)
-  console.log(currentDate);
   for (let i = 0; i < dataArray.length; i++) {
     const stationID = dataArray[i].id
     if (stationID == selectedMarkerID) {
@@ -84,7 +83,6 @@ function createDailyChartData(dataArray, selectedMarkerID) {
       }
     }
   }
-  console.log(dailyChartData);
   return dailyChartData
 }
 // Function for 
