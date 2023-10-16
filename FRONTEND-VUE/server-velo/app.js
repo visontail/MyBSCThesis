@@ -1,5 +1,7 @@
 import express from "express";
 import cors from "cors";
+import dotenv from 'dotenv'
+
 //  import queries
 import {
   getMarkerData,
@@ -11,10 +13,11 @@ import {
   getYearSum,
 } from "./database.js";
 
+dotenv.config({ path: '../../.env' });
+
 //  using express.js framework
 const app = express();
-const port = 8080;
-
+const port = process.env.PORT;
 
 // CORS
 app.use(
@@ -77,6 +80,7 @@ app.listen(port, () => {
 app.get("/", (req, res) => {
   res.status(200).json({
     title: "Welcome to WebVelo's API",
+    port: `Server is running on port: ${port}`,
     content: "Description of the API goes here"
   });
 });

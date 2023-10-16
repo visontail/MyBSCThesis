@@ -1,17 +1,20 @@
 <template>
-  <MenubarComponent />
-  <GoogleMapComponent />
+  <p>Hello World!</p>
+  <!-- 
+    <MenubarComponent />
+    <GoogleMapComponent />
+  -->
 </template>
   
   <script>
-  import GoogleMapComponent from '@/components/GoogleMapComponent.vue';
-  import MenubarComponent from '@/components/MenubarComponent.vue';
+  //import GoogleMapComponent from '@/components/GoogleMapComponent.vue';
+  //import MenubarComponent from '@/components/MenubarComponent.vue';
   
   export default {
     name: 'MapApp',
     components: {
-      GoogleMapComponent,
-      MenubarComponent
+      //GoogleMapComponent,
+      //MenubarComponent
     }
   }
   </script>
