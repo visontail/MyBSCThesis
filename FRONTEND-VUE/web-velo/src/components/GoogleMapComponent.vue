@@ -207,7 +207,7 @@ export default {
                 </div>
                 <div>
                   <h4> PICTURES </h4>
-                  <img src="${img}" >
+                  <img src="../${img}" >
                 </div>
               </div>`;
           const marker = new google.maps.Marker({
