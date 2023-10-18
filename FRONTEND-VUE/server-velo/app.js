@@ -1,6 +1,10 @@
-import express from "express";
-import cors from "cors";
-import dotenv from 'dotenv'
+import express from 'express';
+import cors from 'cors';
+import dotenv from 'dotenv';
+
+import bcrypt from 'bcrypt';
+import bodyParser from 'body-parser';
+import jwt from 'jsonwebtoken';
 
 //  import queries
 import {
@@ -11,6 +15,8 @@ import {
   getSumStations,
   getTodaySum,
   getYearSum,
+  getUsers,
+  postUsers,
 } from "./database.js";
 
 dotenv.config({ path: '../../.env' });
@@ -26,7 +32,45 @@ app.use(
   })
 );
 
+app.use(bodyParser.json());
 
+
+app.get('/users', async (req, res) => {
+  const users = await getUsers();
+  res.json(users)
+});
+
+app.post('/users', async (req,res) => {
+  try {
+    const hasedPass = await bcrypt.hash(req.body.password, 10)
+    const user = { name: req.body.name, password: hasedPass}
+    await postUsers(user.name, user.password)
+    res.status(201).send("User created!")
+  }
+  catch{
+    res.status(500).send()
+  }
+})
+
+app.post('/login', async (req,res) => {
+  const users = await getUsers();
+  const user = users.find(user => user.UserName == req.body.name)
+  if (!user) {
+    return res.status(400).send("Invaild username")
+  }
+  try{
+    if (await bcrypt.compare(req.body.password, user.Password)){
+      res.send("Success")
+    } else {
+      res.send("Not allowed!")
+    }
+  }
+  catch{
+    res.status(500).send()
+  }
+})
+
+// Database Middleware
 // GET 'Stations' DB table content
 app.get("/stations", async (req, res) => {
   const stations = await getStationsTable();
@@ -65,16 +109,16 @@ app.get("/this-year/:id", async (req, res) => {
   res.send(measurementdata);
 });
 
-
 // GET all station number - used in menubar
 app.get("/sum", async (req, res) => {
   const sum = await getSumStations();
   res.send(sum);
 });
 
+
 //  Listening Port
 app.listen(port, () => {
-  console.log(`Server is running on port: ${port}`);
+  console.log(`Server is running.`);
 });
 //  Welcome Page
 app.get("/", (req, res) => {

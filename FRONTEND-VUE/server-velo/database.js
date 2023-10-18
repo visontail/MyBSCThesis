@@ -113,3 +113,34 @@ export async function getYearSum(id) {
         throw error;
     }
 }
+
+// SELECT
+export async function getUsers() {
+    try{
+        const [rows] = await pool.query(`
+        SELECT *
+        FROM Login`
+        )
+        return rows
+    }
+    catch(error) {
+        console.error("Error fetching statistics:", error);
+        throw error;
+    }
+}
+
+// INSERT
+export async function postUsers(user, pass) {
+    try{
+        const [rows] = await pool.query(`
+        INSERT INTO Login (UserName, Password)
+        VALUES (?,?)
+        `, [user, pass]
+        )
+        return rows
+    }
+    catch(error) {
+        console.error("Error fetching statistics:", error);
+        throw error;
+    }
+}
