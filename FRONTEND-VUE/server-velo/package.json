@@ -5,6 +5,8 @@
   "type": "module",
   "main": "database.js",
   "scripts": {
+    "devStart": "nodemon app.js",
+    "devStartAuth": "nodemon auth.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -18,6 +20,7 @@
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.2",
-    "mysql2": "^3.5.1"
+    "mysql2": "^3.5.1",
+    "nodemon": "^3.0.1"
   }
 }

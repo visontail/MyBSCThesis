@@ -15,15 +15,13 @@ import {
   getSumStations,
   getTodaySum,
   getYearSum,
-  getUsers,
-  postUsers,
 } from "./database.js";
 
 dotenv.config({ path: '../../.env' });
 
 //  using express.js framework
 const app = express();
-const port = process.env.PORT;
+const port = process.env.API_PORT;
 
 // CORS
 app.use(
@@ -32,8 +30,8 @@ app.use(
   })
 );
 
+// AUTHENTICATE
 app.use(bodyParser.json());
-
 
 app.get('/users', async (req, res) => {
   const users = await getUsers();
@@ -52,27 +50,22 @@ app.post('/users', async (req,res) => {
   }
 })
 
-app.post('/login', async (req,res) => {
-  const users = await getUsers();
-  const user = users.find(user => user.UserName == req.body.name)
-  if (!user) {
-    return res.status(400).send("Invaild username")
-  }
-  try{
-    if (await bcrypt.compare(req.body.password, user.Password)){
-      res.send("Success")
-    } else {
-      res.send("Not allowed!")
-    }
-  }
-  catch{
-    res.status(500).send()
-  }
-})
+// MIDDLEWARE
+function authenticateToken(req, res, next){
+  const authHeader = req.headers['authorization']
+  const token = authHeader && authHeader.split(' ')[1]
+  if (token == null) return res.sendStatus(401)
+  jwt.verify(token, process.env.ACCES_TOKEN, (err, user) => {
+    if(err) return res.sendStatus(403)
+    req.user = user
+    next()
+  })
+}
 
-// Database Middleware
+// DATABASE
 // GET 'Stations' DB table content
-app.get("/stations", async (req, res) => {
+app.get("/stations", authenticateToken, async (req, res) => {
+  console.log(req.user);
   const stations = await getStationsTable();
   res.send(stations);
 });
