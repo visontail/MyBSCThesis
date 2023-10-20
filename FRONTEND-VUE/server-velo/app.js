@@ -118,7 +118,6 @@ app.get("/", (req, res) => {
   res.status(200).json({
     title: "Welcome to WebVelo's API",
     port: `Server is running on port: ${port}`,
-    content: "Description of the API goes here"
   });
 });
 //  Error Handling

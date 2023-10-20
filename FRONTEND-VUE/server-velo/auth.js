@@ -97,9 +97,8 @@ app.listen(port, () => {
 //  Welcome Page
 app.get("/", (req, res) => {
   res.status(200).json({
-    title: "Welcome to WebVelo's API",
+    title: "Welcome to WebVelo's Authentication API",
     port: `Server is running on port: ${port}`,
-    content: "Description of the API goes here",
   });
 });
 //  Error Handling
