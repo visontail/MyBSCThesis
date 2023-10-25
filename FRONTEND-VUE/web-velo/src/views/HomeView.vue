@@ -1,10 +1,7 @@
 <script setup>
-import HomeComponent from '../components/HomeComponent.vue';
-
+import GoogleMapComponent from '../components/GoogleMapComponent.vue';
 </script>
 
 <template>
-  <main>
-    <HomeComponent />
-  </main>
+  <GoogleMapComponent/>
 </template>

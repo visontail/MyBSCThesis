@@ -16,13 +16,16 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Home</a>
+            <a class="nav-link active" aria-current="page" :href="homeRoute">Home</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">Number of Stations: {{ sum }}</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">About the Project</a>
+            <a class="nav-link" :href="aboutRoute">About the Project</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" :href="loginRoute">Login</a>
           </li>
         </ul>
       </div>
@@ -36,6 +39,17 @@ import StationAPI from '../services/StationAPI.js';
 
 export default{
   name: 'MenuBar',
+  computed: {
+    homeRoute() {
+      return this.$router.resolve({ name: 'home' }).href;
+    },
+    loginRoute() {
+      return this.$router.resolve({ name: 'login' }).href;
+    },
+    aboutRoute(){
+      return this.$router.resolve({ name: 'about' }).href;
+    }
+  },
   setup() {
     const sum = ref('')
     const sumStationsNum = async () => {

@@ -1,17 +1,18 @@
 <template>
   <div id="app">
-    <HomeComponent />
+    <MenubarComponent />
+    <router-view />
   </div>
   </template>
   
   <script>
-  import HomeComponent from '@/components/HomeComponent.vue'
+  import MenubarComponent from './components/MenubarComponent.vue';
   
   export default {
     name: 'WebApp',
     components: {
-      HomeComponent
-    }
+    MenubarComponent,
+}
   }
   </script>
 

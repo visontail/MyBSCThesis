@@ -47,7 +47,10 @@ app.post("/login", async (req, res) => {
   const users = await getUsers();
   const user = users.find((user) => user.UserName == req.body.name);
   if (!user) {
-    return res.status(400).send("Invaild username");
+    return res.status(401).json({
+      error: "Invaild credentials",
+      message: "Better luck next time"
+    });
   }
   try {
     if (await bcrypt.compare(req.body.password, user.Password)) {
@@ -63,7 +66,10 @@ app.post("/login", async (req, res) => {
         }
       );
     } else {
-      res.send("Not allowed!");
+      res.status(402).json({
+        error: "Invaild credentials",
+        message: "Better luck next time"
+      });
     }
   } catch {
     res.status(500).send();
