@@ -1,16 +1,13 @@
+<script setup>
+import GoogleMapComponent from '../components/GoogleMapComponent.vue';
+import AdminComponent from '../components/AdminComponent.vue';
+</script>
+
 <template>
-    <div class="about">
-      <h1>This is an admin page</h1>
-    </div>
+  <AdminComponent />
+  <GoogleMapComponent />
 </template>
-  
-  <style>
-  @media (min-width: 1024px) {
-    .about {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-    }
-  }
-  </style>
-  
+
+<style scoped>
+
+</style>

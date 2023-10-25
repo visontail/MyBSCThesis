@@ -1,15 +1,19 @@
 <template>
-  <div class="about">
-    <h1>This is an about page</h1>
-  </div>
+    <div>
+        <p>This is the about page</p>
+        <h5>This is the about page</h5>
+        <h4>This is the about page</h4>
+        <h3>This is the about page</h3>
+        <h2>This is the about page</h2>
+        <h1>This is the about page</h1>
+        <h2>This is the about page</h2>
+        <h3>This is the about page</h3>
+        <h4>This is the about page</h4>
+        <h5>This is the about page</h5>
+        <p>This is the about page</p>
+    </div>
 </template>
 
 <style>
-@media (min-width: 1024px) {
-  .about {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-  }
-}
+
 </style>
