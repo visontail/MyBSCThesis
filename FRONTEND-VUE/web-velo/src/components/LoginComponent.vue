@@ -12,14 +12,14 @@
   </template>
   
   <script>
-  
+
   export default {
     name: 'MapApp',
     data() {
       return {
         username: '',
         password: '',
-        messageError: '', // Initialize messageError
+        messageError: '',
       };
     },
     methods: {
@@ -41,6 +41,7 @@
             console.log(data);
 
             this.$store.commit('login', data.accessToken);
+            this.$router.push({ name: 'admin' }); 
 
           } else {
             const contentType = response.headers.get('content-type');
@@ -54,6 +55,8 @@
               console.error('Error:', errorText);
               // Handle the error text, e.g., display an error message.
             }
+            this.username = ""; // Clear the username field
+            this.password = ""; // Clear the password field
           }
         } catch (error) {
           console.error('Fetch error:', error);
