@@ -76,10 +76,10 @@ app.post("/login", async (req, res) => {
   }
 });
 
-app.post('token/',(req, res) => {
+app.post('/token',(req, res) => {
     const refreshToken = req.body.token
     if (refreshToken == null) return res.sendStatus(401)
-    if (refreshTokens.includes(refreshToken)) return res.sendStatus(403)
+    if (!refreshTokens.includes(refreshToken)) return res.sendStatus(403)
     jwt.verify(refreshToken, process.env.REFRESH_TOKEN, (err, user) => {
         if(err) return res.sendStatus(403)
         const accessToken = generateAccessToken({ name: user.name })
@@ -93,7 +93,7 @@ app.delete('/logout', (req, res) => {
 })
 
 function generateAccessToken(user) {
-  return jwt.sign(user, process.env.ACCES_TOKEN, { expiresIn: "15s" }); // 10-15 min later
+  return jwt.sign(user, process.env.ACCES_TOKEN, { expiresIn: "1 min" }); // 10-15 min later
 }
 
 //  Listening Port

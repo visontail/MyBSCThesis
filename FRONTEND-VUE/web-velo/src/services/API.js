@@ -6,14 +6,14 @@ export default{
             baseURL: url
         })
     },
-    authAPI(url='http://localhost:4000'){
+    /* authAPI(url='http://localhost:4000'){
         return axios.create({
             baseURL: url,
             headers: {
                 'Content-Type': 'application/json',
             },
         })
-    },
+    }, */
     weatherAPI(pos, key ){
         return axios.create({
             method: 'GET',
@@ -29,4 +29,3 @@ export default{
         })
     },
 }
-

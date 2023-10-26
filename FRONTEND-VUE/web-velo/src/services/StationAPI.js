@@ -1,10 +1,10 @@
-import dataAPI from "./API.js";
+import API from "./API.js";
 
 export default {
     getMarkerData() {
-        return dataAPI().get('/pos')
+        return API.dataAPI().get('/pos')
     },
     getSumStations() {
-        return dataAPI().get('/sum')
+        return API.dataAPI().get('/sum')
     }
 }
