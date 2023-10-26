@@ -1,13 +1,13 @@
-import API from "./API";
+import dataAPI from "./API.js";
 
 export default {
     getStats(id) {
-        return API().get(`/stats/${id}`)
+        return dataAPI().get(`/stats/${id}`)
     },
     getTodaySum(id) {
-        return API().get(`/today/${id}`)
+        return dataAPI().get(`/today/${id}`)
     },
     getYearSum(id) {
-        return API().get(`/this-year/${id}`)
+        return dataAPI().get(`/this-year/${id}`)
     },
 }

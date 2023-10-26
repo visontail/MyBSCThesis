@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
+import store from '../store/store.js';
 import HomeView from '../views/HomeView.vue';
 import AboutView from '../views/AboutView.vue';
 import LoginView from '../views/LoginView.vue';
@@ -31,7 +32,7 @@ const router = createRouter({
   ]
 })
 
-/* // Add a navigation guard to protect the admin route
+// Add a navigation guard to protect the admin route
 router.beforeEach((to, from, next) => {
   if (to.matched.some((record) => record.meta.requiresAuth)) {
     if (!store.state.isAuthenticated) {
@@ -42,6 +43,6 @@ router.beforeEach((to, from, next) => {
   } else {
     next(); // Allow navigation for other routes
   }
-}); */
+});
 
 export default router
