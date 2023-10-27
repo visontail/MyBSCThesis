@@ -1,69 +1,62 @@
 <template>
-    <div id="error">
-        <p id="messageError">{{ messageError }}</p>    
-    </div>
-    <div>
-      <form @submit.prevent="login">
-        <input type="text" v-model="username" placeholder="username" />
-        <input type="password" v-model="password" placeholder="password" />
-        <button type="submit">Login</button>
-      </form>
-    </div>
-  </template>
-  
-  <script>
+  <div id="error">
+    <p id="messageError">{{ messageError }}</p>
+  </div>
+  <div>
+    <form @submit.prevent="login">
+      <input type="text" v-model="username" placeholder="username" />
+      <input type="password" v-model="password" placeholder="password" />
+      <button type="submit">Login</button>
+    </form>
+  </div>
+</template>
 
-  export default {
-    name: 'MapApp',
-    data() {
-      return {
-        username: '',
-        password: '',
-        messageError: '',
-      };
-    },
-    methods: {
-      async login() {
-        this.messageError = ''; // Reset the error message
-  
-        // Küldj egy POST kérést a szervernek a bejelentkezéshez
-        try {
-          const response = await fetch('http://localhost:4000/login', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ name: this.username, password: this.password }),
-          });
-  
-          if (response.ok) {
-            const data = await response.json();
-            console.log(data);
+<script>
+import API from '../services/API'
 
-            this.$store.commit('login', data.accessToken);
-            this.$router.push({ name: 'admin' }); 
-
+export default {
+  name: 'MapApp',
+  data() {
+    return {
+      username: '',
+      password: '',
+      messageError: ''
+    }
+  },
+  methods: {
+    async login() {
+      this.messageError = '' // Reset the error message
+      // Küldj egy POST kérést a szervernek a bejelentkezéshez
+      try {
+        const response = await API.authAPI().post('/login', {
+          name: this.username,
+          password: this.password
+        })
+        if (response.status === 200) {
+          const data = await response.data
+          console.log(data)
+          this.$store.commit('login', data.accessToken, data.refreshToken);
+          this.$router.push({ name: 'admin' })
+        } else {
+          const contentType = response.headers.get('content-type')
+          if (contentType && contentType.includes('application/json')) {
+            // If the error response is in JSON format.
+            const errorData = await response.json()
+            this.messageError = 'Error: ' + JSON.stringify(errorData.error)
           } else {
-            const contentType = response.headers.get('content-type');
-            if (contentType && contentType.includes('application/json')) {
-              // If the error response is in JSON format.
-              const errorData = await response.json();
-              this.messageError = 'Error: ' + JSON.stringify(errorData.error);
-            } else {
-              // If the error response is plain text.
-              const errorText = await response.text();
-              console.error('Error:', errorText);
-              // Handle the error text, e.g., display an error message.
-            }
-            this.username = ""; // Clear the username field
-            this.password = ""; // Clear the password field
+            // If the error response is plain text.
+            const errorText = await response.text()
+            console.error('Error:', errorText)
+            // Handle the error text, e.g., display an error message.
           }
-        } catch (error) {
-          console.error('Fetch error:', error);
-          this.messageError = 'Fetch error: ' + error.message;
+          this.username = '' // Clear the username field
+          this.password = '' // Clear the password field
         }
-      },
-    },
-  };
-  </script>
-  
+      } catch (error) {
+        console.error('Fetch error:', error)
+        this.messageError = error.response.data.error
+      }
+    }
+  }
+}
+</script>

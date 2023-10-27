@@ -17,6 +17,13 @@
 <script>
 
 export default {
+
+    computed: {
+    isAuthenticated() {
+      return console.log(this.$store.getters.isAuthenticated);
+    },
+  },
+    
 }
 
 </script>

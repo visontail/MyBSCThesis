@@ -3,21 +3,26 @@ import { createStore } from 'vuex';
 const store = createStore({
   state: {
     isAuthenticated: false,
-    userToken: null,
+    accessToken: null,
+    refreshToken: null,
   },
   mutations: {
-    login(state, token) {
+    login(state, access, refresh) {
       state.isAuthenticated = true;
-      state.userToken = token;
+      state.accessToken = access;
+      state.refreshToken = refresh;
     },
     logout(state) {
       state.isAuthenticated = false;
-      state.userToken = null;
+      state.accessToken = null;
+      state.refreshToken = null;
     },
   },
   getters: {
     isAuthenticated: (state) => state.isAuthenticated,
-    userToken: (state) => state.userToken,
+    userAccessToken: (state) => state.accessToken,
+    userRefreshToken: (state) => state.refreshToken,
+
   },
   actions: {
     // Add an action to handle logout

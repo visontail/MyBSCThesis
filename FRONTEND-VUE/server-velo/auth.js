@@ -7,7 +7,7 @@ import bodyParser from "body-parser";
 import jwt from "jsonwebtoken";
 
 //  import queries
-import { getUsers, postUsers } from "./database.js";
+import { getUsers, postUsers, postTokens } from "./database.js";
 
 dotenv.config({ path: "../../.env" });
 
@@ -32,7 +32,7 @@ app.get("/users", async (req, res) => {
   res.json(users);
 });
 
-app.post("/users", async (req, res) => {
+app.post("/user", async (req, res) => {
   try {
     const hasedPass = await bcrypt.hash(req.body.password, 10);
     const user = { name: req.body.name, password: hasedPass };
@@ -46,12 +46,13 @@ app.post("/users", async (req, res) => {
 app.post("/login", async (req, res) => {
   const users = await getUsers();
   const user = users.find((user) => user.UserName == req.body.name);
-  if (!user) {
+  if (user == undefined) {
     return res.status(401).json({
       error: "Invaild credentials",
       message: "Better luck next time"
     });
   }
+  const id = user.UserID;
   try {
     if (await bcrypt.compare(req.body.password, user.Password)) {
       const username = req.body.UserName;
@@ -59,6 +60,7 @@ app.post("/login", async (req, res) => {
       const accessToken = generateAccessToken(user);
       const refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN);
       refreshTokens.push(refreshToken)
+      await postTokens(id, accessToken, refreshToken);
       res.json(
         {
         accessToken: accessToken,
@@ -86,15 +88,37 @@ app.post('/token',(req, res) => {
         res.json({ accessToken: accessToken })
     })
 })
-
 app.delete('/logout', (req, res) => {
     refreshTokens = refreshTokens.filter(token => token !== req.body.token)
     res.sendStatus(204)
 })
 
 function generateAccessToken(user) {
+  console.log('new access token was generated');
   return jwt.sign(user, process.env.ACCES_TOKEN, { expiresIn: "1 min" }); // 10-15 min later
 }
+
+// Middleware to verify access tokens
+const verifyAccessToken = (req, res, next) => {
+  const accessToken = req.body.token;
+  if (accessToken == null) return res.sendStatus(401);
+  jwt.verify(accessToken, process.env.ACCESS_TOKEN, (err, user) => {
+    if (err) {
+      const newAccessToken = generateAccessToken({ name: user.name });
+      res.json({ accessToken: newAccessToken });
+    } else {
+      req.user = user;
+      next();
+    }
+  });
+};
+
+// GET 'Stations' DB table content
+app.get("/stations", verifyAccessToken, async (req, res) => {
+  console.log(req.user);
+  const stations = await getStationsTable();
+  res.send(stations);
+});
 
 //  Listening Port
 app.listen(port, () => {

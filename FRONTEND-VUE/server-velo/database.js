@@ -145,3 +145,52 @@ export async function postUsers(user, pass) {
     }
 }
 
+// INSERT
+export async function postTokens(userid, access, refresh) {
+    try{
+        const [rows] = await pool.query(`
+        UPDATE Login
+        SET AccessToken = ? , RefreshToken = ?
+        WHERE UserID = ?
+        `, [access, refresh, userid]
+        )
+        return rows
+    }
+    catch(error) {
+        console.error("Error fetching statistics:", error);
+        throw error;
+    }
+}
+
+// INSERT
+export async function getRefresh(token) {
+    try{
+        const [rows] = await pool.query(`
+        SELECT RefreshToken FROM Login
+        WHERE RefreshToken = ?`,
+        [token]
+        )
+        return rows
+    }
+    catch(error) {
+        console.error("Error fetching statistics:", error);
+        throw error;
+    }
+}
+
+// INSERT
+export async function postRefresh(refresh) {
+    try{
+        const [rows] = await pool.query(`
+        INSERT INTO Login (UserName, Password)
+        VALUES (?,?)
+        `, [user, pass]
+        )
+        return rows
+    }
+    catch(error) {
+        console.error("Error fetching statistics:", error);
+        throw error;
+    }
+}
+

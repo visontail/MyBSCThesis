@@ -2,10 +2,6 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 
-import bcrypt from 'bcrypt';
-import bodyParser from 'body-parser';
-import jwt from 'jsonwebtoken';
-
 //  import queries
 import {
   getMarkerData,
@@ -30,41 +26,8 @@ app.use(
   })
 );
 
-// AUTHENTICATE
-app.use(bodyParser.json());
-
-app.get('/users', async (req, res) => {
-  const users = await getUsers();
-  res.json(users)
-});
-
-app.post('/users', async (req,res) => {
-  try {
-    const hasedPass = await bcrypt.hash(req.body.password, 10)
-    const user = { name: req.body.name, password: hasedPass}
-    await postUsers(user.name, user.password)
-    res.status(201).send("User created!")
-  }
-  catch{
-    res.status(500).send()
-  }
-})
-
-// MIDDLEWARE
-function authenticateToken(req, res, next){
-  const authHeader = req.headers['authorization']
-  const token = authHeader && authHeader.split(' ')[1]
-  if (token == null) return res.sendStatus(401)
-  jwt.verify(token, process.env.ACCES_TOKEN, (err, user) => {
-    if(err) return res.sendStatus(403)
-    req.user = user
-    next()
-  })
-}
-
-// DATABASE
 // GET 'Stations' DB table content
-app.get("/stations", authenticateToken, async (req, res) => {
+app.get("/stations", async (req, res) => {
   console.log(req.user);
   const stations = await getStationsTable();
   res.send(stations);
