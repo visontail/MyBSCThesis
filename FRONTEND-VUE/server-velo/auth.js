@@ -6,6 +6,8 @@ import bcrypt from "bcrypt";
 import bodyParser from "body-parser";
 import jwt from "jsonwebtoken";
 
+import { verifyToken } from "./verify.js";
+
 //  import queries
 import { getUsers, postUsers, postTokens } from "./database.js";
 
@@ -88,6 +90,7 @@ app.post('/token',(req, res) => {
         res.json({ accessToken: accessToken })
     })
 })
+
 app.delete('/logout', (req, res) => {
     refreshTokens = refreshTokens.filter(token => token !== req.body.token)
     res.sendStatus(204)
@@ -95,29 +98,12 @@ app.delete('/logout', (req, res) => {
 
 function generateAccessToken(user) {
   console.log('new access token was generated');
-  return jwt.sign(user, process.env.ACCES_TOKEN, { expiresIn: "1 min" }); // 10-15 min later
+  return jwt.sign(user, process.env.ACCESS_TOKEN, { expiresIn: "1 min" }); // 10-15 min later
 }
 
-// Middleware to verify access tokens
-const verifyAccessToken = (req, res, next) => {
-  const accessToken = req.body.token;
-  if (accessToken == null) return res.sendStatus(401);
-  jwt.verify(accessToken, process.env.ACCESS_TOKEN, (err, user) => {
-    if (err) {
-      const newAccessToken = generateAccessToken({ name: user.name });
-      res.json({ accessToken: newAccessToken });
-    } else {
-      req.user = user;
-      next();
-    }
-  });
-};
-
 // GET 'Stations' DB table content
-app.get("/stations", verifyAccessToken, async (req, res) => {
+app.get("/stations", verifyToken, async (req, res) => {
   console.log(req.user);
-  const stations = await getStationsTable();
-  res.send(stations);
 });
 
 //  Listening Port
