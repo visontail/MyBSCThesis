@@ -96,9 +96,18 @@ app.post('/token', async (req, res) => {
 })
 
 app.delete('/logout', (req, res) => {
-    refreshTokens = refreshTokens.filter(token => token !== req.body.token)
-    res.sendStatus(204)
-})
+  const refreshToken = req.body.token;
+  if (!refreshToken) {
+    return res.sendStatus(401); // Unauthorized if token is not provided
+  }
+  const index = refreshTokens.indexOf(refreshToken);
+  if (index === -1) {
+    return res.sendStatus(403); // Forbidden if token is not found in the array
+  }
+  refreshTokens.splice(index, 1); // Remove the token from the refreshTokens array
+  res.sendStatus(204); // Successful logout - No Content
+});
+
 
 function generateAccessToken(user) {
   console.log('new access token was generated');

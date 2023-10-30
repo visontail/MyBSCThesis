@@ -10,6 +10,7 @@
 import { useStore } from 'vuex';
 import { ref } from 'vue';
 import StationAPI from '../services/StationAPI.js';
+import API from '../services/API'
 
 export default {
   setup() {
@@ -33,20 +34,37 @@ export default {
     }
   },
   methods: {
-    logout() {
-      // Call the Node.js backend to logout
-      const refreshToken = localStorage.getItem('refreshToken');
-      fetch('http://localhost:4000/logout', {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ token: refreshToken })
-      }).then(() => {
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('refreshToken');
-        this.$router.push('/');
-      }).catch(error => console.error(error));
+    async logout() {
+      const refreshToken = this.$store.getters.usreRefreshToken
+      try {
+        const response = await API.authAPI().delete('/logout', {
+          headers: {
+            Refresh: refreshToken
+          }
+        });
+        if (response.status === 204){
+          console.log('done');
+          localStorage.removeItem('accessToken');
+          localStorage.removeItem('refreshToken');
+          this.$router.push('/');
+        }
+        else {
+          const contentType = response.headers.get('content-type')
+          if (contentType && contentType.includes('application/json')) {
+            // If the error response is in JSON format.
+            const errorData = await response.json()
+            this.messageError = 'Error: ' + JSON.stringify(errorData.error)
+          } else {
+            // If the error response is plain text.
+            const errorText = await response.text()
+            console.error('Error:', errorText)
+            // Handle the error text, e.g., display an error message.
+          }
+        }
+      }catch (error) {
+        console.error('Fetch error:', error)
+        this.messageError = error.response.data.error
+      }
     }
   }
 };
@@ -54,7 +72,15 @@ export default {
 
 </script>
 
-<style>
+<style scoped>
+
+#center-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 10vh;
+}
+
 </style>
 
 
