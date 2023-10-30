@@ -19,7 +19,24 @@ export default {
     // const accessToken = () => {return store.getters.userAccessToken;};
     // const refreshToken = () => {return store.getters.userRefreshToken;};
 
-    
+
+    /* let stationsArray = []
+    const loadPositions = async () => {
+      try{ 
+        const response = await StationAPI.getStations()
+        stationsArray = response.data
+      }
+      catch(err){
+        console.log(err)
+      }
+    } */
+
+
+
+
+
+
+
     const sum = ref('')
     const sumStationsNum = async () => {
       try{ 

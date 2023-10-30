@@ -5,7 +5,7 @@
 </template>
 
 
-<script>
+<script lang="js">
 /* eslint-disable no-undef */
 
 import { onMounted, ref } from 'vue';

@@ -115,9 +115,8 @@ function generateAccessToken(user) {
 }
 
 // GET 'Stations' DB table content
-app.get("/stations", verifyToken, async (req, res) => {
-  const stations = await getStationsTable();
-  res.send(stations);
+app.post("/stations", verifyToken, async (req, res) => {
+// code here
 });
 
 //  Listening Port
