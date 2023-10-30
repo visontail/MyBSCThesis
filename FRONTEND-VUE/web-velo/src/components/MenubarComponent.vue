@@ -16,16 +16,13 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" :href="homeRoute">Home</a>
-          </li>
-          <li class="nav-item">
             <a class="nav-link" href="#">Number of Stations: {{ sum }}</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" :href="aboutRoute">About the Project</a>
+            <router-link class="nav-link" to="/about">About the Project</router-link>
           </li>
           <li class="nav-item">
-            <a class="nav-link" :href="loginRoute">Login</a>
+            <router-link class="nav-link" to="/login">Login</router-link>
           </li>
         </ul>
       </div>

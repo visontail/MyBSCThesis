@@ -9,7 +9,7 @@ import jwt from "jsonwebtoken";
 import { verifyToken } from "./verify.js";
 
 //  import queries
-import { getUsers, postUsers, postTokens } from "./database.js";
+import { getUsers, postUsers } from "./database.js";
 
 dotenv.config({ path: "../../.env" });
 
@@ -24,7 +24,7 @@ app.use(
   })
 );
 
-const refreshTokens = []
+const refreshTokens = [];
 
 // AUTHENTICATE
 app.use(bodyParser.json());
@@ -54,7 +54,6 @@ app.post("/login", async (req, res) => {
       message: "Better luck next time"
     });
   }
-  const id = user.UserID;
   try {
     if (await bcrypt.compare(req.body.password, user.Password)) {
       const username = req.body.UserName;
@@ -62,7 +61,12 @@ app.post("/login", async (req, res) => {
       const accessToken = generateAccessToken(user);
       const refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN);
       refreshTokens.push(refreshToken)
-      await postTokens(id, accessToken, refreshToken);
+      res.set(
+        {
+        'Authorization': accessToken,
+        'Refresh': refreshToken
+        }
+      );
       res.json(
         {
         accessToken: accessToken,
@@ -80,8 +84,8 @@ app.post("/login", async (req, res) => {
   }
 });
 
-app.post('/token',(req, res) => {
-    const refreshToken = req.body.token
+app.post('/token', async (req, res) => {
+    const refreshToken = req.header('Refresh')
     if (refreshToken == null) return res.sendStatus(401)
     if (!refreshTokens.includes(refreshToken)) return res.sendStatus(403)
     jwt.verify(refreshToken, process.env.REFRESH_TOKEN, (err, user) => {
