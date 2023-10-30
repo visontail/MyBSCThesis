@@ -43,7 +43,7 @@ export default {
             'Refresh': refreshToken
           }
         });
-        if (response.status === 204){
+        if (response.status === 200){
           console.log('done');
           localStorage.removeItem('accessToken');
           localStorage.removeItem('refreshToken');

@@ -105,7 +105,7 @@ app.delete('/logout', (req, res) => {
     return res.sendStatus(403); // Forbidden if token is not found in the array
   }
   refreshTokens.splice(index, 1); // Remove the token from the refreshTokens array
-  res.sendStatus(204); // Successful logout - No Content
+  res.status(200).send("Successful logout");
 });
 
 
