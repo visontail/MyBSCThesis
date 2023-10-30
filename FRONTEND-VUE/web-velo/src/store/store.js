@@ -7,10 +7,13 @@ const store = createStore({
     refreshToken: null,
   },
   mutations: {
-    login(state, access, refresh) {
+    login(state, payload) {
       state.isAuthenticated = true;
+      state.accessToken = payload.accessToken;
+      state.refreshToken = payload.refreshToken;
+    },
+    regen(state, access){
       state.accessToken = access;
-      state.refreshToken = refresh;
     },
     logout(state) {
       state.isAuthenticated = false;

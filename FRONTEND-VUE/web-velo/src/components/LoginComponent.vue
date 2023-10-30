@@ -1,14 +1,14 @@
 <template>
-  <div id="error">
-    <p id="messageError">{{ messageError }}</p>
-  </div>
-  <div>
-    <form @submit.prevent="login">
-      <input type="text" v-model="username" placeholder="username" />
-      <input type="password" v-model="password" placeholder="password" />
-      <button type="submit">Login</button>
-    </form>
-  </div>
+    <div id="error">
+      <p id="messageError">{{ messageError }}</p>
+    </div>
+    <div id="center-div">
+      <form @submit.prevent="login">
+        <input type="text" v-model="username" placeholder="username" />
+        <input type="password" v-model="password" placeholder="password" />
+        <button type="submit">Login</button>
+      </form>
+    </div>
 </template>
 
 <script>
@@ -34,8 +34,8 @@ export default {
         })
         if (response.status === 200) {
           const data = await response.data
-          console.log(data)
-          this.$store.commit('login', data.accessToken, data.refreshToken);
+          console.log(data);
+          this.$store.commit('login', { accessToken: data.accessToken, refreshToken: data.refreshToken });
           this.$router.push({ name: 'admin' })
         } else {
           const contentType = response.headers.get('content-type')
@@ -60,3 +60,14 @@ export default {
   }
 }
 </script>
+
+<style>
+
+#center-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+</style>

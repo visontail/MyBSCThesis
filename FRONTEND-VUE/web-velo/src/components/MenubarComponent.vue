@@ -40,12 +40,6 @@ export default{
     homeRoute() {
       return this.$router.resolve({ name: 'home' }).href;
     },
-    loginRoute() {
-      return this.$router.resolve({ name: 'login' }).href;
-    },
-    aboutRoute(){
-      return this.$router.resolve({ name: 'about' }).href;
-    }
   },
   setup() {
     const sum = ref('')
