@@ -145,18 +145,3 @@ export async function postUsers(user, pass) {
     }
 }
 
-// INSERT
-export async function postRefresh(refresh) {
-    try{
-        const [rows] = await pool.query(`
-        INSERT INTO Login (UserName, Password)
-        VALUES (?,?)
-        `, [user, pass]
-        )
-        return rows
-    }
-    catch(error) {
-        console.error("Error fetching statistics:", error);
-        throw error;
-    }
-}
