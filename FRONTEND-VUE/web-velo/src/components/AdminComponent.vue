@@ -16,9 +16,10 @@ export default {
   setup() {
     const store = useStore();
     const isAuthenticated = () => {return store.getters.isAuthenticated;};
-    const accessToken = () => {return store.getters.userAccessToken;};
-    const refreshToken = () => {return store.getters.userRefreshToken;};
+    // const accessToken = () => {return store.getters.userAccessToken;};
+    // const refreshToken = () => {return store.getters.userRefreshToken;};
 
+    
     const sum = ref('')
     const sumStationsNum = async () => {
       try{ 

@@ -9,7 +9,7 @@ import jwt from "jsonwebtoken";
 import { verifyToken } from "./verify.js";
 
 //  import queries
-import { getUsers, postUsers } from "./database.js";
+import { getUsers, postUsers, getStationsTable } from "./database.js";
 
 dotenv.config({ path: "../../.env" });
 
@@ -116,8 +116,8 @@ function generateAccessToken(user) {
 
 // GET 'Stations' DB table content
 app.get("/stations", verifyToken, async (req, res) => {
-  console.log(req.user);
-  res.send('Good Job')
+  const stations = await getStationsTable();
+  res.send(stations);
 });
 
 //  Listening Port

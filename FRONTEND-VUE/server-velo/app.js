@@ -28,7 +28,6 @@ app.use(
 
 // GET 'Stations' DB table content
 app.get("/stations", async (req, res) => {
-  console.log(req.user);
   const stations = await getStationsTable();
   res.send(stations);
 });
