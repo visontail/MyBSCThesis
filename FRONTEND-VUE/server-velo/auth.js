@@ -108,6 +108,7 @@ function generateAccessToken(user) {
 // GET 'Stations' DB table content
 app.get("/stations", verifyToken, async (req, res) => {
   console.log(req.user);
+  res.send('Good Job')
 });
 
 //  Listening Port
