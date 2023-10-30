@@ -17,7 +17,8 @@ export default {
     const store = useStore();
     const isAuthenticated = () => {return store.getters.isAuthenticated;};
     const accessToken = () => {return store.getters.userAccessToken;};
-    const refreshToken = () => {return store.getters.usreRefreshToken;};
+    const refreshToken = () => {return store.getters.userRefreshToken;};
+
     const sum = ref('')
     const sumStationsNum = async () => {
       try{ 
@@ -35,11 +36,11 @@ export default {
   },
   methods: {
     async logout() {
-      const refreshToken = this.$store.getters.usreRefreshToken
+      const refreshToken = this.$store.getters.userRefreshToken
       try {
         const response = await API.authAPI().delete('/logout', {
           headers: {
-            Refresh: refreshToken
+            'Refresh': refreshToken
           }
         });
         if (response.status === 204){

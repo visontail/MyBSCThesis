@@ -96,7 +96,7 @@ app.post('/token', async (req, res) => {
 })
 
 app.delete('/logout', (req, res) => {
-  const refreshToken = req.body.token;
+  const refreshToken = req.header('Refresh');
   if (!refreshToken) {
     return res.sendStatus(401); // Unauthorized if token is not provided
   }
