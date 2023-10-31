@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import bodyParser from "body-parser";
 
 //  import sql query funtions
 import {
@@ -11,6 +12,7 @@ import {
   getSumStations,
   getTodaySum,
   getYearSum,
+  postChangedStation,
 } from "./database.js";
 
 // import token verification function
@@ -30,6 +32,8 @@ app.use(
   })
 );
 
+app.use(bodyParser.json());
+
 // ---- STATION DATA ----
 // GET 'Stations' DB table content
 app.get("/stations", async (req, res) => {
@@ -46,6 +50,21 @@ app.get("/sum", async (req, res) => {
   const sum = await getSumStations();
   res.send(sum);
 });
+// POST chanhged station data - used in admin page
+app.post("/station", verifyToken, async (req, res) => {
+  try {
+    const id = req.body.id
+    const name = req.body.name
+    const lat = req.body.lat
+    const lng = req.body.lng
+    const vis = req.body.vis
+    const changes = await postChangedStation(name, lat, lng, vis, id)
+    res.status(200).send(changes)
+  }catch{
+    console.error("An error occurred:", error);
+    res.status(401).send("An error occurred while processing the request");
+  }
+})
 
 // ---- MEASUREMENT DATA ----
 // GET 'Measurements' DB table content

@@ -79,7 +79,15 @@ export default {
     const isAuthenticated = () => {return store.getters.isAuthenticated;};
     // const accessToken = () => {return store.getters.userAccessToken;};
     // const refreshToken = () => {return store.getters.userRefreshToken;};
-
+    const data = {
+  id: 24811,
+  name: 'Velenc',
+  lat: 47.2385,
+  lng: 18.6349,
+  vis: 1
+};
+const jdata = JSON.stringify(data)
+console.log(jdata);
     const sum = ref('')
     const sumStationsNum = async () => {
       try{ 

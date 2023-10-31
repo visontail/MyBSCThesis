@@ -23,6 +23,7 @@ export async function getStationsTable() {
         throw error;
     }
 }
+// SELECT Stations' data without uid
 export async function getMarkerData() {
     try{
         const [rows] = await pool.query("SELECT StationID, StationName, StationImg, posLatitude, posLongitude, isVisible FROM Stations")
@@ -33,7 +34,7 @@ export async function getMarkerData() {
         throw error;
     }
 }
-// SELECT Stations' data
+// SELECT Stations' data without uid, img
 export async function getStations() {
     try{
         const [stationPos] = await pool.query("SELECT StationID, StationName, posLatitude, posLongitude, isVisible FROM Stations")
@@ -58,13 +59,13 @@ export async function getSumStations() {
     } 
 }
 // UPDATE Station's data
-export async function postChangedStation(name, ) {
+export async function postChangedStation(name, lat, lng, vis, id) {
     try{
         const [rows] = await pool.query(`
             UPDATE Stations
-            SET StaionName = ?,
+            SET StationName = ?, posLatitude = ?, posLongitude = ?, isVisible = ?
             WHERE StationID = ?`,
-            [id]
+            [name, lat, lng, vis, id]
         )
         return rows
     }
