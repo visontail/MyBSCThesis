@@ -46,7 +46,6 @@
   
 <script>
 import { useStore } from 'vuex';
-import { ref } from 'vue';
 import StationAPI from '../services/StationAPI.js';
 import API from '../services/API'
 
@@ -56,6 +55,7 @@ export default {
       stationsArray: [],
       itemsPerPage: 10,
       currentPage: 1,
+      sum: 0,
     };
   },
   computed: {
@@ -73,37 +73,28 @@ export default {
   },
   async mounted(){
     await this.loadStations();
+    await this.getStationsNum();
   },
   setup() {
     const store = useStore();
-    const isAuthenticated = () => {return store.getters.isAuthenticated;};
-    // const accessToken = () => {return store.getters.userAccessToken;};
-    // const refreshToken = () => {return store.getters.userRefreshToken;};
-    const data = {
-  id: 24811,
-  name: 'Velenc',
-  lat: 47.2385,
-  lng: 18.6349,
-  vis: 1
-};
-const jdata = JSON.stringify(data)
-console.log(jdata);
-    const sum = ref('')
-    const sumStationsNum = async () => {
+    // const isAuthenticated = store.getters.isAuthenticated;
+    const accessToken = store.getters.userAccessToken;
+    const refreshToken = () => {return store.getters.userRefreshToken;};
+    return{
+      accessToken,
+      refreshToken
+    }
+  },
+  methods: {
+    async getStationsNum() {
       try{ 
         const response = await StationAPI.getSumStations()
-        sum.value = response.data[0].row_count;
+        this.sum = response.data[0].row_count;
       }
       catch(err){
         console.log(err)
       }
-    }
-    sumStationsNum()
-    return {
-      sum
-    }
-  },
-  methods: {
+    },
     async loadStations() {
       try {
         const response = await StationAPI.getStations();
@@ -121,7 +112,6 @@ console.log(jdata);
           }
         });
         if (response.status === 200){
-          console.log('done');
           localStorage.removeItem('accessToken');
           localStorage.removeItem('refreshToken');
           this.$router.push('/');
@@ -143,6 +133,79 @@ console.log(jdata);
         console.error('Fetch error:', error)
         this.messageError = error.response.data.error
       }
+    },
+    async generateNewToken(){
+      try {
+        const store = useStore();
+        const refreshToken = store.getters.userRefreshToken;
+
+        // API call to generate a new token
+        const response = await API.authAPI().post('/token', {
+          headers: {
+            Refresh: refreshToken
+          }
+        }) 
+        if (response.status === 200) {
+          const newToken = await response.data.token;
+          this.$store.commit('regen', newToken)
+          return newToken;
+        }
+        return null; // Return null if token generation failed
+      } catch (error) {
+        console.error('Token generation error:', error);
+        return null; // Return null in case of errors
+      }
+    },
+    async updateStation(station, retryAttempts = 0){
+      const MAX_RETRY_ATTEMPTS = 3; // Maximum number of retry attempts
+      const accessToken = this.accessToken
+      const config = {
+        headers: {
+          Authorization: accessToken
+        }
+      }
+      try {
+        const id = station.StationID
+        const name = station.StationName
+        const lat = station.posLatitude
+        const lng = station.posLongitude
+        const vis = station.isVisible
+        const response = await API.dataAPI().post('/station', {
+          id: id,
+          name: name,
+          lat: lat,
+          lng: lng,
+          vis: vis
+        }, config)
+        if (response.status === 200) {
+          const data = await response.data
+          console.log(data);
+        } else if (response.status === 400) {
+          if (retryAttempts < MAX_RETRY_ATTEMPTS) {
+            // Retry the update with a new token
+            const newToken = await this.generateNewToken();
+            if (newToken) {
+              await this.updateStation(station, retryAttempts + 1);
+            } else {
+              console.error('Token generation failed');
+            }
+          } else {
+            console.error('Exceeded maximum retry attempts. Unable to update.');
+            await this.logout();  //logs user out
+          }
+        } else {
+          // Handle other status codes or errors
+          const errorData = await response.json();
+          console.error('Error:', errorData.error);
+        }
+      } catch (error) {
+        console.error('Fetch error:', error)
+        this.messageError = error.response.data.error
+      }
+    },
+    toggleVisibility(station) {
+      station.isVisible = !station.isVisible; // Update isVisible property
+      this.updateStation(station); // Send the updated data to the server
     },
     nextPage() {
       if (this.currentPage < this.totalPages) {

@@ -26,7 +26,6 @@ export default {
   methods: {
     async login() {
       this.messageError = '' // Reset the error message
-      // Küldj egy POST kérést a szervernek a bejelentkezéshez
       try {
         const response = await API.authAPI().post('/login', {
           name: this.username,
