@@ -6,34 +6,34 @@ import bcrypt from "bcrypt";
 import bodyParser from "body-parser";
 import jwt from "jsonwebtoken";
 
-import { verifyToken } from "./verify.js";
-
-//  import queries
-import { getUsers, postUsers, getStationsTable } from "./database.js";
+//  import sql query funtions
+import { getUsers, postUsers } from "./database.js";
 
 dotenv.config({ path: "../../.env" });
 
 //  using express.js framework
 const app = express();
+
 const port = process.env.AUTH_SERVER_PORT;
 
-// CORS
+// CORS - for vue.js project
 app.use(
   cors({
     origin: "http://localhost:5173",
   })
 );
-
-const refreshTokens = [];
-
-// AUTHENTICATE
 app.use(bodyParser.json());
 
+// storing refresh tokens - only used in LOCALHOST
+const refreshTokens = [];
+
+// ---- USER HANDLING ----
+// GET USERS from database
 app.get("/users", async (req, res) => {
   const users = await getUsers();
   res.json(users);
 });
-
+// POST NEW USER to database - create new user
 app.post("/user", async (req, res) => {
   try {
     const hasedPass = await bcrypt.hash(req.body.password, 10);
@@ -45,6 +45,8 @@ app.post("/user", async (req, res) => {
   }
 });
 
+// ---- AUTHENTICATION ----
+// LOGIN - create access, refresh token for authenticated user
 app.post("/login", async (req, res) => {
   const users = await getUsers();
   const user = users.find((user) => user.UserName == req.body.name);
@@ -83,7 +85,7 @@ app.post("/login", async (req, res) => {
     res.status(500).send();
   }
 });
-
+// NEW TOKEN - create new access token for authenticated user with refresh token
 app.post('/token', async (req, res) => {
     const refreshToken = req.header('Refresh')
     if (refreshToken == null) return res.sendStatus(401)
@@ -94,7 +96,7 @@ app.post('/token', async (req, res) => {
         res.json({ accessToken: accessToken })
     })
 })
-
+// LOGUT - delete refresh token
 app.delete('/logout', (req, res) => {
   const refreshToken = req.header('Refresh');
   if (!refreshToken) {
@@ -107,17 +109,12 @@ app.delete('/logout', (req, res) => {
   refreshTokens.splice(index, 1); // Remove the token from the refreshTokens array
   res.status(200).send("Successful logout");
 });
-
-
+// Function for generating access token - used LOGIN, NEW TOKEN
 function generateAccessToken(user) {
   console.log('new access token was generated');
   return jwt.sign(user, process.env.ACCESS_TOKEN, { expiresIn: "1 min" }); // 10-15 min later
 }
 
-// GET 'Stations' DB table content
-app.post("/stations", verifyToken, async (req, res) => {
-// code here
-});
 
 //  Listening Port
 app.listen(port, () => {

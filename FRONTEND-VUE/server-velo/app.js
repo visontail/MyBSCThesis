@@ -2,7 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 
-//  import queries
+//  import sql query funtions
 import {
   getMarkerData,
   getMeasurementsTable,
@@ -13,61 +13,63 @@ import {
   getYearSum,
 } from "./database.js";
 
+// import token verification function
+import { verifyToken } from "./verify.js";
+
 dotenv.config({ path: '../../.env' });
 
 //  using express.js framework
 const app = express();
+
 const port = process.env.API_PORT;
 
-// CORS
+// CORS - for vue.js project
 app.use(
   cors({
     origin: "http://localhost:5173",
   })
 );
 
+// ---- STATION DATA ----
 // GET 'Stations' DB table content
 app.get("/stations", async (req, res) => {
   const stations = await getStationsTable();
   res.send(stations);
 });
-
-// GET 'Measurements' DB table content
-app.get("/measurements", async (req, res) => {
-  const measurements = await getMeasurementsTable();
-  res.send(measurements);
-});
-
 // GET stations' data - used in google.maps.marker
 app.get("/pos", async (req, res) => {
   const data = await getMarkerData();
   res.send(data);
 });
+// GET all station number - used in menubar
+app.get("/sum", async (req, res) => {
+  const sum = await getSumStations();
+  res.send(sum);
+});
 
-// GET measurement data from provided station - used in content window
+// ---- MEASUREMENT DATA ----
+// GET 'Measurements' DB table content
+app.get("/measurements", async (req, res) => {
+  const measurements = await getMeasurementsTable();
+  res.send(measurements);
+});
+// GET measurement data from provided station
 app.get("/stats/:id", async (req, res) => {
   const id = req.params.id;
   const measurementdata = await getStats(id);
   res.send(measurementdata);
 });
-
-// GET
+// GET today's total traffic in given station
 app.get("/today/:id", async (req, res) => {
   const id = req.params.id;
   const measurementdata = await getTodaySum(id);
   res.send(measurementdata);
 });
-
+// GET this year's total traffic in given station
 app.get("/this-year/:id", async (req, res) => {
   const id = req.params.id;
   const measurementdata = await getYearSum(id);
   res.send(measurementdata);
-});
-
-// GET all station number - used in menubar
-app.get("/sum", async (req, res) => {
-  const sum = await getSumStations();
-  res.send(sum);
 });
 
 

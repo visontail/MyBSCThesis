@@ -3,8 +3,6 @@ import dotenv from 'dotenv'
 
 dotenv.config({ path: '../../.env' });
 
-
-
 // Collection of connections (= pool) for Database
 const pool = mysql.createPool({
     host: process.env.MYSQL_HOST,
@@ -13,7 +11,8 @@ const pool = mysql.createPool({
     database: process.env.MYSQL_DATABASE
 }).promise()    // allow to handle asynchronous operations
 
-//SELECT 'Stations' DB table content
+// ---- STATIONS TABLE ----
+// SELECT 'Stations' DB table content
 export async function getStationsTable() {
     try{
         const [rows] = await pool.query("SELECT * FROM Stations")
@@ -24,8 +23,60 @@ export async function getStationsTable() {
         throw error;
     }
 }
+export async function getMarkerData() {
+    try{
+        const [rows] = await pool.query("SELECT StationID, StationName, StationImg, posLatitude, posLongitude, isVisible FROM Stations")
+        return rows 
+    }
+    catch(error) {
+        console.error("Error fetching Stations' data:", error);
+        throw error;
+    }
+}
+// SELECT Stations' data
+export async function getStations() {
+    try{
+        const [stationPos] = await pool.query("SELECT StationID, StationName, posLatitude, posLongitude, isVisible FROM Stations")
+    return stationPos
+    }
+    catch(error) {
+        console.error("Error fetching data for Markers:", error);
+        throw error;
+    }
+}
+// COUNT Stations
+export async function getSumStations() {
+    try{
+        const [sumStation] = await pool.query(`
+            SELECT COUNT(*) AS row_count
+            FROM Stations`)
+        return sumStation
+    }
+    catch(error) {
+        console.error("Error fetching number of station:", error);
+        throw error;
+    } 
+}
+// UPDATE Station's data
+export async function postChangedStation(name, ) {
+    try{
+        const [rows] = await pool.query(`
+            UPDATE Stations
+            SET StaionName = ?,
+            WHERE StationID = ?`,
+            [id]
+        )
+        return rows
+    }
+    catch(error) {
+        console.error("Error fetching statistics:", error);
+        throw error;
+    }
+}
 
-//SELECT 'Measurements' DB table content
+
+// ---- MEASUREMENTS TABLE ----
+// SELECT 'Measurements' DB table content
 export async function getMeasurementsTable() {
     try{
         const [rows] = await pool.query("SELECT * FROM Measurements")
@@ -36,19 +87,6 @@ export async function getMeasurementsTable() {
         throw error;
     }
 }
-
-//SELECT stations' data
-export async function getMarkerData() {
-    try{
-        const [stationPos] = await pool.query("SELECT StationID, StationName, StationImg, posLatitude, posLongitude FROM Stations")
-    return stationPos
-    }
-    catch(error) {
-        console.error("Error fetching data for Markers:", error);
-        throw error;
-    }
-}
-
 // SELECT measurement data from provided station
 export async function getStats(id) {
     try{
@@ -65,22 +103,7 @@ export async function getStats(id) {
         throw error;
     }
 }
-
-// COUNT Stations
-export async function getSumStations() {
-    try{
-        const [sumStation] = await pool.query(`
-            SELECT COUNT(*) AS row_count
-            FROM Stations`)
-        return sumStation
-    }
-    catch(error) {
-        console.error("Error fetching number of station:", error);
-        throw error;
-    } 
-}
-
-// SUM 
+// SUM DAILY Bicycle Traffic in a given STATION
 export async function getTodaySum(id) {
     try{
         const [rows] = await pool.query(`
@@ -96,8 +119,7 @@ export async function getTodaySum(id) {
         throw error;
     }
 }
-
-// SUM 
+// SUM YEARLY Bicycle Traffic in a given STATION
 export async function getYearSum(id) {
     try{
         const [rows] = await pool.query(`
@@ -113,8 +135,11 @@ export async function getYearSum(id) {
         throw error;
     }
 }
+// SUM YEARLY Bicycle Traffic in all STATIONS
+// CODE GOES HERE
 
-// SELECT
+// ---- LOGIN TABLE ----
+// SELECT ALL USERS
 export async function getUsers() {
     try{
         const [rows] = await pool.query(`
@@ -128,8 +153,7 @@ export async function getUsers() {
         throw error;
     }
 }
-
-// INSERT
+// INSERT NEW USER
 export async function postUsers(user, pass) {
     try{
         const [rows] = await pool.query(`
