@@ -34,7 +34,6 @@ export default {
         })
         if (response.status === 200) {
           const data = await response.data
-          console.log(data);
           this.$store.commit('login', { accessToken: data.accessToken, refreshToken: data.refreshToken });
           this.$router.push({ name: 'admin' })
         } else {

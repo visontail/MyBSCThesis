@@ -1,7 +1,6 @@
 <template>
-    <ChartComponent :hidden="showChart" :selectedMarkerID="selectedMarkerID" :hourlyDataArray="hourlyDataArray" :dailyDataArray="dailyDataArray" :monthlyDataArray="monthlyDataArray"/>
-  <div ref="mapDiv" id="mapDiv" style="width:100vw; height: 100vh;z-index: 1;">
-  </div>
+  <ChartComponent :hidden="showChart" :selectedMarkerID="selectedMarkerID" :hourlyDataArray="hourlyDataArray" :dailyDataArray="dailyDataArray" :monthlyDataArray="monthlyDataArray"/>
+  <div ref="mapDiv" id="mapDiv" style="width:100vw; height: 100vh;z-index: 1;"></div>
 </template>
 
 
