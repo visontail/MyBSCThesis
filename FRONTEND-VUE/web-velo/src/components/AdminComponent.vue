@@ -79,7 +79,7 @@ export default {
     const store = useStore();
     // const isAuthenticated = store.getters.isAuthenticated;
     const accessToken = store.getters.userAccessToken;
-    const refreshToken = () => {return store.getters.userRefreshToken;};
+    const refreshToken = store.getters.userRefreshToken;
     return{
       accessToken,
       refreshToken
@@ -136,15 +136,13 @@ export default {
     },
     async generateNewToken(){
       try {
-        const store = useStore();
-        const refreshToken = store.getters.userRefreshToken;
-
-        // API call to generate a new token
+        const refreshToken = this.refreshToken;
         const response = await API.authAPI().post('/token', {
           headers: {
             Refresh: refreshToken
           }
-        }) 
+        })
+        console.log(response);
         if (response.status === 200) {
           const newToken = await response.data.token;
           this.$store.commit('regen', newToken)
@@ -181,6 +179,15 @@ export default {
           const data = await response.data
           console.log(data);
         } else if (response.status === 400) {
+          console.log("itt is");
+        } else {
+          // Handle other status codes or errors
+          const errorData = await response.json();
+          console.error('Error:', errorData.error);
+        }
+      } catch (error) {
+        if (error.response.status === 400) {
+          console.log("itt");
           if (retryAttempts < MAX_RETRY_ATTEMPTS) {
             // Retry the update with a new token
             const newToken = await this.generateNewToken();
@@ -193,12 +200,7 @@ export default {
             console.error('Exceeded maximum retry attempts. Unable to update.');
             await this.logout();  //logs user out
           }
-        } else {
-          // Handle other status codes or errors
-          const errorData = await response.json();
-          console.error('Error:', errorData.error);
         }
-      } catch (error) {
         console.error('Fetch error:', error)
         this.messageError = error.response.data.error
       }
