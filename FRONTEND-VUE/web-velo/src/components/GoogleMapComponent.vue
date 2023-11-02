@@ -156,10 +156,13 @@ export default {
         for (const pos of positionsArray) {
           const id = pos.StationID;
           const name = pos.StationName;
-          const img = pos.StationImg;
+          //const img = pos.StationImg;
           const lat = parseFloat(pos.posLatitude);
           const lng = parseFloat(pos.posLongitude);
-          //  load Measurement statistics data for each Station/Marker using 'StationID' into a 'statsArray'
+          const vis = parseInt(pos.isVisible);
+          console.log(vis);
+          if (vis === 1) {
+            //  load Measurement statistics data for each Station/Marker using 'StationID' into a 'statsArray'
           let  statsArray = [];
           let sumToday = 0;
           let sumThisYear = 0;
@@ -187,15 +190,10 @@ export default {
           dailyDataArray.value.push({ id, name, dailyData });
           const MonthlyData = Average.groupByMonthly(statsArray);
           monthlyDataArray.value.push({ id, name, MonthlyData });
-          
-          //  const cord = `${lat},${lng}`
-          //  const weatherData = await WeatherAPI.getWeatherAPIdata(cord);
-          //  const currentWeather = WeatherAPI.getTodayWeatherData(weatherData)
-          //  const currentIcon = WeatherAPI.getIconData(weatherData)
           const content =` 
             <div id="content">
                 <h4> ${name} </h4>
-                <p> (${lat}, ${lng}) </p>`
+                <p> cord: (${lat}, ${lng}) </p>`
                 /* <div>
                   <p> Weather: ${currentWeather}°C</p>
                   <img src="${currentIcon}">
@@ -204,11 +202,12 @@ export default {
                   <p> Today's total traffic: ${sumToday}</p>
                   <p> This year's total traffic: ${sumThisYear} </p>
                 </div>
-                <div>
+              </div>`;
+              /* <div>
                   <h4> PICTURES </h4>
                   <img src="../${img}" >
-                </div>
-              </div>`;
+                </div> 
+              */
           const marker = new google.maps.Marker({
             id: id,
             title: name,
@@ -217,11 +216,12 @@ export default {
             icon: icon,
             content: content
           });
-          google.maps.event.addDomListener(marker, 'click', function() {
+          marker.addListener('click', function() {
             handleMarkerClick(marker.id);
           });
           clickMarker(map, marker);
-        };
+          }
+        }
       }
       catch(err){
         console.log(err);

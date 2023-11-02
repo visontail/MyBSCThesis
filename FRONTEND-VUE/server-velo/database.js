@@ -50,7 +50,8 @@ export async function getSumStations() {
     try{
         const [sumStation] = await pool.query(`
             SELECT COUNT(*) AS row_count
-            FROM Stations`)
+            FROM Stations
+            WHERE isVisible = 1`)
         return sumStation
     }
     catch(error) {

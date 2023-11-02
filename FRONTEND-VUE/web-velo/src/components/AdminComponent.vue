@@ -28,7 +28,7 @@
             <input v-model="station.posLongitude" :key="index">
           </td>
           <td>
-            <input type="checkbox" :checked="station.isApproved === 0" @change="toggleVisibility(station)">
+            <input type="checkbox" :checked="station.isVisible === 1" @change="toggleVisibility(station)">
           </td>
           <td>
             <button @click="updateStation(station)">Update</button>
