@@ -1,5 +1,4 @@
 <template>
-  <input type="text" v-model="searchQuery" @input="filterMarkers" placeholder="Search..." />
   <ChartComponent :hidden="showChart" :selectedMarkerID="selectedMarkerID" :hourlyDataArray="hourlyDataArray"
     :dailyDataArray="dailyDataArray" :monthlyDataArray="monthlyDataArray" />
   <div ref="mapDiv" id="mapDiv" style="width:100vw; height: 100vh;z-index: 1;"></div>
@@ -200,6 +199,7 @@ export default {
               icon: icon,
               content: content
             });
+            this.markers.push(marker);
             marker.addListener('click', function () {
               this.selectedMarkerID = id;
               this.showChart = false;
@@ -237,6 +237,7 @@ export default {
   data() {
     return {
       searchQuery: '',
+      markers: [],
       positionsArray: [],
       selectedMarkerID: 0,
       showChart: true,
