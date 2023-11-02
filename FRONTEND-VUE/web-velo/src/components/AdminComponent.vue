@@ -28,7 +28,7 @@
             <input v-model="station.posLongitude" :key="index">
           </td>
           <td>
-            <input type="checkbox" v-model="station.isVisible" @change="toggleVisibility(station)">
+            <input type="checkbox" :checked="station.isApproved === 0" @change="toggleVisibility(station)">
           </td>
           <td>
             <button @click="updateStation(station)">Update</button>
@@ -45,9 +45,9 @@
 </template>
   
 <script>
-import { useStore } from 'vuex';
+import { mapGetters } from 'vuex';
+import API from '../services/API';
 import StationAPI from '../services/StationAPI.js';
-import API from '../services/API'
 
 export default {
   data(){
@@ -69,21 +69,15 @@ export default {
       const startIndex = (this.currentPage - 1) * this.itemsPerPage;
       const endIndex = this.currentPage * this.itemsPerPage;
       return this.stationsArray.slice(startIndex, endIndex);
-    }
+    },
+    ...mapGetters(['userAccessToken', 'userRefreshToken'])
   },
   async mounted(){
     await this.loadStations();
     await this.getStationsNum();
   },
   setup() {
-    const store = useStore();
     // const isAuthenticated = store.getters.isAuthenticated;
-    const accessToken = store.getters.userAccessToken;
-    const refreshToken = store.getters.userRefreshToken;
-    return{
-      accessToken,
-      refreshToken
-    }
   },
   methods: {
     async getStationsNum() {
@@ -121,7 +115,7 @@ export default {
           if (contentType && contentType.includes('application/json')) {
             // If the error response is in JSON format.
             const errorData = await response.json()
-            this.messageError = 'Error: ' + JSON.stringify(errorData.error)
+            console.log('Error: ' + JSON.stringify(errorData.error));
           } else {
             // If the error response is plain text.
             const errorText = await response.text()
@@ -131,21 +125,23 @@ export default {
         }
       }catch (error) {
         console.error('Fetch error:', error)
-        this.messageError = error.response.data.error
       }
     },
     async generateNewToken(){
+      const refreshToken = this.userRefreshToken
       try {
-        const refreshToken = this.refreshToken;
-        const response = await API.authAPI().post('/token', {
-          headers: {
-            Refresh: refreshToken
+        const response = await API.authAPI().post('/token', {},
+          {
+            headers: {
+              Refresh: refreshToken
+            }
           }
-        })
-        console.log(response);
+        );
+        console.log(response.data);
         if (response.status === 200) {
-          const newToken = await response.data.token;
+          const newToken = response.data.accessToken;
           this.$store.commit('regen', newToken)
+          console.log(newToken);
           return newToken;
         }
         return null; // Return null if token generation failed
@@ -156,41 +152,33 @@ export default {
     },
     async updateStation(station, retryAttempts = 0){
       const MAX_RETRY_ATTEMPTS = 3; // Maximum number of retry attempts
-      const accessToken = this.accessToken
+      const accessToken = this.userAccessToken
       const config = {
         headers: {
           Authorization: accessToken
         }
       }
       try {
-        const id = station.StationID
-        const name = station.StationName
-        const lat = station.posLatitude
-        const lng = station.posLongitude
-        const vis = station.isVisible
+        const { StationID, StationName, posLatitude, posLongitude, isVisible } = station;
         const response = await API.dataAPI().post('/station', {
-          id: id,
-          name: name,
-          lat: lat,
-          lng: lng,
-          vis: vis
+          id: StationID,
+          name: StationName,
+          lat: posLatitude,
+          lng: posLongitude,
+          vis: isVisible
         }, config)
         if (response.status === 200) {
           const data = await response.data
-          console.log(data);
-        } else if (response.status === 400) {
-          console.log("itt is");
+          console.log("update was a success",data);
         } else {
-          // Handle other status codes or errors
           const errorData = await response.json();
           console.error('Error:', errorData.error);
         }
       } catch (error) {
-        if (error.response.status === 400) {
-          console.log("itt");
+        if (error.response && error.response.status === 400 || error.response && error.response.status === 401 ) {
           if (retryAttempts < MAX_RETRY_ATTEMPTS) {
             // Retry the update with a new token
-            const newToken = await this.generateNewToken();
+            const newToken = await this.generateNewToken(this.refreshToken);
             if (newToken) {
               await this.updateStation(station, retryAttempts + 1);
             } else {
@@ -202,7 +190,6 @@ export default {
           }
         }
         console.error('Fetch error:', error)
-        this.messageError = error.response.data.error
       }
     },
     toggleVisibility(station) {
