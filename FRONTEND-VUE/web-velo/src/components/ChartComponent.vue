@@ -227,10 +227,11 @@ export default {
     }
   },
   setup(props) {
+    console.log(props.selectedMarkerID);
     const chartInstance = ref(null)
     const showNoChart = ref(false)
     const showNoData = ref(true)
-    const currentChartType = ref('weekly') // Initialize with 'daily'
+    const currentChartType = ref('weekly')
     // Watch for changes in selectedMarkerID and update the chart accordingly
     watch(
       [() => props.selectedMarkerID, () => currentChartType.value],

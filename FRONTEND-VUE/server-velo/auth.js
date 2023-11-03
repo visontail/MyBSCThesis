@@ -112,7 +112,7 @@ app.delete('/logout', (req, res) => {
 // Function for generating access token - used LOGIN, NEW TOKEN
 function generateAccessToken(user) {
   console.log('new access token was generated');
-  return jwt.sign(user, process.env.ACCESS_TOKEN, { expiresIn: "10 sec" }); // 10-15 min later
+  return jwt.sign(user, process.env.ACCESS_TOKEN, { expiresIn: "1 min" }); // 10-15 mins default
 }
 
 

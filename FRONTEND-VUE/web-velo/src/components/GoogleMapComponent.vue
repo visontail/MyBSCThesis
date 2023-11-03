@@ -146,7 +146,6 @@ export default {
           const lat = parseFloat(pos.posLatitude);
           const lng = parseFloat(pos.posLongitude);
           const vis = parseInt(pos.isVisible);
-
           if (vis === 1) {
             //  load Measurement statistics data for each Station/Marker using 'StationID' into a 'statsArray'
             let statsArray = [];
@@ -199,9 +198,8 @@ export default {
               icon: icon,
               content: content
             });
-            this.markers.push(marker);
             marker.addListener('click', function () {
-              this.selectedMarkerID = id;
+              this.selectedMarkerID = marker.id;
               this.showChart = false;
             }.bind(this));
             clickMarker(map, marker);
@@ -237,11 +235,10 @@ export default {
   data() {
     return {
       searchQuery: '',
-      markers: [],
       positionsArray: [],
       selectedMarkerID: 0,
       showChart: true,
-      hourlyDataArray: [], // Initialize as empty arrays
+      hourlyDataArray: [],
       dailyDataArray: [],
       monthlyDataArray: [],
     };
