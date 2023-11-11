@@ -2,6 +2,7 @@
   <ChartComponent :hidden="showChart" :selectedMarkerID="selectedMarkerID" :hourlyDataArray="hourlyDataArray"
     :dailyDataArray="dailyDataArray" :monthlyDataArray="monthlyDataArray" />
   <div ref="mapDiv" id="mapDiv" style="width:100vw; height: 100vh;z-index: 1;"></div>
+  <img src="../assets/" alt="">
 </template>
 
 
@@ -126,6 +127,17 @@ const icon = {
 
 export default {
   name: 'GMap',
+  data() {
+    return {
+      searchQuery: '',
+      positionsArray: [],
+      selectedMarkerID: 0,
+      showChart: true,
+      hourlyDataArray: [],
+      dailyDataArray: [],
+      monthlyDataArray: [],
+    };
+  },
   methods: {
     async loadPositions() {
       try {
@@ -142,16 +154,13 @@ export default {
         for (const pos of positionsArray) {
           const id = pos.StationID;
           const name = pos.StationName;
-          //const img = pos.StationImg;
+          const img = pos.StationImg;
           const lat = parseFloat(pos.posLatitude);
           const lng = parseFloat(pos.posLongitude);
           const vis = parseInt(pos.isVisible);
           if (vis === 1) {
             //  load Measurement statistics data for each Station/Marker using 'StationID' into a 'statsArray'
             let statsArray = [];
-            let hourlyDataArray = [];
-            let dailyDataArray = [];
-            let monthlyDataArray = [];
             let sumToday = 0;
             let sumThisYear = 0;
             const loadStats = async () => {
@@ -173,12 +182,12 @@ export default {
             await loadStats();
             //  calculate measurement averages
             const hourlyData = Average.groupByHourly(statsArray);
-            hourlyDataArray.push({ id, name, hourlyData });
+            this.hourlyDataArray.push({ id, name, hourlyData });
             const dailyData = Average.groupByDaily(statsArray);
-            dailyDataArray.push({ id, name, dailyData });
+            this.dailyDataArray.push({ id, name, dailyData });
             const MonthlyData = Average.groupByMonthly(statsArray);
-            monthlyDataArray.push({ id, name, MonthlyData });
-            const content =`
+            this.monthlyDataArray.push({ id, name, MonthlyData });
+            const content = `
             <div id="content">
               <h4> ${name} </h4>
               <p> cord: (${lat}, ${lng}) </p>
@@ -188,8 +197,9 @@ export default {
               </div>
               <div>
                 <h4> PICTURES </h4>
+                <img src="../../../${img}" alt="">
               </div> 
-            </div>`; 
+            </div>`;
             const marker = new google.maps.Marker({
               id: id,
               title: name,
@@ -198,11 +208,11 @@ export default {
               icon: icon,
               content: content
             });
-            marker.addListener('click', function () {
+            marker.addListener('click', () => {
               this.selectedMarkerID = marker.id;
               this.showChart = false;
-              console.log(this.selectedMarkerID);
             });
+            
             clickMarker(map, marker);
           }
         }
@@ -210,7 +220,9 @@ export default {
       catch (err) {
         console.log(err);
       }
+
     },
+    
   },
   mounted() {
     const loader = new Loader({ apiKey: API_KEY });
@@ -233,21 +245,9 @@ export default {
   components: {
     ChartComponent,
   },
-  data() {
-    return {
-      searchQuery: '',
-      positionsArray: [],
-      selectedMarkerID: 0,
-      showChart: true,
-      hourlyDataArray: [],
-      dailyDataArray: [],
-      monthlyDataArray: [],
-    };
-  },
+
 };
 
 </script>
 
-<style>
-
-</style>
+<style></style>
