@@ -2,3 +2,5 @@
 ./BACKEND-PY/.DS_Store
 
 .env
+
+/FRONTEND-VUE/node_modules
