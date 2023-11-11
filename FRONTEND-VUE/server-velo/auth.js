@@ -46,7 +46,7 @@ app.post("/user", async (req, res) => {
 });
 
 // ---- AUTHENTICATION ----
-// LOGIN - create access, refresh token for authenticated user
+// LOGIN - create access + refresh token for authenticated user
 app.post("/login", async (req, res) => {
   const users = await getUsers();
   const user = users.find((user) => user.UserName == req.body.name);

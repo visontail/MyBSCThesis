@@ -201,7 +201,8 @@ export default {
             marker.addListener('click', function () {
               this.selectedMarkerID = marker.id;
               this.showChart = false;
-            }.bind(this));
+              console.log(this.selectedMarkerID);
+            });
             clickMarker(map, marker);
           }
         }
