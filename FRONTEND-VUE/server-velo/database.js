@@ -109,9 +109,9 @@ export async function getStats(id) {
 export async function getTodaySum(id) {
     try{
         const [rows] = await pool.query(`
-        SELECT SUM(CycTraff1) AS TotalTraffic
+        SELECT SUM(CycTraff1 + CycTraff2) AS TotalTraffic
         FROM Measurements
-        WHERE DATE(startTime) = CURDATE() AND StationID = ?`,
+        WHERE DATE(Date) = CURDATE() AND StationID = ?`,
         [id]
         )
         return rows
@@ -125,7 +125,7 @@ export async function getTodaySum(id) {
 export async function getYearSum(id) {
     try{
         const [rows] = await pool.query(`
-        SELECT SUM(CycTraff1) AS TotalTraffic
+        SELECT SUM(CycTraff1 + CycTraff2) AS TotalTraffic
         FROM Measurements
         WHERE YEAR(startTime) = YEAR(CURDATE()) AND StationID = ?`,
         [id]

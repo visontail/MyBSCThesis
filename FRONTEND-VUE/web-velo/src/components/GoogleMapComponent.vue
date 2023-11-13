@@ -1,8 +1,8 @@
 <template>
   <ChartComponent :hidden="showChart" :selectedMarkerID="selectedMarkerID" :hourlyDataArray="hourlyDataArray"
     :dailyDataArray="dailyDataArray" :monthlyDataArray="monthlyDataArray" />
+    <input type="text" v-model="searchQuery" @keyup.enter="filterMarkers" placeholder="Search..." />
   <div ref="mapDiv" id="mapDiv" style="width:100vw; height: 100vh;z-index: 1;"></div>
-  <img src="../assets/" alt="">
 </template>
 
 
@@ -130,6 +130,7 @@ export default {
   data() {
     return {
       searchQuery: '',
+      markers: [],
       positionsArray: [],
       selectedMarkerID: 0,
       showChart: true,
@@ -154,7 +155,6 @@ export default {
         for (const pos of positionsArray) {
           const id = pos.StationID;
           const name = pos.StationName;
-          const img = pos.StationImg;
           const lat = parseFloat(pos.posLatitude);
           const lng = parseFloat(pos.posLongitude);
           const vis = parseInt(pos.isVisible);
@@ -195,10 +195,6 @@ export default {
                 <p> Today's total traffic: ${sumToday}</p>
                 <p> This year's total traffic: ${sumThisYear} </p>
               </div>
-              <div>
-                <h4> PICTURES </h4>
-                <img src="../../../${img}" alt="">
-              </div> 
             </div>`;
             const marker = new google.maps.Marker({
               id: id,
@@ -208,11 +204,14 @@ export default {
               icon: icon,
               content: content
             });
+            this.markers.push(marker)
+            /* this.markers.forEach(marker => {
+              console.log(marker);
+            }); */
             marker.addListener('click', () => {
               this.selectedMarkerID = marker.id;
               this.showChart = false;
             });
-            
             clickMarker(map, marker);
           }
         }
@@ -220,9 +219,35 @@ export default {
       catch (err) {
         console.log(err);
       }
-
     },
-    
+    filterMarkers() {
+      const query = this.searchQuery.trim();
+      console.log(query);
+      if (!query) {
+        this.markers.forEach((marker) => {
+          const markerElement = document.querySelector(`[title="${marker.title}"]`);
+          console.log(markerElement);
+          if (markerElement) {
+            markerElement.style.display = 'block';
+          }
+        });
+        return;
+      }
+      this.markers.forEach((marker) => {
+        const title = marker.title ? marker.title : '';
+        const markerElement = document.querySelector(`[title="${title}"]`);
+        if (query === title) {
+          console.log(markerElement);
+          markerElement.style.display = 'block'; // Show marker
+          console.log('Done');
+        } else {
+          if (markerElement) {
+            markerElement.style.display = 'none'; // Hide marker  
+            console.log("Job Done");
+          }
+        }
+      });
+    },
   },
   mounted() {
     const loader = new Loader({ apiKey: API_KEY });
@@ -242,6 +267,7 @@ export default {
       console.error(error.message);
     });
   },
+  
   components: {
     ChartComponent,
   },
