@@ -43,6 +43,46 @@
       <button id="item" @click="nextPage" :disabled="currentPage === totalPages">Next</button>
   </div>
 </template>
+
+<style scoped>
+#center-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+table, tbody {
+  display: flex;
+  flex-direction: column;
+}
+tr {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+tbody {
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+}
+#center-nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 10vh;
+}
+#center-container {
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+#item {
+  margin: 10px;
+}
+</style>
+
   
 <script>
 import { mapGetters } from 'vuex';
@@ -75,9 +115,6 @@ export default {
   async mounted(){
     await this.loadStations();
     await this.getStationsNum();
-  },
-  setup() {
-    // const isAuthenticated = store.getters.isAuthenticated;
   },
   methods: {
     async getStationsNum() {
@@ -210,32 +247,3 @@ export default {
 };
 
 </script>
-
-
-<style scoped>
-#center-div {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
-#center-nav {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 10vh;
-}
-#center-container {
-  padding: 40px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-#item {
-  margin: 10px;
-}
-</style>
-
-
-

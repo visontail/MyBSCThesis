@@ -204,10 +204,7 @@ export default {
               icon: icon,
               content: content
             });
-            this.markers.push(marker)
-            /* this.markers.forEach(marker => {
-              console.log(marker);
-            }); */
+            this.markers.push(marker);
             marker.addListener('click', () => {
               this.selectedMarkerID = marker.id;
               this.showChart = false;
@@ -240,9 +237,10 @@ export default {
           console.log(markerElement);
           markerElement.style.display = 'block'; // Show marker
           console.log('Done');
+          console.log(markerElement.style);
         } else {
           if (markerElement) {
-            markerElement.style.display = 'none'; // Hide marker  
+            markerElement.style.visibility = 'hidden'; // Hide marker  
             console.log("Job Done");
           }
         }

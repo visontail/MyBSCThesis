@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <nav id="navbar" class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
       <a class="navbar-brand" :href="homeRoute">WebVelo</a>
       <button
@@ -63,6 +63,18 @@ export default{
 
 </script>
 
-<style>
+<style scoped>
+#navbar {
+  background-color: black !important;
+}
+.nav-link {
+  color: wheat !important;
+}
+.navbar-brand {
+  color: aqua !important;
+}
 
+button {
+  background-color: aliceblue;
+}
 </style>
