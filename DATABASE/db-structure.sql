@@ -26,16 +26,25 @@ CREATE TABLE `web_velo`.`Measurements` (
 -- Table structure for table `Stations`
 --
 
-CREATE TABLE `Stations` (
-  `StationUid` varchar(100) NOT NULL,
+CREATE TABLE `web_velo`.`Stations` (
   `StationID` int(11) NOT NULL,
   `StationName` varchar(100) NOT NULL,
   `StationImg` varchar(100),
   `posLatitude` float NOT NULL,
   `posLongitude` float NOT NULL,
-  `isApproved` tinyint(1) NOT NULL,
+  `isVisible` tinyint(1) NOT NULL,
   PRIMARY KEY (`StationID`)
 );
+
+--
+-- Table structure for table `Login`
+--
+
+CREATE TABLE `web_velo`.`Login` (
+  `UserID` INT NOT NULL AUTO_INCREMENT,
+  `UserName` VARCHAR(100) NOT NULL,
+  `Password` VARCHAR(100) NOT NULL,
+  PRIMARY KEY (`UserID`));
 
 --
 -- ADD FOREIGN KEY 'StationID'
@@ -115,7 +124,3 @@ INSERT INTO `Stations` (`station_Uid`, `Station_ID`, `station_Name`, `pos_Latitu
 ('5e299fc5-aa4d-4db4-8f46-1b6ee9d3bd2b', 120001, 'Lenti, 75. főút Rédics felé', 46.6219, 16.5179, 1),
 ('ec69185b-426c-454f-bcfb-b15993114202', 120002, 'Zalaszentgyörgy, Vasútállomás', 46.8719, 16.7106, 1),
 ('834689f8-92eb-4c6c-826d-a6983272e415', 120003, 'Fenékpuszta', 46.7108, 17.2474, 1);
-
---
--- Dumping data for table `Stations`
---

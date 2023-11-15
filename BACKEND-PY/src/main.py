@@ -1,7 +1,7 @@
 # importing 'file' py file as 'fc' refering to File Class
-import file as fc
+import file.file as fc
 # importing 'database' py file as 'db'
-import database as db
+import database.database as db
 # - importing / using dotenv for storing login data locally
 import os
 from dotenv import load_dotenv
@@ -47,10 +47,10 @@ if __name__ == "__main__":
             else:
                 data.file_name = f_name
             # - read & sort file
-            name, time, weeknum, file_data = data.read_file()
+            name, time, file_data = data.read_file()
 
             # - upload data to database ( direction one )
-            upload_success = database.add_new_data(f_name.split("/")[-1], name, time, weeknum, file_data)
+            upload_success = database.add_new_data(f_name.split("/")[-1], name, time, file_data)
             # - check if data was inserted or not
             if upload_success:
                 # - if each direction inserted then move read file

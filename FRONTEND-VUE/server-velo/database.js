@@ -23,10 +23,10 @@ export async function getStationsTable() {
         throw error;
     }
 }
-// SELECT Stations' data without uid
+// SELECT Stations' data
 export async function getMarkerData() {
     try{
-        const [rows] = await pool.query("SELECT StationID, StationName, StationImg, posLatitude, posLongitude, isVisible FROM Stations")
+        const [rows] = await pool.query("SELECT * FROM Stations")
         return rows 
     }
     catch(error) {
@@ -34,7 +34,7 @@ export async function getMarkerData() {
         throw error;
     }
 }
-// SELECT Stations' data without uid, img
+// SELECT Stations' data without img
 export async function getStations() {
     try{
         const [stationPos] = await pool.query("SELECT StationID, StationName, posLatitude, posLongitude, isVisible FROM Stations")
@@ -93,7 +93,7 @@ export async function getMeasurementsTable() {
 export async function getStats(id) {
     try{
         const [rows] = await pool.query(`
-            SELECT Date, startTime, endTime, weekNumber, CycTraff1, PedTraff1, OtherTraff1, CycTraff2, PedTraff2, OtherTraff2
+            SELECT Date, startTime, endTime, CycTraff1, PedTraff1, OtherTraff1, CycTraff2, PedTraff2, OtherTraff2
             FROM Measurements
             WHERE StationID = ?`,
             [id]

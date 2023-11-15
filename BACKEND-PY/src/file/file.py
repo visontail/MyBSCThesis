@@ -66,8 +66,7 @@ class File():
                 datetime.strptime(lines[3][2], '%H%M%S').strftime('%H:%M:%S'),
                 datetime.strptime(lines[3][4], '%H%M%S').strftime('%H:%M:%S'),
                 ]
-        weeknum = get_weeknum(meas_time[0])
         meas = [ lines[-2][6], lines[-2][7], lines[-2][8], lines[-1][6], lines[-1][7], lines[-1][8] ]
         # - returning a list
-        return meas_name, meas_time, weeknum, meas
+        return meas_name, meas_time, meas
 
