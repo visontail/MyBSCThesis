@@ -51,30 +51,30 @@ function createDailyChartData(dataArray, selectedMarkerID) {
                 {
                   label: label1,
                   data: data1,
-                  borderColor: '#F0810F',
-                  pointBackgroundColor: '#F0810F',
+                  borderColor: '#FFA500', // Orange
+                  pointBackgroundColor: '#FFA500',
                   fill: {
                     target: 'origin',
-                    below: 'rgb(240,129,15)' // And blue below the origin
+                    below: 'rgba(255, 165, 0, 0.2)' // Light orange
                   },
                   borderWidth: 1,
-                  pointBorderColor: 'rgb(240,129,15)',
-                  backgroundColor: 'rgba(240,129,15,0.4)',
-                  tension: 0.2
+                  pointBorderColor: '#FFA500',
+                  backgroundColor: 'rgba(255, 165, 0, 0.4)', // Semi-transparent orange
+                  tension: 0.4
                 },
                 {
                   label: label2,
                   data: data2,
-                  borderColor: '#E6DF44',
-                  pointBackgroundColor: '#E6DF44',
+                  borderColor: '#FFFF00', // Yellow
+                  pointBackgroundColor: '#FFFF00',
                   fill: {
                     target: 'origin',
-                    below: 'rgb(230,223,68)' // And blue below the origin
+                    below: 'rgba(255, 255, 0, 0.2)' // Light yellow
                   },
                   borderWidth: 1,
-                  pointBorderColor: 'rgb(230,223,68)',
-                  backgroundColor: 'rgba(230,223,68,0.8)',
-                  tension: 0.2
+                  pointBorderColor: '#FFFF00',
+                  backgroundColor: 'rgba(255, 255, 0, 0.8)', // Semi-transparent yellow
+                  tension: 0.4
                 }
               ]
             }
@@ -105,8 +105,9 @@ function createWeeklyChartData(dataArray, selectedMarkerID) {
           const cyc1 = parseFloat(dataset[3])
           const cyc2 = parseFloat(dataset[4])
           if (currentWeekNum == weekNum) {
-            data1[weekDay] = cyc1
-            data2[weekDay] = cyc2
+            // weekDay -1 because list starts with 0
+            data1[weekDay - 1] = cyc1
+            data2[weekDay - 1] = cyc2
             const label1 = `From ${stationName}`
             const label2 = `To ${stationName}`
             weeklyChartData = {
@@ -115,29 +116,29 @@ function createWeeklyChartData(dataArray, selectedMarkerID) {
                 {
                   label: label1,
                   data: data1,
-                  borderColor: '#F0810F',
-                  pointBackgroundColor: '#F0810F',
+                  borderColor: '#FFA500', // Orange
+                  pointBackgroundColor: '#FFA500',
                   fill: {
                     target: 'origin',
-                    below: 'rgb(240,129,15)' 
+                    below: 'rgba(255, 165, 0, 0.2)' // Light orange
                   },
                   borderWidth: 1,
-                  pointBorderColor: 'rgb(240,129,15)',
-                  backgroundColor: 'rgba(240,129,15,0.4)',
+                  pointBorderColor: '#FFA500',
+                  backgroundColor: 'rgba(255, 165, 0, 0.4)', // Semi-transparent orange
                   tension: 0.4
                 },
                 {
                   label: label2,
                   data: data2,
-                  borderColor: '#E6DF44',
-                  pointBackgroundColor: '#E6DF44',
+                  borderColor: '#FFFF00', // Yellow
+                  pointBackgroundColor: '#FFFF00',
                   fill: {
                     target: 'origin',
-                    below: 'rgb(230,223,68)'
+                    below: 'rgba(255, 255, 0, 0.2)' // Light yellow
                   },
                   borderWidth: 1,
-                  pointBorderColor: 'rgb(230,223,68)',
-                  backgroundColor: 'rgba(230,223,68,0.8)',
+                  pointBorderColor: '#FFFF00',
+                  backgroundColor: 'rgba(255, 255, 0, 0.8)', // Semi-transparent yellow
                   tension: 0.4
                 }
               ]
@@ -179,30 +180,30 @@ function createYearlyChartData(dataArray, selectedMarkerID) {
                 {
                   label: label1,
                   data: data1,
-                  borderColor: '#F0810F',
-                  pointBackgroundColor: '#F0810F',
+                  borderColor: '#FFA500', // Orange
+                  pointBackgroundColor: '#FFA500',
                   fill: {
                     target: 'origin',
-                    below: 'rgb(240,129,15)' // And blue below the origin
+                    below: 'rgba(255, 165, 0, 0.2)' // Light orange
                   },
                   borderWidth: 1,
-                  pointBorderColor: 'rgb(240,129,15)',
-                  backgroundColor: 'rgba(240,129,15,0.4)',
-                  tension: 0.2
+                  pointBorderColor: '#FFA500',
+                  backgroundColor: 'rgba(255, 165, 0, 0.4)', // Semi-transparent orange
+                  tension: 0.4
                 },
                 {
                   label: label2,
                   data: data2,
-                  borderColor: '#E6DF44',
-                  pointBackgroundColor: '#E6DF44',
+                  borderColor: '#FFFF00', // Yellow
+                  pointBackgroundColor: '#FFFF00',
                   fill: {
                     target: 'origin',
-                    below: 'rgb(230,223,68)' // And blue below the origin
+                    below: 'rgba(255, 255, 0, 0.2)' // Light yellow
                   },
                   borderWidth: 1,
-                  pointBorderColor: 'rgb(230,223,68)',
-                  backgroundColor: 'rgba(230,223,68,0.8)',
-                  tension: 0.2
+                  pointBorderColor: '#FFFF00',
+                  backgroundColor: 'rgba(255, 255, 0, 0.8)', // Semi-transparent yellow
+                  tension: 0.4
                 }
               ]
             }
@@ -319,10 +320,6 @@ export default {
   margin: 0;
   display: flex;
 }
-#stat {
-  font-size: 24px;
-  margin: 12px;
-}
 .btn-group {
   display: flex;
   justify-self: center;
@@ -330,12 +327,14 @@ export default {
 }
 button {
   max-width: 200px;
-  border: 3px white solid;
+  background-color: #1e1e1e;
+  color: white;
 }
 
 canvas, #chart {
-   background-color: burlywood;
+  background-color: #1e1e1e;
 }
+
 #chart {
   padding: 10px;
   position: absolute;
@@ -346,5 +345,9 @@ canvas, #chart {
   height: 400px;
   border-radius: 15px;
   box-shadow: 0px 0px 65px 0px rgba(0,0,0,0.52);
+  background-color: #333;
+  color: wheat;
+  text-align: center;
 }
 </style>
+

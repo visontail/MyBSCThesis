@@ -65,16 +65,16 @@ export default{
 
 <style scoped>
 #navbar {
-  background-color: black !important;
+  background-color: #1e1e1e !important;
 }
 .nav-link {
   color: wheat !important;
 }
 .navbar-brand {
-  color: aqua !important;
+  color: white !important;
 }
 
 button {
-  background-color: aliceblue;
+  background-color: white;
 }
 </style>

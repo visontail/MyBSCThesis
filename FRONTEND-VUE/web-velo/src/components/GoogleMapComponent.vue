@@ -185,12 +185,18 @@ export default {
             const MonthlyData = Average.groupByMonthly(statsArray);
             this.monthlyDataArray.push({ id, name, MonthlyData });
             const content = `
-            <div id="content">
-              <h4> ${name} </h4>
-              <p> cord: (${lat}, ${lng}) </p>
-              <div>
-                <p> Today's total traffic: ${sumToday}</p>
-                <p> This year's total traffic: ${sumThisYear} </p>
+            <div id="content-tab">
+              <div id="stat-box">
+                <div id="close-btn">
+                  <router-link class="nav-link" to="/login">
+                  <div>X</div>
+                </router-link>
+                </div>
+                <h2>${name}</h2>
+                <p id="cord">(${lat}, ${lng})</p>
+                <h4>Bike Count Summary</h4>
+                <p>Today: <span class="highlight">${sumToday}</span></p>
+                <p>This Year: <span class="highlight">${sumThisYear}</span></p>
               </div>
             </div>`;
             const marker = new google.maps.Marker({
@@ -213,6 +219,10 @@ export default {
         console.log(err);
       }
     },
+    redirectToHomePage() {
+      console.log('Redirecting to home page and refreshing...');
+      window.location.reload();
+    }
   },
   mounted() {
     const loader = new Loader({ apiKey: API_KEY });
@@ -232,7 +242,7 @@ export default {
       console.error(error.message);
     });
   },
-  
+
   components: {
     ChartComponent,
   },
@@ -240,5 +250,3 @@ export default {
 };
 
 </script>
-
-<style></style>
