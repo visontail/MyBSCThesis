@@ -1,7 +1,6 @@
 <template>
   <ChartComponent :hidden="showChart" :selectedMarkerID="selectedMarkerID" :hourlyDataArray="hourlyDataArray"
     :dailyDataArray="dailyDataArray" :monthlyDataArray="monthlyDataArray" />
-    <input type="text" v-model="searchQuery" @keyup.enter="filterMarkers" placeholder="Search..." />
   <div ref="mapDiv" id="mapDiv" style="width:100vw; height: 100vh;z-index: 1;"></div>
 </template>
 
@@ -129,8 +128,6 @@ export default {
   name: 'GMap',
   data() {
     return {
-      searchQuery: '',
-      markers: [],
       positionsArray: [],
       selectedMarkerID: 0,
       showChart: true,
@@ -204,7 +201,6 @@ export default {
               icon: icon,
               content: content
             });
-            this.markers.push(marker);
             marker.addListener('click', () => {
               this.selectedMarkerID = marker.id;
               this.showChart = false;
@@ -216,35 +212,6 @@ export default {
       catch (err) {
         console.log(err);
       }
-    },
-    filterMarkers() {
-      const query = this.searchQuery.trim();
-      console.log(query);
-      if (!query) {
-        this.markers.forEach((marker) => {
-          const markerElement = document.querySelector(`[title="${marker.title}"]`);
-          console.log(markerElement);
-          if (markerElement) {
-            markerElement.style.display = 'block';
-          }
-        });
-        return;
-      }
-      this.markers.forEach((marker) => {
-        const title = marker.title ? marker.title : '';
-        const markerElement = document.querySelector(`[title="${title}"]`);
-        if (query === title) {
-          console.log(markerElement);
-          markerElement.style.display = 'block'; // Show marker
-          console.log('Done');
-          console.log(markerElement.style);
-        } else {
-          if (markerElement) {
-            markerElement.style.visibility = 'hidden'; // Hide marker  
-            console.log("Job Done");
-          }
-        }
-      });
     },
   },
   mounted() {

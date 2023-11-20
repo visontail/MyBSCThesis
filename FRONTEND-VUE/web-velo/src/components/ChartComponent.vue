@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="chart">
     <h3>{{ chartTypeLabel }} Averages</h3>
     <div :hidden="showNoChart">
       <canvas id="myChart"></canvas>
@@ -119,12 +119,12 @@ function createWeeklyChartData(dataArray, selectedMarkerID) {
                   pointBackgroundColor: '#F0810F',
                   fill: {
                     target: 'origin',
-                    below: 'rgb(240,129,15)' // And blue below the origin
+                    below: 'rgb(240,129,15)' 
                   },
                   borderWidth: 1,
                   pointBorderColor: 'rgb(240,129,15)',
                   backgroundColor: 'rgba(240,129,15,0.4)',
-                  tension: 0.2
+                  tension: 0.4
                 },
                 {
                   label: label2,
@@ -133,12 +133,12 @@ function createWeeklyChartData(dataArray, selectedMarkerID) {
                   pointBackgroundColor: '#E6DF44',
                   fill: {
                     target: 'origin',
-                    below: 'rgb(230,223,68)' // And blue below the origin
+                    below: 'rgb(230,223,68)'
                   },
                   borderWidth: 1,
                   pointBorderColor: 'rgb(230,223,68)',
                   backgroundColor: 'rgba(230,223,68,0.8)',
-                  tension: 0.2
+                  tension: 0.4
                 }
               ]
             }
@@ -269,7 +269,11 @@ export default {
       const chartConfig = {
         type: 'line',
         data: data,
-        options: {}
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+        },
+        backgroundColor: '#1E1E1E',
       }
       return new Chart(chartElement, chartConfig)
     }
@@ -308,14 +312,39 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 #myChart {
   max-height: 300px;
-  max-width: 600px;
+  max-width: 90vw !important;
   margin: 0;
+  display: flex;
 }
 #stat {
   font-size: 24px;
   margin: 12px;
+}
+.btn-group {
+  display: flex;
+  justify-self: center;
+  justify-content: center;
+}
+button {
+  max-width: 200px;
+  border: 3px white solid;
+}
+
+canvas, #chart {
+   background-color: burlywood;
+}
+#chart {
+  padding: 10px;
+  position: absolute;
+  z-index: 999;
+  right: 2%;
+  top: 50%;
+  width: 40vw;
+  height: 400px;
+  border-radius: 15px;
+  box-shadow: 0px 0px 65px 0px rgba(0,0,0,0.52);
 }
 </style>
