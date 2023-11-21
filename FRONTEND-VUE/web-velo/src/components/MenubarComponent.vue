@@ -65,10 +65,10 @@ export default{
 
 <style scoped>
 #navbar {
-  background-color: #1e1e1e !important;
+  background-color: #313b4b !important;
 }
 .nav-link {
-  color: wheat !important;
+  color: #e9d7ab !important;
 }
 .navbar-brand {
   color: white !important;

@@ -1,13 +1,18 @@
 <template>
+<div id="parent-container">
   <div id="center-container">
-  <h2 id="item">WebVelo's Administrator Page</h2>
-  <p id="item">Number of Stations: {{ sum }}</p>
-  <button id="item" @click="logout">Logout</button>
+    <div id="hero-row">
+      <div id="hero-column">
+        <h2 >WebVelo's Administrator Page</h2>
+        <p>Number of Stations: {{ sum }}</p>
+      </div>
+      <button @click="logout">Logout</button>
+    </div>
   </div>
-    <div id="center-div">
+  <div id="center-div">
     <table>
       <thead>
-        <tr>
+        <tr class="first-head">
           <th>Station ID</th>
           <th>Station Name</th>
           <th>Latitude</th>
@@ -42,47 +47,8 @@
       <span id="item" >{{ currentPage }}</span>
       <button id="item" @click="nextPage" :disabled="currentPage === totalPages">Next</button>
   </div>
+</div>
 </template>
-
-<style scoped>
-#center-div {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
-table, tbody {
-  display: flex;
-  flex-direction: column;
-}
-tr {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-tbody {
-  gap: 10px;
-  justify-content: center;
-  align-items: center;
-}
-#center-nav {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 10vh;
-}
-#center-container {
-  padding: 40px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-#item {
-  margin: 10px;
-}
-</style>
-
   
 <script>
 import { mapGetters } from 'vuex';
@@ -247,3 +213,115 @@ export default {
 };
 
 </script>
+
+<style scoped>
+#center-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+#hero-row {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+tr {
+  display: flex;
+  gap: 10px;
+  height: 50px;
+}
+
+tr:nth-child(even) {
+  background: #1d232c;
+}
+
+tbody tr:nth-child(odd) {
+  background: #272f3c;
+}
+
+.first-head {
+  border-radius: 15px 15px 0px 0px;
+  background: #313b4b;
+  align-items: center;
+}
+
+th {
+  width: 120px;
+  color: #e9d2ab;
+  font-weight: bold;
+}
+
+td {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  color: #e9d2ab;
+  width: 140px;
+}
+
+
+td:nth-child(2),
+td:nth-child(3),
+td:nth-child(4) {
+  width: 200px;
+}
+
+input {
+  width: 100%;
+  padding: 5px;
+}
+
+button {
+  border: none;
+  width: 100px;
+  height: 30px;
+  border-radius: 5px;
+  color: #884a39;
+  background: #e9d7ab;
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.42);
+}
+
+button:hover {
+  background: #f5ebd3;
+  color: #121212;
+  border: #f5ebd3 2px solid;
+}
+
+#center-nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 10vh;
+}
+
+#center-container {
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#item {
+  margin: 10px;
+}
+
+h2 {
+  margin-top: 0;
+}
+
+h2, p, span {
+  color: #e9d7ab;
+}
+
+#parent-container {
+  background-color: #15191d;
+}
+</style>
+
+

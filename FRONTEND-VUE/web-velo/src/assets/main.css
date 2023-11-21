@@ -1,14 +1,15 @@
 #content-tab {
-  background-color: rgba(240, 248, 255, 0.7);
+  background-color: rgba(240, 248, 255, 0.4);
   position: absolute;
   width: 45vw;
   height: 100vh;
   top: 0;
   right: 0;
+  box-shadow: -28px -1px 48px 0px rgba(0,0,0,0.4);
 }
 
 #stat-box {
-  background-color: #1e1e1e;
+  background-color: #313b4b;
   left: 3%;
   top: 8%;
   position: absolute;
@@ -22,7 +23,7 @@
 
 #stat-box p, h2, h4 {
   margin: 10px;
-  color: wheat;
+  color: #e9d7ab;
 }
 
 #stat-box p {
@@ -42,10 +43,20 @@
 }
 
 #close-btn {
+  background-color: #313b4b;
+  border-radius: 10px;
   position: absolute;
   top: 10px;
-  right: 10px;
+  left: 10px;
   cursor: pointer;
   font-size: 20px;
-  color: white;
+  color: wheat;
+  height: 30px;
+  width: 30px;
+}
+
+#x-sign {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

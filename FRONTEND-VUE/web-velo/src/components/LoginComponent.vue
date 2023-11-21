@@ -1,14 +1,18 @@
 <template>
-    <div id="error">
-      <p id="messageError">{{ messageError }}</p>
+  <div id="login-container">
+    <div id="login-box">
+      <div id="error" v-if="messageError">
+        <p id="messageError">{{ messageError }}</p>
+      </div>
+      <div id="form-div">
+        <form @submit.prevent="login">
+          <input type="text" v-model="username" placeholder="Username" />
+          <input type="password" v-model="password" placeholder="Password" />
+          <button type="submit">Login</button>
+        </form>
+      </div>
     </div>
-    <div id="center-div">
-      <form @submit.prevent="login">
-        <input type="text" v-model="username" placeholder="username" />
-        <input type="password" v-model="password" placeholder="password" />
-        <button type="submit">Login</button>
-      </form>
-    </div>
+  </div>
 </template>
 
 <script>
@@ -60,12 +64,56 @@ export default {
 </script>
 
 <style scoped>
-
-#center-div {
+#login-container {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
+  background-color: #15191d;
 }
 
+#login-box {
+  background-color: #313b4b;
+  width: 40vw;
+  max-height: 350px;
+  border-radius: 15px;
+  box-shadow: 0px 0px 65px 0px rgba(0, 0, 0, 0.52);
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+#error {
+  margin-bottom: 15px;
+}
+
+#error p {
+  color: #ff5555;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+input {
+  margin-bottom: 15px;
+  padding: 10px;
+  border: 1px solid #333;
+  border-radius: 5px;
+}
+
+button {
+  padding: 10px;
+
+  background-color: #e9d7ab;
+  color: #884a39; 
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #15191d;
+  color: #fff;
+}
 </style>

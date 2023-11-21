@@ -186,12 +186,12 @@ export default {
             this.monthlyDataArray.push({ id, name, MonthlyData });
             const content = `
             <div id="content-tab">
-              <div id="stat-box">
-                <div id="close-btn">
-                  <router-link class="nav-link" to="/login">
-                  <div>X</div>
+              <div id="close-btn">
+                <router-link class="nav-link" to="/login">
+                  <div id="x-sign">X</div>
                 </router-link>
-                </div>
+              </div>
+              <div id="stat-box">
                 <h2>${name}</h2>
                 <p id="cord">(${lat}, ${lng})</p>
                 <h4>Bike Count Summary</h4>

@@ -327,12 +327,12 @@ export default {
 }
 button {
   max-width: 200px;
-  background-color: #1e1e1e;
-  color: white;
+  background-color: #313b4b;
+  color: #e9d7ab;
 }
 
 canvas, #chart {
-  background-color: #1e1e1e;
+  background-color: #313b4b;
 }
 
 #chart {
@@ -345,8 +345,8 @@ canvas, #chart {
   height: 400px;
   border-radius: 15px;
   box-shadow: 0px 0px 65px 0px rgba(0,0,0,0.52);
-  background-color: #333;
-  color: wheat;
+  background-color: #313b4b;
+  color: #e9d7ab;
   text-align: center;
 }
 </style>
