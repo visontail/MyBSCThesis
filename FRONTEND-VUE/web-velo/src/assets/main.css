@@ -42,19 +42,6 @@
   font-weight: bold;
 }
 
-#close-btn {
-  background-color: #313b4b;
-  border-radius: 10px;
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  cursor: pointer;
-  font-size: 20px;
-  color: wheat;
-  height: 30px;
-  width: 30px;
-}
-
 #x-sign {
   display: flex;
   justify-content: center;

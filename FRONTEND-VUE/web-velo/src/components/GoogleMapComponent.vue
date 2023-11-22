@@ -1,6 +1,9 @@
 <template>
   <ChartComponent :hidden="showChart" :selectedMarkerID="selectedMarkerID" :hourlyDataArray="hourlyDataArray"
     :dailyDataArray="dailyDataArray" :monthlyDataArray="monthlyDataArray" />
+    <div :hidden="showChart" id="close-btn" @click="reloadPage">
+      <div id="x-sign">X</div>
+    </div>
   <div ref="mapDiv" id="mapDiv" style="width:100vw; height: 100vh;z-index: 1;"></div>
 </template>
 
@@ -11,10 +14,7 @@ import { Loader } from '@googlemaps/js-api-loader';
 
 import StationAPI from '../services/StationAPI.js';
 import MeasureAPI from '../services/MeasureAPI';
-//  import WeatherAPI from '../services/WeatherAPI';
-
 import Average from '../services/Average';
-
 import ChartComponent from './ChartComponent.vue';
 import { clickMarker, calcSum } from './MarkerComponent.vue';
 
@@ -145,6 +145,9 @@ export default {
         console.log(err);
       }
     },
+    reloadPage(){
+      location.reload();
+    },
     async loadMarkers(map) {
       try {
         const positionsArray = this.positionsArray
@@ -186,11 +189,6 @@ export default {
             this.monthlyDataArray.push({ id, name, MonthlyData });
             const content = `
             <div id="content-tab">
-              <div id="close-btn">
-                <router-link class="nav-link" to="/login">
-                  <div id="x-sign">X</div>
-                </router-link>
-              </div>
               <div id="stat-box">
                 <h2>${name}</h2>
                 <p id="cord">(${lat}, ${lng})</p>
@@ -250,3 +248,35 @@ export default {
 };
 
 </script>
+
+<style scoped>
+#close-btn {
+  background-color: #313b4b;
+  border-radius: 10px;
+  position: absolute;
+  top: 60px;
+  right: 40%;
+  z-index: 999;
+  cursor: pointer;
+  font-size: 20px;
+  color: wheat;
+  height: 30px;
+  width: 30px;
+}
+
+@media (max-width: 600px) {
+  #close-btn {
+    right: 36%;
+  }
+}
+@media (min-width: 600px) and (max-width: 1000px) {
+  #close-btn {
+    right: 40%;
+  }
+}
+@media (min-width: 1000px) and (max-width: 1600px) {
+  #close-btn {
+    right: 42%;
+  }
+}
+</style>
