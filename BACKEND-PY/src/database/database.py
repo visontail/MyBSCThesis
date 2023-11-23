@@ -1,8 +1,8 @@
 # Importing module
 import mysql.connector
 
-# Class for Database
 class DataBase():
+    """Handling database connection and queries"""
     def __init__(self, host: int, username: str, password, database):
         self._host = host
         self._username = username
@@ -10,9 +10,8 @@ class DataBase():
         self._database = database
         self._connection = None
         self._cursor = None
-    
-    # Function to establish database connection
     def connect(self):
+        """Handling database connection"""
         try:
             self._connection = mysql.connector.connect(
                 host = self._host,
@@ -27,15 +26,19 @@ class DataBase():
         # - print out error if connection failed
         except mysql.connector.Error as error:
             print(f' Connection Failed! ,"{error}"')
-
-    # Function for disconnecting from database
     def disconnect(self):
+        """Handling closing down database connection"""
         if self._cursor is not None and self._connection.is_connected():
             self._cursor.close()
-            self._connection.close()
-            
-    # Function for adding new data to database        
+            self._connection.close()  
     def add_new_data(self, file, name, time, data):
+        """Inset into database by given data
+        Args:
+                file (string): file's name
+                name (string): measuring station's name
+                time (list): list containing measurment start and end time
+                data (list): list containing measurement data 
+        """
         try:
             query = "INSERT INTO `Measurements`(`StationID`, `xtxName`, `Date`, `startTime`, `endTime`, `OtherTraff1`, `PedTraff1`, `CycTraff1`, `OtherTraff2`, `PedTraff2`, `CycTraff2`) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
             values = (name, file, time[0], time[1], time[2], data[0], data[1], data[2], data[3], data[4], data[5])
