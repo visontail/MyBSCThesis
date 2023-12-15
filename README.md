@@ -9,6 +9,14 @@ The creation of this interface serves the *purpose* of gaining insights into the
 
 - - - -
 
+## *Technologies*
+- *Back-end:* **Python**
+- *Database:* **MySQL**
+- *API:* **Node.js**, **Express.js**
+- *Front-end:* **HTML**, **CSS**, **JavaScript**, **Vue.js**, **Bootstrap**
+
+- - - -
+
 ## *Screenshots of the interface*
 
 ### Main page view
