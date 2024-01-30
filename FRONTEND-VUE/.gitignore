@@ -1,11 +1,24 @@
 
 node_modules
-webvelo/node_modules
 .DS_Store
 dist
 dist-ssr
 coverage
 *.local
+
+# webwelo ingore
+webwelo/node_modules
+webwelo/.env
+webwelo/.DS_Store
+webwelo/.vscode
+webvelo/.eslintrc.js
+webvelo/.prettierrc.js
+
+# server-velo ingore
+server-velo/node_modules
+server-velo/.env
+server-velo/.DS_Store
+
 
 public
 
